@@ -31,6 +31,22 @@
     ?>
 
     <form id="form-tiket-masuk" action="?action=store-tiket-masuk" method="POST" class="space-y-6">
+<!-- Upload Gambar Plat (OCR) -->
+<div>
+    <label class="block mb-2 text-slate-300">Scan Plat Nomor (OCR)</label>
+    
+    <input type="file" id="foto_plat" accept="image/*"
+           class="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600
+                  focus:ring-2 focus:ring-cyan-500 outline-none">
+
+    <button type="button" onclick="scanOCR()"
+            class="mt-3 w-full bg-emerald-500 hover:bg-emerald-600
+                   text-slate-900 font-semibold py-2 rounded-lg transition">
+        <i class="fa-solid fa-camera mr-2"></i> Scan Plat
+    </button>
+
+    <p id="ocr-status" class="text-sm text-slate-400 mt-2"></p>
+</div>
 
         <!-- Nomor Polisi -->
         <div>
@@ -121,6 +137,33 @@ document.addEventListener('DOMContentLoaded', () => {
 jenisSelect.addEventListener('change', () => {
     syncTarifToJenis();
 });
+</script>
+<script>
+async function scanOCR() {
+    const fileInput = document.getElementById('foto_plat');
+    const status = document.getElementById('ocr-status');
+    const nomorInput = document.querySelector('input[name="nomor_polisi"]');
+
+    if (!fileInput.files.length) {
+        alert("Pilih foto plat nomor dulu!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("gambar", fileInput.files[0]);
+
+    status.innerText = "⏳ Memproses OCR...";
+
+    const res = await fetch("ocr-scan.php", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.text();
+
+    nomorInput.value = data;
+    status.innerText = "✅ OCR berhasil!";
+}
 </script>
 
 </body>

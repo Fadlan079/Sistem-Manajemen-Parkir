@@ -11,7 +11,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
     <!-- HERO -->
     <div class="pt-32 pb-24 px-6">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+           <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
             <!-- KIRI -->
             <div>
