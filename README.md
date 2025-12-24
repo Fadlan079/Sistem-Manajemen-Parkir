@@ -18,20 +18,19 @@ Project ini cocok digunakan sebagai:
 
 ## Struktur Folder
 
+```
 Sistem-Manajemen-Parkir/
-├── App/ # Logic aplikasi
-├── Config/ # Konfigurasi database & aplikasi
-├── Public/ # File publik (CSS, JS, images)
+├── App/                 # Logic aplikasi
+├── Config/              # Konfigurasi database & aplikasi
+├── Public/              # File publik (CSS, JS, images)
 ├── Resources/
-│ └── Views/ # Tampilan web (UI)
-├── Routes/ # Routing aplikasi
-├── uploads/ # File upload (gambar / data)
+│   └── Views/           # Tampilan web (UI)
+├── Routes/              # Routing aplikasi
+├── uploads/             # File upload (gambar / data)
 ├── composer.json
 ├── package.json
 └── README.md
-
-yaml
-Salin kode
+```
 
 ---
 
@@ -66,52 +65,54 @@ Salin kode
 ```bash
 git clone https://github.com/Fadlan079/Sistem-Manajemen-Parkir.git
 cd Sistem-Manajemen-Parkir
-2. Install Dependency PHP
-bash
-Salin kode
+```
+
+### 2. Install Dependency PHP
+```bash
 composer install
-3. Konfigurasi Database
-Buat database baru di MySQL atau MariaDB
+```
 
-Atur koneksi database pada folder Config/
+### 3. Konfigurasi Database
+- Buat database baru di MySQL atau MariaDB
+- Atur koneksi database pada folder `Config/`
 
-4. Jalankan Server
+### 4. Jalankan Server
 Jika menggunakan PHP built-in server:
-
-bash
-Salin kode
+```bash
 php -S localhost:8000 -t Public/
+```
+
 Atau gunakan web server:
+- XAMPP
+- Laragon
+- Apache dan MySQL
 
-XAMPP
+---
 
-Laragon
+## Alur Penggunaan Sistem
 
-Apache dan MySQL
+### Petugas
+1. Login ke sistem
+2. Input kendaraan masuk
+3. Proses kendaraan keluar
+4. Sistem menghitung durasi dan biaya parkir
 
-Alur Penggunaan Sistem
-Petugas
-Login ke sistem
+### Admin
+1. Login sebagai admin
+2. Melihat data kendaraan
+3. Mengelola transaksi parkir
+4. Melihat laporan parkir
 
-Input kendaraan masuk
+---
 
-Proses kendaraan keluar
+## Lisensi
 
-Sistem menghitung durasi dan biaya parkir
-
-Admin
-Login sebagai admin
-
-Melihat data kendaraan
-
-Mengelola transaksi parkir
-
-Melihat laporan parkir
-
-Lisensi
-Project ini menggunakan lisensi MIT.
+Project ini menggunakan lisensi MIT.  
 Bebas digunakan untuk pembelajaran dan pengembangan.
 
-Author
-Fadlan
+---
+
+## Author
+
+Fadlan  
 GitHub: https://github.com/Fadlan079
