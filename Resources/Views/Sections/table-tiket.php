@@ -1,5 +1,26 @@
 <div class="mt-10">
-    <h2 class="text-2xl font-semibold text-cyan-400 mb-4">Daftar <span class="text-neutral-400">Tiket</span></h2>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <h2 class="text-2xl font-semibold text-cyan-400">
+            Daftar <span class="text-neutral-400">Tiket</span>
+        </h2>
+
+        <div class="flex gap-2">
+            <form action="?action=import-tiket-excel" method="POST" enctype="multipart/form-data">
+                <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
+                    <i class="fa-solid fa-file-import"></i>
+                    Import Excel
+                    <input type="file" name="file_excel" accept=".xls,.xlsx" class="hidden" onchange="this.form.submit()">
+                </label>
+            </form>
+
+            <a href="?action=export-tiket-excel"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
+                <i class="fa-solid fa-file-export"></i>
+                Export Excel
+            </a>
+        </div>
+    </div>
+    
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700">
         <table class="min-w-full divide-y divide-slate-700">
             <thead class="bg-slate-900">

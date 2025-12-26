@@ -147,15 +147,44 @@ public function getTiketById($id)
     }
 
 
-    public function SelectTiket(){
-        try{
-            $sql = "SELECT * FROM tiket";
-            $stmt = $this->pdo->query($sql);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }catch(PDOException $e){
-            die("Query gagal :" . $e->getMessage());
-        }
+public function SelectTiket()
+{
+    try {
+        $sql = "
+            SELECT 
+                t.id_tiket,
+                t.barcode,
+                t.nomor_polisi,
+                t.jenis_kendaraan,
+
+                tp.harga_flat AS harga_tarif,
+
+                t.tgl_masuk,
+                t.tgl_keluar,
+                t.total_harga,
+
+                pm.nama_lengkap AS petugas_masuk,
+                pk.nama_lengkap AS petugas_keluar,
+
+                t.status
+            FROM tiket t
+            JOIN tarif_parkir tp 
+                ON t.id_tarif = tp.id_tarif
+            LEFT JOIN user pm 
+                ON t.id_petugas_masuk = pm.id_user
+            LEFT JOIN user pk 
+                ON t.id_petugas_keluar = pk.id_user
+            ORDER BY t.id_tiket DESC
+        ";
+
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        die("Query gagal : " . $e->getMessage());
     }
+}
+
 public function GetTiketAktifByBarcode($barcode){
     $sql = "SELECT * FROM tiket 
             WHERE barcode = :barcode 

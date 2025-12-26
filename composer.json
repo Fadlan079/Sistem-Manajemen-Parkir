@@ -1,6 +1,7 @@
 {
     "require": {
         "picqer/php-barcode-generator": "^3.2",
-        "thiagoalessio/tesseract_ocr": "^2.13"
+        "thiagoalessio/tesseract_ocr": "^2.13",
+        "phpoffice/phpspreadsheet": "^5.3"
     }
 }
