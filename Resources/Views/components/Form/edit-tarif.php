@@ -13,11 +13,9 @@ unset($_SESSION['success'], $_SESSION['error']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
           integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-</head>
-<body class="bg-slate-900 min-h-screen p-6">
-
-    <div class="max-w-md mx-auto bg-slate-800 p-8 rounded-xl shadow-lg">
-        <h1 class="text-2xl font-bold text-cyan-400 mb-6">Edit Tarif Parkir</h1>
+</head><body class="bg-slate-900 min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-slate-800 p-8 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold text-cyan-400 mb-6 text-center">Edit Tarif Parkir</h1>
 
         <?php if($success): ?>
             <div class="bg-green-700 text-green-100 p-2 rounded mb-4"><?= $success ?></div>
@@ -41,15 +39,19 @@ unset($_SESSION['success'], $_SESSION['error']);
                        class="w-full bg-slate-700 text-slate-100 border border-slate-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400">
             </div>
 
-            <div class="flex justify-between items-center">
-                <a href="?action=manage-tarif" class="text-cyan-400 hover:underline"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <div class="flex gap-4 justify-between mt-4">
                 <button type="submit"
-                        class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center gap-1">
-                        <i class="fas fa-edit"></i> Update Tarif
+                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center justify-center gap-2">
+                    <i class="fas fa-edit"></i> Update Tarif
                 </button>
+
+                <a href="?action=manage-tarif"
+                   class="flex-1 flex items-center justify-center gap-2 border border-cyan-400 text-cyan-400
+                          hover:bg-cyan-500 hover:text-slate-900 rounded px-4 py-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
             </div>
         </form>
     </div>
-
 </body>
 </html>

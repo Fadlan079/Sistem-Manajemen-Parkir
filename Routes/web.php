@@ -30,9 +30,28 @@ switch($action){
     case 'store-register';
         $auth->StoreRegister();
         break;
+    case 'verify-email':
+        $auth->VerifyEmail();
+    break;
+    case 'resend-verification':
+        $auth->ResendVerification();
+    break;
     case 'logout':
         $auth->Logout();
-        break;    
+        break;  
+        
+        case 'forgot-password':
+    $auth->ShowForgotPassword();
+    break;
+case 'store-forgot-password':
+    $auth->StoreForgotPassword();
+    break;
+case 'reset-password':
+    $auth->ShowResetPassword();
+    break;
+case 'store-reset-password':
+    $auth->StoreResetPassword();
+    break;
 
     // Dashboard   
     case 'index':

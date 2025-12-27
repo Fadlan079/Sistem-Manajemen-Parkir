@@ -56,6 +56,29 @@ public function index(){
     $Totalkeluar = $this->modelTiket->countTiketKeluar();
     $Totaltransaksi = $this->modelTransaksi->countTransaksi();
 
+            $statusStat    = $this->modelTiket->getStatStatus();
+        $kendaraanStat = $this->modelTiket->getStatKendaraan();
+        $totalPendapatan = $this->modelTiket->getTotalPendapatan();
+        $pendapatanPerHari = $this->modelTiket->getPendapatanPerHari();
+
+                $statusCount = [
+            'masuk'  => 0,
+            'keluar' => 0
+        ];
+
+        foreach ($statusStat as $row) {
+            $statusCount[$row['status']] = (int)$row['total'];
+        }
+
+        $kendaraanCount = [
+            'motor' => 0,
+            'mobil' => 0
+        ];
+
+        foreach ($kendaraanStat as $row) {
+            $kendaraanCount[$row['jenis_kendaraan']] = (int)$row['total'];
+        }
+
     include __DIR__ . "/../../Resources/Views/index.php";
 }
 
@@ -238,7 +261,7 @@ public function UpdateTiketKeluar() {
 
 
     public function ShowInsertTarif(){
-        include __DIR__ . "/../../Resources/Views/components/form-tambah-tarif.php";
+        include __DIR__ . "/../../Resources/Views/components/Form/form-tambah-tarif.php";
     }
 
     public function storeInsertTarif() {
@@ -276,11 +299,11 @@ public function UpdateTiketKeluar() {
 
         $totalData = $this->modelUser->countUser();
         $totalPages = ceil($totalData / $limit);
-        include __DIR__ . "/../../Resources/Views/components/manage-user.php";
+        include __DIR__ . "/../../Resources/Views/Pages/manage-user.php";
     }
 
     public function ShowTambahUser(){
-        include __DIR__ . "/../../Resources/Views/components/form-tambah-user.php";
+        include __DIR__ . "/../../Resources/Views/components//Form/form-tambah-user.php";
     }
 
     public function StoreTambahUser() {
@@ -340,7 +363,7 @@ public function UpdateTiketKeluar() {
     public function ManageTarif(){
         $current = 'manage-tarif';
         $listTarif= $this->modelTarif->SelectTarif();
-        include __DIR__ . "/../../Resources/Views/components/manage-tarif.php";
+        include __DIR__ . "/../../Resources/Views/Pages/manage-tarif.php";
     }
 
     public function deleteTarif($id){
@@ -350,7 +373,7 @@ public function UpdateTiketKeluar() {
 
     public function editUser($id_user){
         $user = $this->modelUser->getById($id_user);
-        include __DIR__ . "/../../Resources/Views/components/edit-user.php";
+        include __DIR__ . "/../../Resources/Views/components/Form/edit-user.php";
     }
 
     public function updateUser(){
@@ -399,7 +422,7 @@ public function UpdateTiketKeluar() {
 
     public function editTarif($id_tarif){
         $tarif = $this->modelTarif->getById($id_tarif);
-        include __DIR__ . "/../../Resources/Views/components/edit-tarif.php";
+        include __DIR__ . "/../../Resources/Views/components/Form/edit-tarif.php";
     }
 
     public function UpdateTarif() {
@@ -439,7 +462,7 @@ public function UpdateTiketKeluar() {
                 $listTiket[] = $tiket; // hanya tiket yang belum dibayar
             }
         }
-        include __DIR__ . "/../../Resources/Views/components/form-tambah-transaksi.php";
+        include __DIR__ . "/../../Resources/Views/components/Form/form-tambah-transaksi.php";
     }
 
     public function StoreTransaksi(){

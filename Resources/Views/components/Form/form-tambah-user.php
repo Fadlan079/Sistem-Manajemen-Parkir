@@ -59,14 +59,19 @@
                 </select>
             </div>
 
-            <div class="flex gap-2">
-                <button type="submit" class="flex-1 py-2 bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold rounded-lg transition flex items-center justify-center gap-2">
+            <div class="flex gap-4 justify-between mt-4">
+                <button type="submit"
+                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center justify-center gap-2">
                     <i class="fas fa-save"></i> Simpan User
                 </button>
-                <a href="?action=manage-user" class="flex-1 py-2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold rounded-lg transition flex items-center justify-center gap-2">
-                    <i class="fas fa-arrow-left"></i> Kembali
+
+                <a href="?action=manage-user"
+                class="flex-1 flex items-center justify-center gap-2 border border-cyan-400 text-cyan-400
+                        hover:bg-cyan-500 hover:text-slate-900 rounded px-4 py-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
                 </a>
             </div>
+
         </form>
     </div>
 

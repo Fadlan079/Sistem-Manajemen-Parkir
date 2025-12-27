@@ -185,6 +185,58 @@ public function SelectTiket()
     }
 }
 
+public function getStatStatus()
+{
+    $sql = "
+        SELECT status, COUNT(*) as total
+        FROM tiket
+        GROUP BY status
+    ";
+
+    $stmt = $this->pdo->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+public function getStatKendaraan()
+{
+    $sql = "
+        SELECT jenis_kendaraan, COUNT(*) as total
+        FROM tiket
+        GROUP BY jenis_kendaraan
+    ";
+
+    $stmt = $this->pdo->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+public function getTotalPendapatan()
+{
+    $sql = "
+        SELECT SUM(total_harga) 
+        FROM tiket
+        WHERE status = 'keluar'
+    ";
+
+    return (int) $this->pdo->query($sql)->fetchColumn();
+}
+
+
+public function getPendapatanPerHari()
+{
+    $sql = "
+        SELECT DATE(tgl_keluar) tanggal, SUM(total_harga) total
+        FROM tiket
+        WHERE status = 'keluar'
+        GROUP BY DATE(tgl_keluar)
+        ORDER BY tanggal ASC
+    ";
+
+    return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 public function GetTiketAktifByBarcode($barcode){
     $sql = "SELECT * FROM tiket 
             WHERE barcode = :barcode 

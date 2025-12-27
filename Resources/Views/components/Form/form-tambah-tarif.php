@@ -31,17 +31,18 @@
                        class="w-full p-3 rounded-lg bg-slate-900 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500">
             </div>
 
-            <button type="submit" class="w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold rounded-xl transition-all duration-300">
-                Simpan Tarif
-            </button>
+            <div class="flex gap-4 justify-between mt-4">
+                <button type="submit"
+                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i> Simpan Tarif
+                </button>
 
-                    <a href="?action=index"
-           class="mt-2 w-full text-center border border-cyan-400
-                    text-cyan-400 p-2 rounded-lg hover:bg-cyan-500 hover:text-slate-900
-                    flex items-center justify-center gap-2 transition">
-            <i class="fa-solid fa-arrow-left"></i>
-            Kembali ke Dashboard
-        </a>
+                <a href="?action=manage-tarif"
+                class="flex-1 flex items-center justify-center gap-2 border border-cyan-400 text-cyan-400
+                        hover:bg-cyan-500 hover:text-slate-900 rounded px-4 py-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
+            </div>
         </form>
     </div>
 

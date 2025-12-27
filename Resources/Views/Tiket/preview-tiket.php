@@ -19,7 +19,7 @@ $jam     = date("H:i:s", strtotime($tiket['tgl_masuk']));
 
 <body class="bg-slate-900 text-white p-6">
 
-<div class="max-w-md mx-auto bg-slate-800 shadow-xl rounded-2xl p-6 border border-slate-700">
+<div class="max-w-md mx-auto  bg-slate-800 shadow-xl rounded-2xl p-6 border border-slate-700">
 
     <h2 class="text-2xl font-bold text-cyan-400 mb-5 text-center">
         Preview Tiket Parkir

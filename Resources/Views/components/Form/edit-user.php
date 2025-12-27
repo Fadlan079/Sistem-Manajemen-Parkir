@@ -1,4 +1,4 @@
-<?php include __DIR__ . "/global-modal.php";?>
+<?php include __DIR__ . "/../global-modal.php";?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -62,13 +62,19 @@
                 </select>
             </div>
 
-            <div class="flex justify-between items-center">
-                <a href="?action=manage-user" class="text-cyan-400 hover:underline"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <div class="flex gap-4 justify-between mt-4">
                 <button type="submit"
-                        class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center gap-1">
-                        <i class="fas fa-edit"></i> Update User
+                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center justify-center gap-2">
+                    <i class="fas fa-edit"></i> Update User
                 </button>
+
+                <a href="?action=manage-user"
+                class="flex-1 flex items-center justify-center gap-2 border border-cyan-400 text-cyan-400
+                        hover:bg-cyan-500 hover:text-slate-900 rounded px-4 py-2 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </a>
             </div>
+
         </form>
     </div>
 
