@@ -128,7 +128,60 @@ public function InsertTransaksiAuto($id_tiket, $jumlah_bayar, $metode){
             die("Delete gagal: " . $e->getMessage());
         }
     }
+
+    public function getPendapatanHarian() {
+    $stmt = $this->pdo->query("
+        SELECT DATE(tgl_bayar) AS tanggal, SUM(jumlah_bayar) AS total
+        FROM transaksi
+        WHERE status = 'paid'
+        GROUP BY DATE(tgl_bayar)
+        ORDER BY tanggal ASC
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function getJumlahTransaksiHarian() {
+    $stmt = $this->pdo->query("
+        SELECT DATE(tgl_bayar) AS tanggal, COUNT(*) AS total
+        FROM transaksi
+        WHERE status = 'paid'
+        GROUP BY DATE(tgl_bayar)
+        ORDER BY tanggal ASC
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getStatStatus() {
+    $stmt = $this->pdo->query("
+        SELECT status, COUNT(*) AS total
+        FROM transaksi
+        GROUP BY status
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getStatMetode() {
+    $stmt = $this->pdo->query("
+        SELECT metode, COUNT(*) AS total
+        FROM transaksi
+        GROUP BY metode
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getStatNominal() {
+    $stmt = $this->pdo->query("
+        SELECT jumlah_bayar, COUNT(*) AS total
+        FROM transaksi
+        WHERE status = 'paid'
+        GROUP BY jumlah_bayar
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+}
+
+
 
 // $transaksi = new Transaksi();
 // $transaksi->InsertTransaksi(2,10000,"cash");

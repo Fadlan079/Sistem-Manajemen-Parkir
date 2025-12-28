@@ -1,3 +1,27 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Pendapatan Harian</h3>
+        <canvas id="chartPendapatan"></canvas>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Jumlah Transaksi Harian</h3>
+        <canvas id="chartTrxHarian"></canvas>
+    </div>
+    
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Status Transaksi</h3>
+        <canvas id="chartStatus"></canvas>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Distribusi Nominal</h3>
+        <canvas id="chartNominal"></canvas>
+    </div>
+
+</div>
+
 <div class="mt-10">
     <!-- Header & Tombol Import/Export -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">

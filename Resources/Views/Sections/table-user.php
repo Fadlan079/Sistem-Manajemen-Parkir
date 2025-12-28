@@ -1,3 +1,28 @@
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Role User</h3>
+        <canvas id="chartRole"></canvas>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Gender User</h3>
+        <canvas id="chartGender"></canvas>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-2">Verifikasi User</h3>
+        <canvas id="chartVerif"></canvas>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl md:col-span-2">
+        <h3 class="text-cyan-400 font-semibold mb-2">Pertumbuhan User</h3>
+        <canvas id="chartUserHarian"></canvas>
+    </div>
+
+</div>
+
 <div class="mt-10">
     <!-- Header & Tombol Import/Export -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
@@ -24,6 +49,24 @@
     <!-- Card Style Mobile -->
     <div class="space-y-4">
         <?php foreach($listUser as $user): ?>
+            
+     <?php 
+        // ================= VERIFIKASI =================
+        $verifiedAt = $user['email_verified_at'];
+
+        if (!empty($verifiedAt)) {
+            $verifStatusLabel = 'Terverifikasi';
+            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
+            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+        } else {
+            $verifStatusLabel = 'Belum';
+            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
+            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+            $verifDate = '-';
+        }
+
+     ?>
             <?php
             // Gender
             $gender = $user['gender'] ?? '-';
@@ -60,27 +103,57 @@
 
                     <div class="font-medium text-slate-400">Dibuat Pada:</div>
                     <div class="text-right"><?= $user['created_at'] ?></div>
+                    <div class="font-medium text-slate-400">Status Verifikasi:</div>
+                    <div class="text-right">
+                        <span class="px-2 py-1 rounded-md text-sm font-medium <?= $verifStatusClass ?>">
+                            <?= $verifIcon . $verifStatusLabel ?>
+                        </span>
+                    </div>
+
+                    <div class="font-medium text-slate-400">Tgl Verifikasi:</div>
+                    <div class="text-right"><?= $verifDate ?></div>
+
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 
+    
     <!-- Desktop Table -->
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
         <table class="min-w-full divide-y divide-slate-700 text-sm">
-            <thead class="bg-slate-900 text-slate-400">
-                <tr>
-                    <th class="px-6 py-3 text-left">#</th>
-                    <th class="px-6 py-3 text-left">ID User</th>
-                    <th class="px-6 py-3 text-left">Nama Lengkap</th>
-                    <th class="px-6 py-3 text-left">Email</th>
-                    <th class="px-6 py-3 text-left">Gender</th>
-                    <th class="px-6 py-3 text-left">Role</th>
-                    <th class="px-6 py-3 text-left">Dibuat Pada</th>
-                </tr>
-            </thead>
+<thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wide">
+<tr>
+    <th class="px-4 py-3">ID</th>
+    <th class="px-4 py-3">Nama</th>
+    <th class="px-4 py-3">Email</th>
+    <th class="px-4 py-3">Gender</th>
+    <th class="px-4 py-3">Role</th>
+    <th class="px-4 py-3">Dibuat</th>
+    <th class="px-4 py-3">Verif</th>
+    <th class="px-4 py-3">Tgl Verif</th>
+</tr>
+</thead>
+
             <tbody class="divide-y divide-slate-700 text-slate-300">
-                <?php $p = 1; foreach($listUser as $user): ?>
+                <?php foreach($listUser as $user): ?>
+                         <?php 
+        // ================= VERIFIKASI =================
+        $verifiedAt = $user['email_verified_at'];
+
+        if (!empty($verifiedAt)) {
+            $verifStatusLabel = 'Terverifikasi';
+            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
+            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+        } else {
+            $verifStatusLabel = 'Belum';
+            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
+            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+            $verifDate = '-';
+        }
+
+     ?>
                     <?php
                     // Gender
                     $gender = $user['gender'] ?? '-';
@@ -99,13 +172,33 @@
                     $roleDisplay = ucfirst($role);
                     ?>
                     <tr class="hover:bg-slate-700 transition">
-                        <td class="px-6 py-3"><?= $p++ ?></td>
                         <td class="px-6 py-3"><?= $user['id_user'] ?></td>
-                        <td class="px-6 py-3"><?= $user['nama_lengkap'] ?></td>
-                        <td class="px-6 py-3"><?= $user['email'] ?></td>
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-white leading-tight">
+                                <?= $user['nama_lengkap'] ?>
+                            </div>
+                        </td>
+
+                        <td class="px-4 py-3">
+                            <div class="text-[13px] text-slate-300 truncate max-w-[220px]" title="<?= $user['email'] ?>">
+                                <?= $user['email'] ?>
+                            </div>
+                        </td>
+
                         <td class="px-6 py-3"><span class="px-2 py-1 rounded-md text-sm font-medium flex items-center gap-1 <?= $genderClass ?>"><?= $genderIcon ?> <?= $genderLabel ?></span></td>
                         <td class="px-6 py-3"><span class="px-2 py-1 rounded-md text-sm font-medium <?= $roleClass ?>"><?= $roleIcon . $roleDisplay ?></span></td>
                         <td class="px-6 py-3"><?= $user['created_at'] ?></td>
+                        <td class="px-6 py-3">
+                            <span class="px-2 py-1 rounded-md text-sm font-medium <?= $verifStatusClass ?>">
+                                <?= $verifIcon . $verifStatusLabel ?>
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-3">
+                            <?= $verifDate ?>
+                        </td>
+
+
                     </tr>
                 <?php endforeach; ?>
             </tbody>

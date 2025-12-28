@@ -87,25 +87,18 @@ public function getTiketById($id)
 
 
 
-    public function countTiketMasuk() {
-        try {
-            $sql = "SELECT COUNT(*) FROM tiket WHERE status = 'masuk'";
-            $stmt = $this->pdo->query($sql);
-            return (int)$stmt->fetchColumn();
-        } catch (PDOException $e) {
-            die("Query gagal :" . $e->getMessage());
-        }
-    }
+public function countTiketMasuk() {
+    return (int)$this->pdo
+        ->query("SELECT COUNT(*) FROM tiket")
+        ->fetchColumn();
+}
 
-    public function countTiketKeluar() {
-        try {
-            $sql = "SELECT COUNT(*) FROM tiket WHERE status = 'keluar'";
-            $stmt = $this->pdo->query($sql);
-            return (int)$stmt->fetchColumn();
-        } catch (PDOException $e) {
-            die("Query gagal :" . $e->getMessage());
-        }
-    }
+public function countTiketKeluar() {
+    return (int)$this->pdo
+        ->query("SELECT COUNT(*) FROM tiket WHERE status = 'keluar'")
+        ->fetchColumn();
+}
+
 
     private function getTarifById($id_tarif) {
         $sql = "SELECT harga_flat FROM tarif_parkir WHERE id_tarif = :id_tarif LIMIT 1";
@@ -236,6 +229,13 @@ public function getPendapatanPerHari()
     return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function TotalParkir(){
+    $sql = "SELECT COUNT(*) 
+            FROM tiket 
+            WHERE status = 'masuk'";
+    return (int)$this->pdo->query($sql)->fetchColumn();
+}
+
 
 public function GetTiketAktifByBarcode($barcode){
     $sql = "SELECT * FROM tiket 
@@ -247,7 +247,6 @@ public function GetTiketAktifByBarcode($barcode){
     $stmt->execute([':barcode' => $barcode]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
 
 public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $total_harga){
     $sql = "UPDATE tiket 
@@ -270,8 +269,6 @@ public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $to
     return $stmt->rowCount(); // ✅ PENTING
 }
 
-
-
     public function DeleteTiket($id_tiket){
         try{
             $sql = "DELETE FROM tiket WHERE id_tiket = :id_tiket";
@@ -283,10 +280,11 @@ public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $to
     }
 }
 
-$tiket = new Tiket();
+// $tiket = new Tiket();
 // $tiket->InsertTiketMasuk("KT 1824 BS","mobil",2,"2025-11-19 09:37:00",1,"masuk");
 // $tiket->UpdateTiketKeluar(8079059781058,"2025-10-12 09:31:00",1,10000,"keluar");
 // $tiket->DeleteTiket(3);
+// $data = $tiket->TotalParkir();
 // $data = $tiket->SelectTiket();
 // $data = $tiket->GetTiketByBarcode("3155239835524");
 // $data = $tiket->getTiketById(33);

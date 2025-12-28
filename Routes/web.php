@@ -2,15 +2,23 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-date_default_timezone_set('Asia/Makassar'); // atau Asia/Jakarta jika sesuai
+date_default_timezone_set('Asia/Makassar');
 
 require_once __DIR__ . "/../App/Controllers/auth-controller.php";
 require_once __DIR__ . "/../App/Controllers/dashboard-controller.php";
+require_once __DIR__ . "/../App/Controllers/Tiket-controller.php";
+require_once __DIR__ . "/../App/Controllers/Tarif-controller.php";
+require_once __DIR__ . "/../App/Controllers/Transaksi-controller.php";
+require_once __DIR__ . "/../App/Controllers/User-controller.php";
 require_once __DIR__ . "/../App/Controllers/Export-controller.php";
 require __DIR__ . '/../vendor/autoload.php';
 
 $auth = new AUTHController();
 $dashboard = new DASHBOARDController();
+$tiket = new TIKETController();
+$tarif = new TARIFController();
+$transaksi = new TRANSAKSIController();
+$user = new USERController();
 $export = new EXPORTController();
 
 $action = $_GET['action'] ?? 'index';
@@ -32,26 +40,25 @@ switch($action){
         break;
     case 'verify-email':
         $auth->VerifyEmail();
-    break;
+        break;
     case 'resend-verification':
         $auth->ResendVerification();
-    break;
+        break;
     case 'logout':
         $auth->Logout();
         break;  
-        
-        case 'forgot-password':
-    $auth->ShowForgotPassword();
-    break;
-case 'store-forgot-password':
-    $auth->StoreForgotPassword();
-    break;
-case 'reset-password':
-    $auth->ShowResetPassword();
-    break;
-case 'store-reset-password':
-    $auth->StoreResetPassword();
-    break;
+    case 'forgot-password':
+        $auth->ShowForgotPassword();
+        break;
+    case 'store-forgot-password':
+        $auth->StoreForgotPassword();
+        break;
+    case 'reset-password':
+        $auth->ShowResetPassword();
+        break;
+    case 'store-reset-password':
+        $auth->StoreResetPassword();
+        break;
 
     // Dashboard   
     case 'index':
@@ -60,76 +67,76 @@ case 'store-reset-password':
 
     // Tiket    
     case 'tiket-masuk':
-        $dashboard->ShowTiketMasuk();
+        $tiket->ShowTiketMasuk();
         break;   
     case 'preview-tiket':
-        $dashboard->PreviewTiket();
+        $tiket->PreviewTiket();
         break;
     case 'hapus-tiket':
-        $dashboard->HapusTiket();
+        $tiket->HapusTiket();
         break;
     case 'print-tiket':
-        $dashboard->PrintTiket();
+        $tiket->PrintTiket();
         break;
     case 'store-tiket-masuk':
-        $dashboard->StoreTiketMasuk();
+        $tiket->StoreTiketMasuk();
         break;       
     case 'tiket-keluar':
-        $dashboard->ShowTiketKeluar();
+        $tiket->ShowTiketKeluar();
         break;   
     case 'update-tiket-keluar':
-        $dashboard->UpdateTiketKeluar();
+        $tiket->UpdateTiketKeluar();
         break;  
     case 'get-tiket-by-barcode':
-        $dashboard->GetTiketByBarcode();
+        $tiket->GetTiketByBarcode();
         break;  
 
     // User      
     case 'manage-user':
-        $dashboard->ManageUser();
+        $user->ManageUser();
         break;   
     case 'tambah-user':
-        $dashboard->ShowTambahUser();
+        $user->ShowTambahUser();
         break;  
     case 'store-tambah-user':
-        $dashboard->StoreTambahUser();
+        $user->StoreTambahUser();
         break;        
     case 'delete-user':
-        $dashboard->deleteUser($id);
+        $user->deleteUser($id);
         break;
     case 'edit-user':
-        $dashboard->editUser($id);
+        $user->editUser($id);
         break;   
     case 'store-edit-user':
-        $dashboard->updateUser();
+        $user->updateUser();
         break;   
 
     // Tarif    
     case 'manage-tarif':
-        $dashboard->ManageTarif();
+        $tarif->ManageTarif();
         break;
     case 'delete-tarif':
-        $dashboard->deleteTarif($id);
+        $tarif->deleteTarif($id);
         break;            
     case 'store-tambah-tarif':
-        $dashboard->storeInsertTarif();
+        $tarif->storeInsertTarif();
         break;
     case 'tambah-tarif':
-        $dashboard->ShowInsertTarif();
+        $tarif->ShowInsertTarif();
         break;  
     case 'edit-tarif':
-        $dashboard->editTarif($id);
+        $tarif->editTarif($id);
         break;
     case 'store-edit-tarif':
-        $dashboard->UpdateTarif();
+        $tarif->UpdateTarif();
         break;
 
     // Transaksi    
     case 'transaksi':
-        $dashboard->ShowInsertTransaksi();
+        $transaksi->ShowInsertTransaksi();
         break;
     case 'store-transaksi':
-        $dashboard->StoreTransaksi();
+        $transaksi->StoreTransaksi();
         break; 
         
     // Export/Import

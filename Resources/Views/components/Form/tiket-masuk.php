@@ -15,7 +15,7 @@
 
 <body class="bg-slate-900 text-white">
 
-<div class="max-w-xl mx-auto mt-16 bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-lg">
+<div class="max-w-xl mx-auto mt-2 bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-lg">
 
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
         <i class="fa-solid fa-ticket"></i>

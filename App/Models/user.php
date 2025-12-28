@@ -234,6 +234,52 @@ public function verifyEmail($token){
             die("Query gagal :" . $e->getMessage());
         }
     }
+
+    // ================= CHART USER =================
+
+// Role distribution
+public function getStatRole() {
+    $stmt = $this->pdo->query("
+        SELECT role, COUNT(*) as total
+        FROM user
+        GROUP BY role
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Gender distribution
+public function getStatGender() {
+    $stmt = $this->pdo->query("
+        SELECT gender, COUNT(*) as total
+        FROM user
+        GROUP BY gender
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Verifikasi
+public function getStatVerifikasi() {
+    $stmt = $this->pdo->query("
+        SELECT 
+            IF(email_verified_at IS NULL, 'belum', 'sudah') AS status,
+            COUNT(*) as total
+        FROM user
+        GROUP BY status
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Pertumbuhan user harian
+public function getUserHarian() {
+    $stmt = $this->pdo->query("
+        SELECT DATE(created_at) as tanggal, COUNT(*) as total
+        FROM user
+        GROUP BY DATE(created_at)
+        ORDER BY tanggal ASC
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 
 $user = new User();

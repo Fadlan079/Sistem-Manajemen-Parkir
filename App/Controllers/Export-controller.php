@@ -12,15 +12,14 @@ class EXPORTController {
         $this->modelTiket = new Tiket();
     }
 
-    public function exportTiket()
-    {
+    // === Tiket ===
+    public function exportTiket(){
         $data = $this->modelTiket->SelectTiket();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Data Tiket');
 
-        /* ================= HEADER ================= */
         $headers = [
             'ID Tiket',
             'Barcode',
@@ -42,20 +41,17 @@ class EXPORTController {
             $col++;
         }
 
-        /* ================= ISI DATA ================= */
         $row = 2;
         foreach ($data as $item) {
 
             $sheet->setCellValue('A'.$row, $item['id_tiket']);
 
-            // BARCODE ANGKA (TEXT)
             $sheet->setCellValueExplicit(
                 'B'.$row,
                 $item['barcode'],
                 \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
             );
 
-            // Font monospace biar rapi
             $sheet->getStyle('B'.$row)->getFont()->setName('Consolas');
 
             $sheet->setCellValue('C'.$row, $item['nomor_polisi']);
@@ -71,7 +67,6 @@ class EXPORTController {
             $row++;
         }
 
-        /* ================= DOWNLOAD ================= */
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="data-tiket-parkir.xlsx"');
         header('Cache-Control: max-age=0');

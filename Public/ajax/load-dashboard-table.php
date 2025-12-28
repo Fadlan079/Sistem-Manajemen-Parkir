@@ -22,4 +22,4 @@ switch ($type) {
 
     default:
         echo "<div class='text-gray-400 text-center py-10'>Data tidak ditemukan</div>";
-}
+}   
