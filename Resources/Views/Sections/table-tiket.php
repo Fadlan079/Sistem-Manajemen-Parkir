@@ -32,7 +32,40 @@
         </div>
     </div>
 
+    <?php if (empty($listTiket)): ?>
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+        <div class="flex flex-col items-center gap-3">
+            <i class="fa-solid fa-qrcode text-4xl text-slate-500"></i>
+
+            <h3 class="text-lg font-semibold text-slate-300">
+                Data Tiket Kosong
+            </h3>
+            <p class="text-sm text-slate-400 max-w-md">
+                Belum ada data tiket parkir yang tersedia.  
+                Silakan lakukan 
+
+                <form action="?action=import-tiket-excel" method="POST" enctype="multipart/form-data" class="inline">
+                    <label class="text-emerald-400 font-medium cursor-pointer hover:underline">
+                        import Excel
+                        <input 
+                            type="file" 
+                            name="file_excel" 
+                            accept=".xls,.xlsx" 
+                            class="hidden" 
+                            onchange="this.form.submit()"
+                        >
+                    </label>
+                </form>
+
+                atau buat tiket parkir baru.
+            </p>
+        </div>
+    </div>
+
+    <?php else: ?>
     <!-- Card Style Mobile -->
+     
     <div class="space-y-4">
         <?php foreach($listTiket as $tiket): ?>
             <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-sm sm:hidden">
@@ -64,6 +97,9 @@
                     <div class="font-medium text-slate-400">Tgl Masuk:</div>
                     <div class="text-right"><?= $tiket['tgl_masuk'] ? (new DateTime($tiket['tgl_masuk']))->format('d M Y • H:i') : '-' ?></div>
 
+                    <div class="font-medium text-slate-400">Petugas Masuk:</div>
+                    <div class="text-right"><?= $tiket['petugas_masuk']?></div>
+
                     <div class="font-medium text-slate-400">Tgl Keluar:</div>
                     <div class="text-right">
                         <?php if ($tiket['tgl_keluar']): ?>
@@ -72,6 +108,9 @@
                             - Belum keluar
                         <?php endif; ?>
                     </div>
+
+                    <div class="font-medium text-slate-400">Petugas Keluar:</div>
+                    <div class="text-right"><?= $tiket['petugas_keluar']?></div>
 
                     <div class="font-medium text-slate-400">Total Harga:</div>
                     <div class="text-right font-semibold">Rp <?= number_format($tiket['total_harga'] ?? 0, 0, ',', '.') ?></div>
@@ -98,24 +137,27 @@
 
     <!-- Desktop Table -->
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
-        <table class="min-w-full divide-y divide-slate-700 text-sm">
+        <table class="min-w-full divide-y divide-slate-700 text-xs">
             <thead class="bg-slate-900 text-slate-400">
                 <tr>
-                    <th class="px-6 py-3 text-left">ID Tiket</th>
-                    <th class="px-6 py-3 text-left">Barcode</th>
-                    <th class="px-6 py-3 text-left">No Polisi</th>
-                    <th class="px-6 py-3 text-left">Jenis Kendaraan</th>
-                    <th class="px-6 py-3 text-left">Tgl Masuk</th>
-                    <th class="px-6 py-3 text-left">Tgl Keluar</th>
-                    <th class="px-6 py-3 text-left">Total Harga</th>
-                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-3 py-2 ">ID</th>
+                    <th class="px-3 py-2  text-center">Barcode</th>
+                    <th class="px-3 py-2 ">No Polisi</th>
+                    <th class="px-3 py-2 ">Kendaraan</th>
+                    <th class="px-3 py-2 ">Tgl Masuk</th>
+                    <th class="px-3 py-2  text-center">Petugas Masuk</th>
+                    <th class="px-3 py-2 ">Tgl Keluar</th>
+                    <th class="px-3 py-2 text-center">Petugas Keluar</th>
+                    <th class="px-3 py-2  text-right">Total</th>
+                    <th class="px-3 py-2  text-center">Status</th>
                 </tr>
             </thead>
+
             <tbody class="divide-y divide-slate-700 text-slate-300">
                 <?php foreach($listTiket as $tiket): ?>
                     <tr class="hover:bg-slate-700 transition">
-                        <td class="px-6 py-3"><?= $tiket['id_tiket'] ?></td>
-                        <td class="px-6 py-3 text-center">
+                        <td class="px-2 py-1 align-middle"><?= $tiket['id_tiket'] ?></td>
+                        <td class="px-2 py-1 align-middle">
                             <?php
                             $barcodeValue = $tiket['barcode'];
                             $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
@@ -126,7 +168,7 @@
                                 <span class="tracking-[0.25em] text-xs mt-1"><?= htmlspecialchars($barcodeValue) ?></span>
                             </div>
                         </td>
-                        <td class="px-6 py-3"><?= $tiket['nomor_polisi'] ?></td>
+                        <td class="px-2 py-1 align-middle"><?= $tiket['nomor_polisi'] ?></td>
                         <?php
                         $kendaraan = $tiket['jenis_kendaraan'] ?? '-';
                         $map = [
@@ -142,11 +184,67 @@
                             default => 'bg-slate-500/20 text-slate-400',
                         };
                         ?>
-                        <td class="px-6 py-3"><span class="px-2 py-1 rounded-md font-medium <?= $colorClass ?>"><?= $icon . $kendaraan ?></span></td>
-                        <td class="px-6 py-3"><?= $tiket['tgl_masuk'] ? (new DateTime($tiket['tgl_masuk']))->format('d M Y • H:i') : '-' ?></td>
-                        <td class="px-6 py-3"><?= $tiket['tgl_keluar'] ? (new DateTime($tiket['tgl_keluar']))->format('d M Y • H:i') : '- Belum keluar' ?></td>
-                        <td class="px-6 py-3 font-semibold">Rp <?= number_format($tiket['total_harga'] ?? 0, 0, ',', '.') ?></td>
-                        <td class="px-6 py-3"><span class="px-2 py-1 rounded-md font-medium <?= $statusClass ?>"><?= $status ?></span></td>
+                        <td class="px-2 py-1 align-middle"><span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $colorClass ?>">
+                            <?= $icon ?><?= ucfirst($kendaraan) ?>
+                        </span>
+                        </td>
+                        <?php
+                        $dt = $tiket['tgl_masuk'] ? new DateTime($tiket['tgl_masuk']) : null;
+                        ?>
+
+                        <td class="px-2 py-1 align-middle">
+                            <?php if ($dt): ?>
+                            <span class="relative group cursor-help">
+                                <?= $dt->format('d M Y') ?>
+
+                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1
+                                            hidden group-hover:block
+                                            bg-slate-900 text-white text-[10px]
+                                            px-2 py-1 rounded shadow-lg whitespace-nowrap">
+                                    <?= $dt->format('H:i') ?>
+                                </span>
+                            </span>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
+                        </td>
+
+                        <td class="px-2 py-1 align-middle">
+                            <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px]">
+                                <?= $tiket['petugas_masuk'] ?? '-' ?>
+                            </span>
+                        </td>
+                        <?php
+                        $dt = $tiket['tgl_keluar'] ? new DateTime($tiket['tgl_keluar']) : null;
+                        ?>
+
+                        <td class="px-2 py-1 align-middle">
+                            <?php if ($dt): ?>
+                            <span class="relative group cursor-help">
+                                <?= $dt->format('d M Y') ?>
+                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1
+                                            hidden group-hover:block
+                                            bg-slate-900 text-white text-[10px]
+                                            px-2 py-1 rounded shadow-lg">
+                                    <?= $dt->format('H:i') ?>
+                                </span>
+                            </span>
+                            <?php else: ?>
+                                <span class="text-slate-400 italic">Belum keluar</span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="px-2 py-1 align-middle">
+                            <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px]">
+                                <?= $tiket['petugas_keluar'] ?? '-' ?>
+                            </span>
+                        </td>
+                        <td class="px-3 py-2 text-right font-semibold text-[11px]">
+                            Rp <?= number_format($tiket['total_harga'] ?? 0, 0, ',', '.') ?>
+                        </td>
+
+                        <td class="px-2 py-1 align-middle">
+                            <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $statusClass ?>"><?= ucfirst($status) ?></span>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -190,3 +288,4 @@ $start = max(1, $end - $maxButtons + 1);
 <?php endif; ?>
 </div>
 </div>
+<?php endif?>

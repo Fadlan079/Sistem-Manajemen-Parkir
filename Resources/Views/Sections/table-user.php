@@ -46,6 +46,38 @@
         </div>
     </div>
 
+    <?php if (empty($listUser)): ?>
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+        <div class="flex flex-col items-center gap-3">
+            <i class="fa-solid fa-users-slash text-4xl text-slate-500"></i>
+
+            <h3 class="text-lg font-semibold text-slate-300">
+                Data User Kosong
+            </h3>
+            <p class="text-sm text-slate-400 max-w-md">
+                Belum ada data user yang tersedia saat ini.  
+                Silakan lakukan 
+
+                <form action="?action=import-user-excel" method="POST" enctype="multipart/form-data" class="inline">
+                    <label class="text-emerald-400 font-medium cursor-pointer hover:underline">
+                        import Excel
+                        <input 
+                            type="file" 
+                            name="file_excel" 
+                            accept=".xls,.xlsx" 
+                            class="hidden" 
+                            onchange="this.form.submit()"
+                        >
+                    </label>
+                </form>
+
+                atau tambahkan user baru.
+            </p>
+        </div>
+    </div>
+
+    <?php else:?>
     <!-- Card Style Mobile -->
     <div class="space-y-4">
         <?php foreach($listUser as $user): ?>
@@ -238,3 +270,4 @@ $start = max(1, $end - $maxButtons + 1);
 </div>
 
 </div>
+<?php endif?>

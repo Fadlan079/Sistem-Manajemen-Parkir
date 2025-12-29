@@ -1,7 +1,7 @@
 <?php
-    use Picqer\Barcode\BarcodeGeneratorPNG;
-    $sessionUser = $_SESSION['user'] ?? null;
-    $role = $sessionUser['role'] ?? null;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+$sessionUser = $_SESSION['user'] ?? null;
+$role = $sessionUser['role'] ?? null;
 
 $statCards = [];
 
@@ -27,9 +27,21 @@ foreach ($totalbayar as $t) {
             'shadow' => 'hover:shadow-green-500/20'
         ],
         'label' => 'Total Transaksi Selesai',
-        'value' => 'Rp ' . number_format($t, 0, ',', '.')
+        'value' => 'Rp ' . number_format($t ?? 0, 0, ',', '.')
+
     ];
 }
+
+$statCards[] = [
+    'icon' => 'fa-receipt',
+    'color' => [
+        'text'   => 'text-purple-400',
+        'muted'  => 'text-purple-400/10',
+        'shadow' => 'hover:shadow-purple-500/20'
+    ],
+    'label' => 'Jumlah Transaksi',
+    'value' => $Totaltransaksi
+];
 
 $statCards[] = [
     'icon' => 'fa-right-to-bracket',
@@ -38,10 +50,9 @@ $statCards[] = [
         'muted'  => 'text-emerald-400/10',
         'shadow' => 'hover:shadow-emerald-500/20'
     ],
-    'label' => 'Total Kendaraan Masuk',
+    'label' => 'Riwayat Kendaraan Masuk',
     'value' => $Totalmasuk
 ];
-
 
 $statCards[] = [
     'icon' => 'fa-right-from-bracket',
@@ -64,22 +75,6 @@ $statCards[] = [
     'label' => 'Kendaraan Sedang Parkir',
     'value' => $total_parkir
 ];
-
-$statCards[] = [
-    'icon' => 'fa-receipt',
-    'color' => [
-        'text'   => 'text-purple-400',
-        'muted'  => 'text-purple-400/10',
-        'shadow' => 'hover:shadow-purple-500/20'
-    ],
-    'label' => 'Jumlah Transaksi',
-    'value' => $Totaltransaksi
-];
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>

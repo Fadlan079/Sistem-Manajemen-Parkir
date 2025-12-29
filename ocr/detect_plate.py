@@ -108,11 +108,6 @@ filename = f"plate_{os.path.basename(image_path)}"
 plate_path = os.path.join(OUTPUT_DIR, filename)
 cv2.imwrite(plate_path, plate_img)
 
-# ================= DEBUG (OPTIONAL)
-# debug_img = image.copy()
-# cv2.rectangle(debug_img, (x, y), (x+w, y+h), (0,255,0), 2)
-# cv2.imwrite(os.path.join(OUTPUT_DIR, "debug_detect.jpg"), debug_img)
-
 # ================= OUTPUT JSON
 print(json.dumps({
     "plate_path": plate_path,

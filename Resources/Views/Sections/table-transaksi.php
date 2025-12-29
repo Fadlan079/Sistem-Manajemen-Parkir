@@ -39,11 +39,44 @@
             </form>
 
             <!-- Export Excel -->
-            <a href="?action=export-transaksi-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
+            <a href="?action=import-transaksi-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
         </div>
     </div>
+
+    <?php if (empty($listTransaksi)): ?>
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+        <div class="flex flex-col items-center gap-3">
+            <i class="fa-solid fa-file-invoice-dollar text-4xl text-slate-500"></i>
+
+            <h3 class="text-lg font-semibold text-slate-300">
+                Data Transaksi Kosong
+            </h3>
+            <p class="text-sm text-slate-400 max-w-md">
+                Belum ada data transaksi yang tercatat.  
+                Silakan lakukan 
+
+                <form action="?action=import-transaksi-excel" method="POST" enctype="multipart/form-data" class="inline">
+                    <label class="text-emerald-400 font-medium cursor-pointer hover:underline">
+                        import Excel
+                        <input 
+                            type="file" 
+                            name="file_excel" 
+                            accept=".xls,.xlsx" 
+                            class="hidden" 
+                            onchange="this.form.submit()"
+                        >
+                    </label>
+                </form>
+
+                atau buat transaksi baru.
+            </p>
+        </div>
+    </div>
+
+    <?php else: ?>
 
     <!-- Card Style Mobile -->
     <div class="space-y-4">
@@ -172,3 +205,4 @@ $start = max(1, $end - $maxButtons + 1);
 </div>
 
 </div>
+<?php endif?>

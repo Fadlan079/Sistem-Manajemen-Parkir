@@ -9,13 +9,27 @@ class Tiket{
         $this->pdo = $db->getConnection();
     }
 
-    public function SelectTiketPagination($limit, $offset){
-    $stmt = $this->pdo->prepare("SELECT * FROM tiket ORDER BY id_tiket DESC LIMIT ? OFFSET ?");
-    $stmt->bindValue(1, $limit, PDO::PARAM_INT);
-    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+public function SelectTiketPagination($limit, $offset)
+{
+    $stmt = $this->pdo->prepare("
+        SELECT 
+            t.*,
+            pm.nama_lengkap AS petugas_masuk,
+            pk.nama_lengkap AS petugas_keluar
+        FROM tiket t
+        LEFT JOIN user pm ON pm.id_user = t.id_petugas_masuk
+        LEFT JOIN user pk ON pk.id_user = t.id_petugas_keluar
+        ORDER BY t.id_tiket ASC
+        LIMIT :limit OFFSET :offset
+    ");
+
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 public function countAllTiket(){
     return $this->pdo->query("SELECT COUNT(*) FROM tiket")->fetchColumn();
@@ -278,6 +292,49 @@ public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $to
             die("Query gagal :" . $e->getMessage());
         }
     }
+
+public function insertImportTiket($data)
+{
+    $stmt = $this->pdo->prepare("
+        INSERT INTO tiket (
+            barcode,
+            nomor_polisi,
+            jenis_kendaraan,
+            id_tarif,
+            tgl_masuk,
+            tgl_keluar,
+            total_harga,
+            id_petugas_masuk,
+            id_petugas_keluar,
+            status
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )
+    ");
+
+    return $stmt->execute([
+        $data['barcode'],
+        $data['nomor_polisi'],
+        $data['jenis_kendaraan'],
+        $data['id_tarif'],
+        $data['tgl_masuk'],
+        $data['tgl_keluar'],
+        $data['total_harga'],
+        $data['id_petugas_masuk'],
+        $data['id_petugas_keluar'],
+        $data['status']
+    ]);
+}
+
+
+
+public function cekBarcode($barcode)
+{
+    $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tiket WHERE barcode = ?");
+    $stmt->execute([$barcode]);
+    return $stmt->fetchColumn() > 0;
+}
+
 }
 
 // $tiket = new Tiket();

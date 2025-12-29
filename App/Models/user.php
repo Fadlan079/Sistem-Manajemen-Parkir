@@ -257,6 +257,15 @@ public function getStatGender() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getUserIdByName($nama)
+{
+    $stmt = $this->pdo->prepare(
+        "SELECT id_user FROM user WHERE nama_lengkap = ? LIMIT 1"
+    );
+    $stmt->execute([$nama]);
+    return $stmt->fetchColumn();
+}
+
 // Verifikasi
 public function getStatVerifikasi() {
     $stmt = $this->pdo->query("
@@ -280,11 +289,35 @@ public function getUserHarian() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+// Cek email duplikat
+public function cekEmail($email) {
+    $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
+    $stmt->execute([$email]);
+    return $stmt->fetchColumn() > 0;
 }
 
-$user = new User();
+// Insert user
+public function insertUser($data) {
+    $sql = "INSERT INTO user (nama_lengkap, email, gender, role, password, created_at, email_verified_at)
+            VALUES (:nama, :email, :gender, :role, :password, :created_at, :email_verified_at)";
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute([
+        ':nama' => $data['nama_lengkap'],
+        ':email' => $data['email'],
+        ':gender' => $data['gender'],
+        ':role' => $data['role'],
+        ':password' => $data['password'],
+        ':created_at' => $data['created_at'],
+        ':email_verified_at' => $data['email_verified_at']
+    ]);
+}
+
+}
+
+// $user = new User();
 // $user->Insert("Fadlan Firdaus","fadlanfirdaus220@gmail.com","fadlan123","L");
-$data = $user->Select();
+// $data = $user->Select();
 // $data = $user->getByEmail('fadlanfirdaus220@gmail.com');
 // var_dump($data);
 ?>

@@ -11,6 +11,7 @@ require_once __DIR__ . "/../App/Controllers/Tarif-controller.php";
 require_once __DIR__ . "/../App/Controllers/Transaksi-controller.php";
 require_once __DIR__ . "/../App/Controllers/User-controller.php";
 require_once __DIR__ . "/../App/Controllers/Export-controller.php";
+require_once __DIR__ . "/../App/Controllers/Import-controller.php";
 require __DIR__ . '/../vendor/autoload.php';
 
 $auth = new AUTHController();
@@ -20,6 +21,7 @@ $tarif = new TARIFController();
 $transaksi = new TRANSAKSIController();
 $user = new USERController();
 $export = new EXPORTController();
+$import = new IMPORTController();
 
 $action = $_GET['action'] ?? 'index';
 $id = $_GET['id'] ?? Null;
@@ -139,12 +141,26 @@ switch($action){
         $transaksi->StoreTransaksi();
         break; 
         
-    // Export/Import
+    // Export
     case 'export-tiket-excel':
         $export->exportTiket();
-        break;   
+        break; 
+    case 'export-user-excel':
+        $export->exportUser();
+        break; 
+    case 'export-transaksi-excel':
+        $export->exportTransaksi();
+        break;         
+
+    //Import    
     case 'import-tiket-excel':
-       
+        $import->importTiket();
+        break;         
+    case 'import-user-excel':
+        $import->importUser();
+        break; 
+    case 'import-transaksi-excel':
+        $import->importTransaksi();
         break;         
 
     // 404 Not Found    
