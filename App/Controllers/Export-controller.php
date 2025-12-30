@@ -71,10 +71,16 @@ class EXPORTController {
 
             $row++;
         }
+        
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="data-tiket-parkir.xlsx"');
         header('Cache-Control: max-age=0');
+        header('Expires: 0');
+        header('Pragma: public');
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
@@ -120,9 +126,15 @@ class EXPORTController {
             $row++;
         }
 
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="data-user.xlsx"');
         header('Cache-Control: max-age=0');
+        header('Expires: 0');
+        header('Pragma: public');
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
@@ -159,15 +171,22 @@ class EXPORTController {
             $sheet->setCellValue('B'.$row, $item['id_tiket']);
             $sheet->setCellValue('C'.$row, ucfirst($item['metode']));
             $sheet->setCellValue('D'.$row, $item['nomor_polisi']);
-            $sheet->setCellValue('E'.$row, 'Rp ' . number_format($item['total_bayar'] ?? 0, 0, ',', '.'));
+            $sheet->setCellValue('E'.$row, 'Rp ' . number_format($item['jumlah_bayar'] ?? 0, 0, ',', '.'));
             $sheet->setCellValue('F'.$row, $item['tgl_bayar']);
             $sheet->setCellValue('G'.$row, ucfirst($item['status']));
             $row++;
         }
 
+        
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="data-transaksi.xlsx"');
         header('Cache-Control: max-age=0');
+        header('Expires: 0');
+        header('Pragma: public');
 
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');

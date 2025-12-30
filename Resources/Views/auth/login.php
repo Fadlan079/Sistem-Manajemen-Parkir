@@ -65,10 +65,7 @@
                        focus:ring-2 focus:ring-cyan-500 outline-none">
         </div>
 
-        <!-- Links: Forgot password & Resend verification -->
         <div class="flex justify-between mt-2 text-sm items-center">
-            
-
             <?php if(!empty($_SESSION['unverified_email'])): ?>
                 <div class="flex items-center gap-2">
                     <a id="resendBtn"
@@ -80,12 +77,10 @@
                     <span id="timer" class="text-xs text-slate-300"></span>
                 </div>
             <?php endif; ?>
-
                         <a href="?action=forgot-password"
                class="text-cyan-400 hover:underline">
                Lupa password?
             </a>
-
         </div>
 
         <button type="submit"
@@ -120,7 +115,6 @@ function lockButton(btn){
     btn.innerText = 'Tunggu...';
 }
 
-// Cegah spam klik
 function handleResend(btn){
     lockButton(btn);
     if(timer) timer.innerText = '(mengirim...)';

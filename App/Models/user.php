@@ -28,75 +28,69 @@ class User{
     }
 
     public function updateVerificationSentAt($email, $time){
-    $stmt = $this->pdo->prepare("
-        UPDATE user 
-        SET verification_sent_at = ? 
-        WHERE email = ?
-    ");
-    return $stmt->execute([$time, $email]);
-}
-
+        $stmt = $this->pdo->prepare("
+            UPDATE user 
+            SET verification_sent_at = ? 
+            WHERE email = ?
+        ");
+        return $stmt->execute([$time, $email]);
+    }
 
     public function getByToken($token){
-    $sql = "SELECT * FROM user WHERE verification_token = ?";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$token]);
-    return $stmt->fetch();
-}
-
-// Simpan token reset password
-public function saveResetToken($email, $token, $expired_at){
-    try{
-        $sql = "UPDATE user SET reset_password_token = :token, reset_password_expired_at = :expired WHERE email = :email";
+        $sql = "SELECT * FROM user WHERE verification_token = ?";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':token' => $token,
-            ':expired' => $expired_at,
-            ':email' => $email
-        ]);
-    }catch(PDOException $e){
-        die("Query gagal: " . $e->getMessage());
+        $stmt->execute([$token]);
+        return $stmt->fetch();
     }
-}
 
-// Ambil user berdasarkan token reset password
-public function getByResetToken($token){
-    try{
-        $sql = "SELECT * FROM user WHERE reset_password_token = :token LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':token' => $token]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }catch(PDOException $e){
-        die("Query gagal: " . $e->getMessage());
+    public function saveResetToken($email, $token, $expired_at){
+        try{
+            $sql = "UPDATE user SET reset_password_token = :token, reset_password_expired_at = :expired WHERE email = :email";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([
+                ':token' => $token,
+                ':expired' => $expired_at,
+                ':email' => $email
+            ]);
+        }catch(PDOException $e){
+            die("Query gagal: " . $e->getMessage());
+        }
     }
-}
 
-// Update password berdasarkan token reset
-public function updatePasswordByToken($token, $password){
-    try{
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+    public function getByResetToken($token){
+        try{
+            $sql = "SELECT * FROM user WHERE reset_password_token = :token LIMIT 1";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':token' => $token]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            die("Query gagal: " . $e->getMessage());
+        }
+    }
+
+    public function updatePasswordByToken($token, $password){
+        try{
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE user 
+                    SET password = :password, reset_password_token = NULL, reset_password_expired_at = NULL 
+                    WHERE reset_password_token = :token";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([
+                ':password' => $hash,
+                ':token' => $token
+            ]);
+        }catch(PDOException $e){
+            die("Query gagal: " . $e->getMessage());
+        }
+    }
+
+    public function verifyEmail($token){
         $sql = "UPDATE user 
-                SET password = :password, reset_password_token = NULL, reset_password_expired_at = NULL 
-                WHERE reset_password_token = :token";
+                SET email_verified_at = NOW(), verification_token = NULL
+                WHERE verification_token = ?";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            ':password' => $hash,
-            ':token' => $token
-        ]);
-    }catch(PDOException $e){
-        die("Query gagal: " . $e->getMessage());
+        return $stmt->execute([$token]);
     }
-}
-
-
-public function verifyEmail($token){
-    $sql = "UPDATE user 
-            SET email_verified_at = NOW(), verification_token = NULL
-            WHERE verification_token = ?";
-    $stmt = $this->pdo->prepare($sql);
-    return $stmt->execute([$token]);
-}
-
 
     public function Insert($nama_lengkap,$email,$password,$gender,$role){
         try{
@@ -108,7 +102,7 @@ public function verifyEmail($token){
             $stmt->bindParam(":email",$email);
             $stmt->bindParam(":password",$hash);
             $stmt->bindParam(":gender",$gender);
-            $stmt->bindParam(":role",$role); // <-- Tambahkan ini
+            $stmt->bindParam(":role",$role);
             return $stmt->execute();
         }catch(PDOException $e){
             die("Query gagal :" . $e->getMessage());
@@ -129,7 +123,6 @@ public function verifyEmail($token){
 
     public function updateUser($id_user, $nama_lengkap, $email, $password, $gender, $role){
         try {
-            // Jika password tidak kosong, lakukan hash
             if(!empty($password)){
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "UPDATE user 
@@ -139,8 +132,7 @@ public function verifyEmail($token){
                             gender = :gender,
                             role = :role
                         WHERE id_user = :id_user";
-            } else {
-                // Jika password kosong, jangan update password
+            }else {
                 $sql = "UPDATE user 
                         SET nama_lengkap = :nama_lengkap,
                             email = :email,
@@ -201,7 +193,6 @@ public function verifyEmail($token){
         }
     }
 
-
     public function Select($limit = null, $offset = null){
         try{
             $sql = "SELECT * FROM user ORDER BY id_user ASC";
@@ -235,89 +226,71 @@ public function verifyEmail($token){
         }
     }
 
-    // ================= CHART USER =================
+    public function getStatRole() {
+        $stmt = $this->pdo->query("
+            SELECT role, COUNT(*) as total
+            FROM user
+            GROUP BY role
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-// Role distribution
-public function getStatRole() {
-    $stmt = $this->pdo->query("
-        SELECT role, COUNT(*) as total
-        FROM user
-        GROUP BY role
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getStatGender() {
+        $stmt = $this->pdo->query("
+            SELECT gender, COUNT(*) as total
+            FROM user
+            GROUP BY gender
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserIdByName($nama){
+        $stmt = $this->pdo->prepare(
+            "SELECT id_user FROM user WHERE nama_lengkap = ? LIMIT 1"
+        );
+        $stmt->execute([$nama]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getStatVerifikasi() {
+        $stmt = $this->pdo->query("
+            SELECT 
+                IF(email_verified_at IS NULL, 'belum', 'sudah') AS status,
+                COUNT(*) as total
+            FROM user
+            GROUP BY status
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserHarian() {
+        $stmt = $this->pdo->query("
+            SELECT DATE(created_at) as tanggal, COUNT(*) as total
+            FROM user
+            GROUP BY DATE(created_at)
+            ORDER BY tanggal ASC
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function cekEmail($email) {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function insertUser($data) {
+        $sql = "INSERT INTO user (nama_lengkap, email, gender, role, password, created_at, email_verified_at)
+                VALUES (:nama, :email, :gender, :role, :password, :created_at, :email_verified_at)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':nama' => $data['nama_lengkap'],
+            ':email' => $data['email'],
+            ':gender' => $data['gender'],
+            ':role' => $data['role'],
+            ':password' => $data['password'],
+            ':created_at' => $data['created_at'],
+            ':email_verified_at' => $data['email_verified_at']
+        ]);
+    }
 }
-
-// Gender distribution
-public function getStatGender() {
-    $stmt = $this->pdo->query("
-        SELECT gender, COUNT(*) as total
-        FROM user
-        GROUP BY gender
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function getUserIdByName($nama)
-{
-    $stmt = $this->pdo->prepare(
-        "SELECT id_user FROM user WHERE nama_lengkap = ? LIMIT 1"
-    );
-    $stmt->execute([$nama]);
-    return $stmt->fetchColumn();
-}
-
-// Verifikasi
-public function getStatVerifikasi() {
-    $stmt = $this->pdo->query("
-        SELECT 
-            IF(email_verified_at IS NULL, 'belum', 'sudah') AS status,
-            COUNT(*) as total
-        FROM user
-        GROUP BY status
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Pertumbuhan user harian
-public function getUserHarian() {
-    $stmt = $this->pdo->query("
-        SELECT DATE(created_at) as tanggal, COUNT(*) as total
-        FROM user
-        GROUP BY DATE(created_at)
-        ORDER BY tanggal ASC
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-
-// Cek email duplikat
-public function cekEmail($email) {
-    $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
-    $stmt->execute([$email]);
-    return $stmt->fetchColumn() > 0;
-}
-
-// Insert user
-public function insertUser($data) {
-    $sql = "INSERT INTO user (nama_lengkap, email, gender, role, password, created_at, email_verified_at)
-            VALUES (:nama, :email, :gender, :role, :password, :created_at, :email_verified_at)";
-    $stmt = $this->pdo->prepare($sql);
-    return $stmt->execute([
-        ':nama' => $data['nama_lengkap'],
-        ':email' => $data['email'],
-        ':gender' => $data['gender'],
-        ':role' => $data['role'],
-        ':password' => $data['password'],
-        ':created_at' => $data['created_at'],
-        ':email_verified_at' => $data['email_verified_at']
-    ]);
-}
-
-}
-
-// $user = new User();
-// $user->Insert("Fadlan Firdaus","fadlanfirdaus220@gmail.com","fadlan123","L");
-// $data = $user->Select();
-// $data = $user->getByEmail('fadlanfirdaus220@gmail.com');
-// var_dump($data);
-?>

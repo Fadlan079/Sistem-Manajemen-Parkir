@@ -4,6 +4,7 @@ require_once __DIR__ . "/../Models/user.php";
 require_once __DIR__ . "/../Models/transaksi.php";
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class IMPORTController {
 
@@ -154,25 +155,31 @@ class IMPORTController {
         unset($rows[0]);
 
         foreach ($rows as $row) {
-            if (empty($row[1]) || empty($row[4]) || empty($row[5])) {
+
+            if (empty($row[1]) || empty($row[4])) {
                 continue;
             }
 
-            $tglBayar = null;
-            if (!empty($row[5])) {
-                $d = DateTime::createFromFormat('Y-m-d H:i:s', $row[5]);
-                if ($d) $tglBayar = $d->format('Y-m-d H:i:s');
-            }
-            $jumlahBayarRaw = $row[4] ?? 0;
+            $cellTanggal = $row[5] ?? null;
 
-            $jumlah_bayar = (int) str_replace(['.', ','], '', $jumlahBayarRaw);
+            if (is_numeric($cellTanggal)) {
+                $tglBayar = Date::excelToDateTimeObject($cellTanggal)
+                    ->format('Y-m-d H:i:s');
+            } elseif (!empty($cellTanggal)) {
+                $tglBayar = date('Y-m-d H:i:s', strtotime($cellTanggal));
+            } else {
+                $tglBayar = date('Y-m-d H:i:s');
+            }
+
+            $jumlahBayarRaw = $row[4] ?? 0;
+            $jumlah_bayar = (int) preg_replace('/[^0-9]/', '', $jumlahBayarRaw);
 
             $data = [
                 'id_transaksi' => (int) $row[0],
                 'id_tiket'     => (int) $row[1],
                 'jumlah_bayar' => $jumlah_bayar,
                 'metode'       => strtolower(trim($row[2] ?? 'cash')),
-                'tgl_bayar'    => !empty($row[5]) ? DateTime::createFromFormat('d/m/Y H:i', $row[5])->format('Y-m-d H:i:s') : date('Y-m-d H:i:s'),
+                'tgl_bayar'    => $tglBayar,
                 'status'       => strtolower(trim($row[6] ?? 'paid'))
             ];
 

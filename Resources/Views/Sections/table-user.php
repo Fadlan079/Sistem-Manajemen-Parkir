@@ -1,37 +1,36 @@
+<?php if (!empty($listUser)): ?>
+    <div id="chart-user-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Role User</h3>
+            <canvas id="chartRole"></canvas>
+        </div>
 
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Role User</h3>
-        <canvas id="chartRole"></canvas>
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Gender User</h3>
+            <canvas id="chartGender"></canvas>
+        </div>
+
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Verifikasi User</h3>
+            <canvas id="chartVerif"></canvas>
+        </div>
+
+        <div class="bg-slate-800 p-4 rounded-xl md:col-span-2">
+            <h3 class="text-cyan-400 font-semibold mb-2">Pertumbuhan User</h3>
+            <canvas id="chartUserHarian"></canvas>
+        </div>
+
     </div>
-
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Gender User</h3>
-        <canvas id="chartGender"></canvas>
-    </div>
-
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Verifikasi User</h3>
-        <canvas id="chartVerif"></canvas>
-    </div>
-
-    <div class="bg-slate-800 p-4 rounded-xl md:col-span-2">
-        <h3 class="text-cyan-400 font-semibold mb-2">Pertumbuhan User</h3>
-        <canvas id="chartUserHarian"></canvas>
-    </div>
-
-</div>
+<?php endif; ?>
 
 <div class="mt-10">
-    <!-- Header & Tombol Import/Export -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">User</span>
         </h2>
 
         <div class="flex flex-wrap gap-2">
-            <!-- Import Excel -->
             <form action="?action=import-user-excel" method="POST" enctype="multipart/form-data">
                 <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
                     <i class="fa-solid fa-file-import"></i> Import Excel
@@ -39,7 +38,6 @@
                 </label>
             </form>
 
-            <!-- Export Excel -->
             <a href="?action=export-user-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
@@ -78,35 +76,30 @@
     </div>
 
     <?php else:?>
-    <!-- Card Style Mobile -->
     <div class="space-y-4">
         <?php foreach($listUser as $user): ?>
             
-     <?php 
-        // ================= VERIFIKASI =================
-        $verifiedAt = $user['email_verified_at'];
+            <?php 
+            $verifiedAt = $user['email_verified_at'];
 
-        if (!empty($verifiedAt)) {
-            $verifStatusLabel = 'Terverifikasi';
-            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
-            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
-            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
-        } else {
-            $verifStatusLabel = 'Belum';
-            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
-            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
-            $verifDate = '-';
-        }
-
-     ?>
+            if (!empty($verifiedAt)) {
+                $verifStatusLabel = 'Terverifikasi';
+                $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
+                $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+                $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+            } else {
+                $verifStatusLabel = 'Belum';
+                $verifStatusClass = 'bg-rose-500/20 text-rose-400';
+                $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+                $verifDate = '-';
+            }
+            ?>
             <?php
-            // Gender
             $gender = $user['gender'] ?? '-';
             if ($gender === 'L') { $genderClass = 'bg-blue-500/20 text-blue-400'; $genderIcon = '<i class="fa-solid fa-mars"></i>'; $genderLabel = 'Laki-laki'; }
             elseif ($gender === 'P') { $genderClass = 'bg-pink-500/20 text-pink-400'; $genderIcon = '<i class="fa-solid fa-venus"></i>'; $genderLabel = 'Perempuan'; }
             else { $genderClass = 'bg-slate-500/20 text-slate-400'; $genderIcon = '<i class="fa-solid fa-circle-question"></i>'; $genderLabel = '-'; }
 
-            // Role
             $role = $user['role'] ?? '-';
             $roleMap = [
                 'admin' => ['class' => 'bg-purple-500/20 text-purple-400','icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'],
@@ -150,50 +143,43 @@
         <?php endforeach; ?>
     </div>
 
-    
-    <!-- Desktop Table -->
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
         <table class="min-w-full divide-y divide-slate-700 text-sm">
-<thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wide">
-<tr>
-    <th class="px-4 py-3">ID</th>
-    <th class="px-4 py-3">Nama</th>
-    <th class="px-4 py-3">Email</th>
-    <th class="px-4 py-3">Gender</th>
-    <th class="px-4 py-3">Role</th>
-    <th class="px-4 py-3">Dibuat</th>
-    <th class="px-4 py-3">Verif</th>
-    <th class="px-4 py-3">Tgl Verif</th>
-</tr>
-</thead>
-
+            <thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wide">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Nama</th>
+                <th class="px-4 py-3">Email</th>
+                <th class="px-4 py-3">Gender</th>
+                <th class="px-4 py-3">Role</th>
+                <th class="px-4 py-3">Dibuat</th>
+                <th class="px-4 py-3">Verif</th>
+                <th class="px-4 py-3">Tgl Verif</th>
+            </tr>
+            </thead>
             <tbody class="divide-y divide-slate-700 text-slate-300">
                 <?php foreach($listUser as $user): ?>
                          <?php 
-        // ================= VERIFIKASI =================
-        $verifiedAt = $user['email_verified_at'];
+                        $verifiedAt = $user['email_verified_at'];
 
-        if (!empty($verifiedAt)) {
-            $verifStatusLabel = 'Terverifikasi';
-            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
-            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
-            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
-        } else {
-            $verifStatusLabel = 'Belum';
-            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
-            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
-            $verifDate = '-';
-        }
-
-     ?>
+                        if (!empty($verifiedAt)) {
+                            $verifStatusLabel = 'Terverifikasi';
+                            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
+                            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+                            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+                        } else {
+                            $verifStatusLabel = 'Belum';
+                            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
+                            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+                            $verifDate = '-';
+                        }
+                        ?>
                     <?php
-                    // Gender
                     $gender = $user['gender'] ?? '-';
                     if ($gender === 'L') { $genderClass = 'bg-blue-500/20 text-blue-400'; $genderIcon = '<i class="fa-solid fa-mars"></i>'; $genderLabel = 'Laki-laki'; }
                     elseif ($gender === 'P') { $genderClass = 'bg-pink-500/20 text-pink-400'; $genderIcon = '<i class="fa-solid fa-venus"></i>'; $genderLabel = 'Perempuan'; }
                     else { $genderClass = 'bg-slate-500/20 text-slate-400'; $genderIcon = '<i class="fa-solid fa-circle-question"></i>'; $genderLabel = '-'; }
 
-                    // Role
                     $role = $user['role'] ?? '-';
                     $roleMap = [
                         'admin' => ['class' => 'bg-purple-500/20 text-purple-400','icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'],
@@ -229,45 +215,41 @@
                         <td class="px-6 py-3">
                             <?= $verifDate ?>
                         </td>
-
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
-    <!-- Pagination Maks 5 tombol -->
-<div class="flex flex-wrap justify-center gap-2 mt-4">
-<?php
-$maxButtons = 5;
-$start = max(1, $pageUser - intdiv($maxButtons, 2));
-$end = min($totalPagesUser, $start + $maxButtons - 1);
-$start = max(1, $end - $maxButtons + 1);
-?>
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <?php
+        $maxButtons = 5;
+        $start = max(1, $pageUser - intdiv($maxButtons, 2));
+        $end = min($totalPagesUser, $start + $maxButtons - 1);
+        $start = max(1, $end - $maxButtons + 1);
+        ?>
 
-<?php if ($pageUser > 1): ?>
-    <button onclick="loadTable('user', null, <?= $pageUser - 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Prev
-    </button>
-<?php endif; ?>
+        <?php if ($pageUser > 1): ?>
+            <button onclick="loadTable('user', null, <?= $pageUser - 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Prev
+            </button>
+        <?php endif; ?>
 
-<?php for ($i = $start; $i <= $end; $i++): ?>
-    <button onclick="loadTable('user', null, <?= $i ?>)"
-        class="px-3 py-1 rounded
-        <?= $i == $pageUser ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
-        <?= $i ?>
-    </button>
-<?php endfor; ?>
+        <?php for ($i = $start; $i <= $end; $i++): ?>
+            <button onclick="loadTable('user', null, <?= $i ?>)"
+                class="px-3 py-1 rounded
+                <?= $i == $pageUser ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
 
-<?php if ($pageUser < $totalPagesUser): ?>
-    <button onclick="loadTable('user', null, <?= $pageUser + 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Next
-    </button>
-<?php endif; ?>
-</div>
-
-</div>
+        <?php if ($pageUser < $totalPagesUser): ?>
+            <button onclick="loadTable('user', null, <?= $pageUser + 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Next
+            </button>
+        <?php endif; ?>
+        </div>
+    </div>
 <?php endif?>

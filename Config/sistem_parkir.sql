@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 18, 2025 at 07:30 AM
+-- Generation Time: Dec 30, 2025 at 06:49 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -39,7 +39,7 @@ CREATE TABLE `tarif_parkir` (
 --
 
 INSERT INTO `tarif_parkir` (`id_tarif`, `jenis_kendaraan`, `harga_flat`, `updated_at`) VALUES
-(1, 'motor', 5000, '2025-11-18 09:36:07'),
+(1, 'motor', 5000, '2025-12-28 18:17:23'),
 (2, 'mobil', 10000, '2025-11-18 09:36:07');
 
 -- --------------------------------------------------------
@@ -67,15 +67,26 @@ CREATE TABLE `tiket` (
 --
 
 INSERT INTO `tiket` (`id_tiket`, `barcode`, `nomor_polisi`, `jenis_kendaraan`, `id_tarif`, `tgl_masuk`, `tgl_keluar`, `total_harga`, `id_petugas_masuk`, `id_petugas_keluar`, `status`) VALUES
-(2, '2214385623602', 'KT 1824 BS', 'mobil', 2, '2025-11-18 09:37:00', '2025-11-19 10:37:00', 10000, 1, 1, 'keluar'),
-(4, '3155239835524', 'KT 1234 BS', 'mobil', 2, '2025-11-18 03:45:23', '2025-11-18 04:37:53', NULL, NULL, NULL, 'keluar'),
-(5, '8679022669543', 'KT 5678 JK', 'mobil', 2, '2025-11-18 04:40:17', '2025-11-18 05:58:15', NULL, NULL, 5, 'keluar'),
-(6, '9238104390800', 'KT 1222 LK', 'motor', 1, '2025-11-18 04:40:48', '2025-11-18 06:01:02', 5000, NULL, 5, 'keluar'),
-(7, '5833263109401', 'KT 1234 BS', 'motor', 1, '2025-11-18 06:37:41', '2025-11-18 06:38:00', 5000, 5, 5, 'keluar'),
-(8, '4447854500672', 'KT 5678 JK', 'mobil', 2, '2025-11-18 06:50:50', NULL, NULL, 5, NULL, 'masuk'),
-(9, '7957659355783', 'KT 1234 BS', 'mobil', 2, '2025-11-18 07:07:10', '2025-11-18 07:07:58', 10000, 5, 5, 'keluar'),
-(10, '3419593463032', 'KT 5678 JK', 'motor', 1, '2025-11-18 07:19:58', NULL, NULL, 5, NULL, 'masuk'),
-(11, '6524024184981', 'KT 1222 LK', 'mobil', 2, '2025-11-18 07:21:27', NULL, NULL, 5, NULL, 'masuk');
+(1, '0000000000020', 'B 0001 TT', 'mobil', 2, '2025-12-29 13:00:00', '2025-12-29 16:00:00', 10000, NULL, 1, 'keluar'),
+(2, '0000000000019', 'B 9999 SS', 'motor', 1, '2025-12-29 09:00:00', '2025-12-29 11:00:00', 5000, 1, NULL, 'keluar'),
+(3, '0000000000018', 'B 8888 RR', 'mobil', 2, '2025-12-29 07:00:00', '2025-12-29 10:00:00', 10000, NULL, 1, 'keluar'),
+(4, '0000000000017', 'B 7777 QQ', 'motor', 1, '2025-12-28 15:30:00', '2025-12-28 17:00:00', 5000, 1, NULL, 'keluar'),
+(5, '0000000000016', 'B 6666 PP', 'mobil', 2, '2025-12-28 09:00:00', '2025-12-28 12:00:00', 10000, NULL, 1, 'keluar'),
+(6, '0000000000015', 'B 5555 OO', 'motor', 1, '2025-12-28 08:20:00', '2025-12-28 10:00:00', 5000, 1, NULL, 'keluar'),
+(7, '0000000000014', 'B 4444 NN', 'mobil', 2, '2025-12-27 14:00:00', '2025-12-27 17:00:00', 10000, NULL, 1, 'keluar'),
+(8, '0000000000013', 'B 3333 MM', 'motor', 1, '2025-12-27 09:30:00', '2025-12-27 11:30:00', 5000, 1, NULL, 'keluar'),
+(9, '0000000000012', 'B 2222 LL', 'mobil', 2, '2025-12-27 08:00:00', '2025-12-27 11:00:00', 10000, NULL, 1, 'keluar'),
+(10, '0000000000011', 'B 1111 KK', 'motor', 1, '2025-12-26 16:00:00', '2025-12-26 18:00:00', 5000, 1, NULL, 'keluar'),
+(11, '0000000000010', 'B 0123 JJ', 'mobil', 2, '2025-12-26 10:00:00', '2025-12-26 13:00:00', 10000, NULL, 1, 'keluar'),
+(12, '0000000000009', 'B 9012 II', 'motor', 1, '2025-12-26 07:30:00', '2025-12-26 09:00:00', 5000, 1, NULL, 'keluar'),
+(13, '0000000000008', 'B 8901 HH', 'mobil', 2, '2025-12-25 15:00:00', '2025-12-25 18:00:00', 10000, NULL, 1, 'keluar'),
+(14, '0000000000007', 'B 7890 GG', 'motor', 1, '2025-12-25 09:10:00', '2025-12-25 11:00:00', 5000, 1, NULL, 'keluar'),
+(15, '0000000000006', 'B 6789 FF', 'mobil', 2, '2025-12-25 08:30:00', '2025-12-25 11:30:00', 10000, NULL, 1, 'keluar'),
+(16, '0000000000005', 'B 5678 EE', 'motor', 1, '2025-12-24 14:00:00', '2025-12-24 16:00:00', 5000, 1, NULL, 'keluar'),
+(17, '0000000000004', 'B 4567 DD', 'mobil', 2, '2025-12-24 10:00:00', '2025-12-24 13:00:00', 10000, NULL, 1, 'keluar'),
+(18, '0000000000003', 'B 3456 CC', 'motor', 1, '2025-12-24 07:50:00', '2025-12-24 09:30:00', 5000, 1, NULL, 'keluar'),
+(19, '0000000000002', 'B 2345 BB', 'mobil', 2, '2025-12-23 09:00:00', '2025-12-23 12:00:00', 10000, NULL, 1, 'keluar'),
+(20, '0000000000001', 'B 1234 AA', 'motor', 1, '2025-12-23 08:10:00', '2025-12-23 10:00:00', 5000, 1, NULL, 'keluar');
 
 -- --------------------------------------------------------
 
@@ -97,11 +108,26 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `id_tiket`, `jumlah_bayar`, `metode`, `tgl_bayar`, `status`) VALUES
-(1, 2, 10000, 'cash', '2025-11-18 10:16:23', 'pending'),
-(4, 8, 10000, 'cash', '2025-11-18 14:57:24', 'paid'),
-(5, 9, 10000, 'cash', '2025-11-18 15:07:31', 'paid'),
-(6, 10, 5000, 'cash', '2025-11-18 15:20:11', 'paid'),
-(7, 11, 10000, 'digital', '2025-11-18 15:21:37', 'paid');
+(1, 1, 5000, 'cash', '2025-12-23 10:00:00', 'paid'),
+(2, 2, 10000, 'digital', '2025-12-23 12:00:00', 'paid'),
+(3, 3, 5000, 'cash', '2025-12-24 09:30:00', 'paid'),
+(4, 4, 10000, 'digital', '2025-12-24 13:00:00', 'paid'),
+(5, 5, 5000, 'cash', '2025-12-24 16:00:00', 'paid'),
+(6, 6, 10000, 'digital', '2025-12-25 11:30:00', 'paid'),
+(7, 7, 5000, 'cash', '2025-12-25 11:00:00', 'paid'),
+(8, 8, 10000, 'digital', '2025-12-25 18:00:00', 'paid'),
+(9, 9, 5000, 'cash', '2025-12-26 09:00:00', 'paid'),
+(10, 10, 10000, 'digital', '2025-12-26 13:00:00', 'paid'),
+(11, 11, 5000, 'cash', '2025-12-26 18:00:00', 'paid'),
+(12, 12, 10000, 'digital', '2025-12-27 11:00:00', 'paid'),
+(13, 13, 5000, 'cash', '2025-12-27 11:30:00', 'paid'),
+(14, 14, 10000, 'digital', '2025-12-27 17:00:00', 'paid'),
+(15, 15, 5000, 'cash', '2025-12-28 10:00:00', 'paid'),
+(16, 16, 10000, 'digital', '2025-12-28 12:00:00', 'paid'),
+(17, 17, 5000, 'cash', '2025-12-28 17:00:00', 'paid'),
+(18, 18, 10000, 'digital', '2025-12-29 10:00:00', 'paid'),
+(19, 19, 5000, 'cash', '2025-12-29 11:00:00', 'paid'),
+(20, 20, 10000, 'digital', '2025-12-29 16:00:00', 'paid');
 
 -- --------------------------------------------------------
 
@@ -116,16 +142,24 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `gender` enum('L','P') NOT NULL,
   `role` enum('admin','petugas') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'petugas',
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `email_verified_at` datetime DEFAULT NULL,
+  `verification_token` varchar(255) DEFAULT NULL,
+  `verification_sent_at` datetime DEFAULT NULL,
+  `reset_password_token` varchar(255) DEFAULT NULL,
+  `reset_password_expired_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `password`, `gender`, `role`, `created_at`) VALUES
-(1, 'Fadlan Firdaus', 'fadlanfirdaus220@gmail.com', '$2y$12$IsszqsBIvpFVbZwiSJlVJuBKFuYxs3Yz5GW8Lqk3b9Odu95nr1DSO', 'L', 'admin', '2025-11-18 08:51:16'),
-(5, 'Andik dilma', 'andik@gmail.com', '$2y$10$UaYCK21s6rst.ah/ax4gUebYQGyCGtvc2SML/7awSc1CApHnLvGeO', 'P', 'petugas', '2025-11-18 13:56:22');
+INSERT INTO `user` (`id_user`, `nama_lengkap`, `email`, `password`, `gender`, `role`, `created_at`, `email_verified_at`, `verification_token`, `verification_sent_at`, `reset_password_token`, `reset_password_expired_at`) VALUES
+(1, 'Fadlan Firdaus', 'fadlanfirdaus220@gmail.com', '$2y$10$wjoRlPpXG9hh/anoK5Rt0e88NOm4POCJVxy0xRk7of2zVyz.adc1a', 'L', 'admin', '2025-11-24 17:19:15', '2025-12-30 17:20:00', NULL, NULL, NULL, NULL),
+(2, 'Fadlan Firdaus', 'fadlanfirdaus225@gmail.com', '$2y$10$BM.53as3fZhHAQNVNzPUyOj6tGzUULrisWqWegxZs9agQaKBHl9Qm', 'L', 'petugas', '2025-12-29 17:24:50', '2025-12-29 17:30:00', NULL, NULL, NULL, NULL),
+(3, 'Fadlan', '24_fadlan@student.smkti.net', '$2y$10$zqtai68MrQBKMo.XmE0MRug4GoljXhDj0E/iBu.eKG4UKg.HIKGzm', 'L', 'petugas', '2025-12-27 17:26:11', '2025-12-28 17:30:00', NULL, NULL, NULL, NULL),
+(4, 'Andik A Dilma', 'andik@gmail.com', '$2y$10$PMo0n6jpXQk12m.avIuNGOtvoww6imRbL.cun8eudaMSxWGtrepxi', 'P', 'petugas', '2025-12-01 17:30:09', NULL, NULL, NULL, NULL, NULL),
+(5, 'Admin Palsu', 'addminpalsu@gmail.com', '$2y$10$Kx1ALP.aEXUVbyllJfDV/.QbUrj5rYk0qkvFi1oDFP6pe/M9lKM82', 'P', 'admin', '2025-12-30 17:41:19', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -169,19 +203,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `tarif_parkir`
 --
 ALTER TABLE `tarif_parkir`
-  MODIFY `id_tarif` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tarif` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tiket`
 --
 ALTER TABLE `tiket`
-  MODIFY `id_tiket` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tiket` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `user`

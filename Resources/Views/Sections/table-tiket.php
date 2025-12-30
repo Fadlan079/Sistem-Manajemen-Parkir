@@ -10,14 +10,12 @@
 </div>
 
 <div class="mt-10">
-    <!-- Header & Tombol Import/Export -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">Tiket</span>
         </h2>
 
         <div class="flex flex-wrap gap-2">
-            <!-- Import Excel -->
             <form action="?action=import-tiket-excel" method="POST" enctype="multipart/form-data">
                 <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
                     <i class="fa-solid fa-file-import"></i> Import Excel
@@ -25,7 +23,6 @@
                 </label>
             </form>
 
-            <!-- Export Excel -->
             <a href="?action=export-tiket-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
@@ -64,7 +61,6 @@
     </div>
 
     <?php else: ?>
-    <!-- Card Style Mobile -->
      
     <div class="space-y-4">
         <?php foreach($listTiket as $tiket): ?>
@@ -119,7 +115,6 @@
                     <div class="text-right"><span class="px-2 py-1 rounded text-xs font-medium <?= $statusClass ?>"><?= $status ?></span></div>
                 </div>
 
-                <!-- Barcode di bawah -->
                 <div class="flex justify-center mt-3">
                     <?php
                     $barcodeValue = $tiket['barcode'];
@@ -135,7 +130,6 @@
         <?php endforeach; ?>
     </div>
 
-    <!-- Desktop Table -->
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
         <table class="min-w-full divide-y divide-slate-700 text-xs">
             <thead class="bg-slate-900 text-slate-400">
@@ -251,41 +245,40 @@
         </table>
     </div>
 
-    <!-- Pagination Maksimal 7 tombol -->
-<div class="flex flex-wrap justify-center gap-2 mt-4">
-<?php
-$maxButtons = 5;
-$start = max(1, $pageTiket - intdiv($maxButtons, 2));
-$end = min($totalPagesTiket, $start + $maxButtons - 1);
-$start = max(1, $end - $maxButtons + 1);
-?>
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <?php
+        $maxButtons = 5;
+        $start = max(1, $pageTiket - intdiv($maxButtons, 2));
+        $end = min($totalPagesTiket, $start + $maxButtons - 1);
+        $start = max(1, $end - $maxButtons + 1);
+        ?>
 
-<?php if ($pageTiket > 1): ?>
-    <button
-        onclick="loadTable('tiket', null, <?= $pageTiket - 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Prev
-    </button>
-<?php endif; ?>
+        <?php if ($pageTiket > 1): ?>
+            <button
+                onclick="loadTable('tiket', null, <?= $pageTiket - 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Prev
+            </button>
+        <?php endif; ?>
 
-<?php for ($i = $start; $i <= $end; $i++): ?>
-    <button
-        onclick="loadTable('tiket', null, <?= $i ?>)"
-        class="px-3 py-1 rounded
-        <?= $i == $pageTiket
-            ? 'bg-cyan-500 text-white'
-            : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
-        <?= $i ?>
-    </button>
-<?php endfor; ?>
+        <?php for ($i = $start; $i <= $end; $i++): ?>
+            <button
+                onclick="loadTable('tiket', null, <?= $i ?>)"
+                class="px-3 py-1 rounded
+                <?= $i == $pageTiket
+                    ? 'bg-cyan-500 text-white'
+                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
 
-<?php if ($pageTiket < $totalPagesTiket): ?>
-    <button
-        onclick="loadTable('tiket', null, <?= $pageTiket + 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Next
-    </button>
-<?php endif; ?>
-</div>
-</div>
+        <?php if ($pageTiket < $totalPagesTiket): ?>
+            <button
+                onclick="loadTable('tiket', null, <?= $pageTiket + 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Next
+            </button>
+        <?php endif; ?>
+        </div>
+    </div>
 <?php endif?>

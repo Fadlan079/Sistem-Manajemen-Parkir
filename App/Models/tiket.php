@@ -9,43 +9,40 @@ class Tiket{
         $this->pdo = $db->getConnection();
     }
 
-public function SelectTiketPagination($limit, $offset)
-{
-    $stmt = $this->pdo->prepare("
-        SELECT 
-            t.*,
-            pm.nama_lengkap AS petugas_masuk,
-            pk.nama_lengkap AS petugas_keluar
-        FROM tiket t
-        LEFT JOIN user pm ON pm.id_user = t.id_petugas_masuk
-        LEFT JOIN user pk ON pk.id_user = t.id_petugas_keluar
-        ORDER BY t.id_tiket ASC
-        LIMIT :limit OFFSET :offset
-    ");
-
-    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-
-public function countAllTiket(){
-    return $this->pdo->query("SELECT COUNT(*) FROM tiket")->fetchColumn();
-}
-
-public function GetTiketByBarcode($barcode){
-    $sql = "SELECT t.*, tr.harga_flat 
+    public function SelectTiketPagination($limit, $offset){
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                t.*,
+                pm.nama_lengkap AS petugas_masuk,
+                pk.nama_lengkap AS petugas_keluar
             FROM tiket t
-            JOIN tarif_parkir tr ON tr.id_tarif = t.id_tarif
-            WHERE t.barcode = :barcode";
+            LEFT JOIN user pm ON pm.id_user = t.id_petugas_masuk
+            LEFT JOIN user pk ON pk.id_user = t.id_petugas_keluar
+            ORDER BY t.id_tiket ASC
+            LIMIT :limit OFFSET :offset
+        ");
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([':barcode' => trim($barcode)]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countAllTiket(){
+        return $this->pdo->query("SELECT COUNT(*) FROM tiket")->fetchColumn();
+    }
+
+    public function GetTiketByBarcode($barcode){
+        $sql = "SELECT t.*, tr.harga_flat 
+                FROM tiket t
+                JOIN tarif_parkir tr ON tr.id_tarif = t.id_tarif
+                WHERE t.barcode = :barcode";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':barcode' => trim($barcode)]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function generateBarcode() {
         do {
@@ -76,50 +73,45 @@ public function GetTiketByBarcode($barcode){
     }
 
     public function lastInsertId() {
-    return $this->pdo->lastInsertId();
-}
+        return $this->pdo->lastInsertId();
+    }
 
+    public function getTiketById($id){
+        $query = "
+            SELECT 
+                t.*, 
+                u1.nama_lengkap AS petugas_masuk,
+                u2.nama_lengkap AS petugas_keluar
+            FROM tiket t
+            LEFT JOIN user u1 ON u1.id_user = t.id_petugas_masuk
+            LEFT JOIN user u2 ON u2.id_user = t.id_petugas_keluar
+            WHERE t.id_tiket = :id
+        ";
 
-public function getTiketById($id)
-{
-    $query = "
-        SELECT 
-            t.*, 
-            u1.nama_lengkap AS petugas_masuk,
-            u2.nama_lengkap AS petugas_keluar
-        FROM tiket t
-        LEFT JOIN user u1 ON u1.id_user = t.id_petugas_masuk
-        LEFT JOIN user u2 ON u2.id_user = t.id_petugas_keluar
-        WHERE t.id_tiket = :id
-    ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
 
-    $stmt = $this->pdo->prepare($query);
-    $stmt->bindValue(':id', $id);
-    $stmt->execute();
-    return $stmt->fetch();
-}
+    public function countTiketMasuk() {
+        return (int)$this->pdo
+            ->query("SELECT COUNT(*) FROM tiket")
+            ->fetchColumn();
+    }
 
-
-
-public function countTiketMasuk() {
-    return (int)$this->pdo
-        ->query("SELECT COUNT(*) FROM tiket")
-        ->fetchColumn();
-}
-
-public function countTiketKeluar() {
-    return (int)$this->pdo
-        ->query("SELECT COUNT(*) FROM tiket WHERE status = 'keluar'")
-        ->fetchColumn();
-}
-
+    public function countTiketKeluar() {
+        return (int)$this->pdo
+            ->query("SELECT COUNT(*) FROM tiket WHERE status = 'keluar'")
+            ->fetchColumn();
+    }
 
     private function getTarifById($id_tarif) {
         $sql = "SELECT harga_flat FROM tarif_parkir WHERE id_tarif = :id_tarif LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":id_tarif", $id_tarif);
         $stmt->execute();
-        return $stmt->fetchColumn(); // langsung ambil angka harga
+        return $stmt->fetchColumn();
     }
 
     public function InsertTiketMasuk($nomor_polisi, $jenis_kendaraan, $id_tarif, $tgl_masuk, $id_petugas_masuk, $status) {
@@ -143,7 +135,7 @@ public function countTiketKeluar() {
             $stmt->bindParam(":total_harga", $harga);
 
             if ($stmt->execute()) {
-                return $this->pdo->lastInsertId();   // ⬅ ID tiket baru
+                return $this->pdo->lastInsertId();
             }
 
             return false;
@@ -153,135 +145,125 @@ public function countTiketKeluar() {
         }
     }
 
+    public function SelectTiket(){
+        try {
+            $sql = "
+                SELECT 
+                    t.id_tiket,
+                    t.barcode,
+                    t.nomor_polisi,
+                    t.jenis_kendaraan,
 
-public function SelectTiket()
-{
-    try {
+                    tp.harga_flat AS harga_tarif,
+
+                    t.tgl_masuk,
+                    t.tgl_keluar,
+                    t.total_harga,
+
+                    pm.nama_lengkap AS petugas_masuk,
+                    pk.nama_lengkap AS petugas_keluar,
+
+                    t.status
+                FROM tiket t
+                JOIN tarif_parkir tp 
+                    ON t.id_tarif = tp.id_tarif
+                LEFT JOIN user pm 
+                    ON t.id_petugas_masuk = pm.id_user
+                LEFT JOIN user pk 
+                    ON t.id_petugas_keluar = pk.id_user
+                ORDER BY t.id_tiket DESC
+            ";
+
+            $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            die("Query gagal : " . $e->getMessage());
+        }
+    }
+
+    public function getStatStatus(){
         $sql = "
-            SELECT 
-                t.id_tiket,
-                t.barcode,
-                t.nomor_polisi,
-                t.jenis_kendaraan,
-
-                tp.harga_flat AS harga_tarif,
-
-                t.tgl_masuk,
-                t.tgl_keluar,
-                t.total_harga,
-
-                pm.nama_lengkap AS petugas_masuk,
-                pk.nama_lengkap AS petugas_keluar,
-
-                t.status
-            FROM tiket t
-            JOIN tarif_parkir tp 
-                ON t.id_tarif = tp.id_tarif
-            LEFT JOIN user pm 
-                ON t.id_petugas_masuk = pm.id_user
-            LEFT JOIN user pk 
-                ON t.id_petugas_keluar = pk.id_user
-            ORDER BY t.id_tiket DESC
+            SELECT status, COUNT(*) as total
+            FROM tiket
+            GROUP BY status
         ";
 
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    } catch (PDOException $e) {
-        die("Query gagal : " . $e->getMessage());
     }
-}
 
-public function getStatStatus()
-{
-    $sql = "
-        SELECT status, COUNT(*) as total
-        FROM tiket
-        GROUP BY status
-    ";
+    public function getStatKendaraan(){
+        $sql = "
+            SELECT jenis_kendaraan, COUNT(*) as total
+            FROM tiket
+            GROUP BY jenis_kendaraan
+        ";
 
-    $stmt = $this->pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function getTotalPendapatan(){
+        $sql = "
+            SELECT SUM(total_harga) 
+            FROM tiket
+            WHERE status = 'keluar'
+        ";
 
-public function getStatKendaraan()
-{
-    $sql = "
-        SELECT jenis_kendaraan, COUNT(*) as total
-        FROM tiket
-        GROUP BY jenis_kendaraan
-    ";
+        return (int) $this->pdo->query($sql)->fetchColumn();
+    }
 
-    $stmt = $this->pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    public function getPendapatanPerHari(){
+        $sql = "
+            SELECT DATE(tgl_keluar) tanggal, SUM(total_harga) total
+            FROM tiket
+            WHERE status = 'keluar'
+            GROUP BY DATE(tgl_keluar)
+            ORDER BY tanggal ASC
+        ";
 
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-public function getTotalPendapatan()
-{
-    $sql = "
-        SELECT SUM(total_harga) 
-        FROM tiket
-        WHERE status = 'keluar'
-    ";
+    public function TotalParkir(){
+        $sql = "SELECT COUNT(*) 
+                FROM tiket 
+                WHERE status = 'masuk'";
+        return (int)$this->pdo->query($sql)->fetchColumn();
+    }
 
-    return (int) $this->pdo->query($sql)->fetchColumn();
-}
+    public function GetTiketAktifByBarcode($barcode){
+        $sql = "SELECT * FROM tiket 
+                WHERE barcode = :barcode 
+                AND status = 'masuk'
+                LIMIT 1";
 
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':barcode' => $barcode]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-public function getPendapatanPerHari()
-{
-    $sql = "
-        SELECT DATE(tgl_keluar) tanggal, SUM(total_harga) total
-        FROM tiket
-        WHERE status = 'keluar'
-        GROUP BY DATE(tgl_keluar)
-        ORDER BY tanggal ASC
-    ";
+    public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $total_harga){
+        $sql = "UPDATE tiket 
+                SET tgl_keluar = :tgl_keluar,
+                    id_petugas_keluar = :id_petugas_keluar,
+                    total_harga = :total_harga,
+                    status = 'keluar'
+                WHERE barcode = :barcode
+                AND status = 'masuk'";
 
-    return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->pdo->prepare($sql);
 
-public function TotalParkir(){
-    $sql = "SELECT COUNT(*) 
-            FROM tiket 
-            WHERE status = 'masuk'";
-    return (int)$this->pdo->query($sql)->fetchColumn();
-}
+        $stmt->execute([
+            ':barcode' => trim($barcode),
+            ':tgl_keluar' => $tgl_keluar,
+            ':id_petugas_keluar' => $id_petugas_keluar,
+            ':total_harga' => $total_harga
+        ]);
 
-
-public function GetTiketAktifByBarcode($barcode){
-    $sql = "SELECT * FROM tiket 
-            WHERE barcode = :barcode 
-            AND status = 'masuk'
-            LIMIT 1";
-
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([':barcode' => $barcode]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $total_harga){
-    $sql = "UPDATE tiket 
-            SET tgl_keluar = :tgl_keluar,
-                id_petugas_keluar = :id_petugas_keluar,
-                total_harga = :total_harga,
-                status = 'keluar'
-            WHERE barcode = :barcode
-            AND status = 'masuk'";
-
-    $stmt = $this->pdo->prepare($sql);
-
-    $stmt->execute([
-        ':barcode' => trim($barcode),
-        ':tgl_keluar' => $tgl_keluar,
-        ':id_petugas_keluar' => $id_petugas_keluar,
-        ':total_harga' => $total_harga
-    ]);
-
-    return $stmt->rowCount(); // ✅ PENTING
-}
+        return $stmt->rowCount();
+    }
 
     public function DeleteTiket($id_tiket){
         try{
@@ -293,57 +275,42 @@ public function UpdateTiketKeluar($barcode, $tgl_keluar, $id_petugas_keluar, $to
         }
     }
 
-public function insertImportTiket($data)
-{
-    $stmt = $this->pdo->prepare("
-        INSERT INTO tiket (
-            barcode,
-            nomor_polisi,
-            jenis_kendaraan,
-            id_tarif,
-            tgl_masuk,
-            tgl_keluar,
-            total_harga,
-            id_petugas_masuk,
-            id_petugas_keluar,
-            status
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-        )
-    ");
+    public function insertImportTiket($data){
+        $stmt = $this->pdo->prepare("
+            INSERT INTO tiket (
+                barcode,
+                nomor_polisi,
+                jenis_kendaraan,
+                id_tarif,
+                tgl_masuk,
+                tgl_keluar,
+                total_harga,
+                id_petugas_masuk,
+                id_petugas_keluar,
+                status
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            )
+        ");
 
-    return $stmt->execute([
-        $data['barcode'],
-        $data['nomor_polisi'],
-        $data['jenis_kendaraan'],
-        $data['id_tarif'],
-        $data['tgl_masuk'],
-        $data['tgl_keluar'],
-        $data['total_harga'],
-        $data['id_petugas_masuk'],
-        $data['id_petugas_keluar'],
-        $data['status']
-    ]);
-}
+        return $stmt->execute([
+            $data['barcode'],
+            $data['nomor_polisi'],
+            $data['jenis_kendaraan'],
+            $data['id_tarif'],
+            $data['tgl_masuk'],
+            $data['tgl_keluar'],
+            $data['total_harga'],
+            $data['id_petugas_masuk'],
+            $data['id_petugas_keluar'],
+            $data['status']
+        ]);
+    }
 
-
-
-public function cekBarcode($barcode)
-{
-    $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tiket WHERE barcode = ?");
-    $stmt->execute([$barcode]);
-    return $stmt->fetchColumn() > 0;
-}
+    public function cekBarcode($barcode){
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tiket WHERE barcode = ?");
+        $stmt->execute([$barcode]);
+        return $stmt->fetchColumn() > 0;
+    }
 
 }
-
-// $tiket = new Tiket();
-// $tiket->InsertTiketMasuk("KT 1824 BS","mobil",2,"2025-11-19 09:37:00",1,"masuk");
-// $tiket->UpdateTiketKeluar(8079059781058,"2025-10-12 09:31:00",1,10000,"keluar");
-// $tiket->DeleteTiket(3);
-// $data = $tiket->TotalParkir();
-// $data = $tiket->SelectTiket();
-// $data = $tiket->GetTiketByBarcode("3155239835524");
-// $data = $tiket->getTiketById(33);
-// var_dump($data);
-?>

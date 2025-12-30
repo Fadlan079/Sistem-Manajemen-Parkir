@@ -40,4 +40,3 @@ class DASHBOARDController {
         include __DIR__ . "/../../Resources/Views/index.php"; 
     } 
 } 
-?>

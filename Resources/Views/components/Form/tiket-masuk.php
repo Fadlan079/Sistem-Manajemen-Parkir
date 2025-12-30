@@ -34,8 +34,6 @@
           enctype="multipart/form-data"
           class="space-y-6"
           id="tiketForm">
-
-        <!-- ================= FOTO PLAT -->
         <div>
             <label class="block mb-3 text-slate-300 font-semibold">
                 Foto Kendaraan / Plat Nomor (Opsional)
@@ -73,7 +71,6 @@
             </p>
         </div>
 
-        <!-- ================= NOMOR POLISI -->
         <div>
             <label class="block mb-2 text-slate-300 font-semibold">
                 Nomor Polisi
@@ -85,7 +82,6 @@
                    class="w-full px-4 py-2 rounded-lg bg-slate-700 border border-slate-600">
         </div>
 
-        <!-- ================= JENIS -->
         <div>
             <label class="block mb-2 text-slate-300 font-semibold">
                 Jenis Kendaraan
@@ -106,7 +102,6 @@
             </p>
         </div>
 
-        <!-- ================= TARIF -->
         <div>
             <label class="block mb-2 text-slate-300 font-semibold">
                 Tarif Parkir
@@ -132,7 +127,6 @@
             </p>
         </div>
 
-        <!-- ================= BUTTON -->
         <button type="submit"
                 class="w-full py-3 bg-cyan-500 hover:bg-cyan-600
                        text-slate-900 font-semibold rounded-lg transition">
@@ -151,7 +145,6 @@
 </div>
 
 <script>
-/* ================= TARIF OTOMATIS */
 const jenisSelect = document.getElementById('jenis_kendaraan');
 const tarifSelect = document.getElementById('id_tarif');
 const tarifHidden = document.getElementById('id_tarif_hidden');
@@ -180,7 +173,6 @@ jenisSelect.addEventListener('change', () => {
     syncTarif();
 });
 
-/* ================= UPLOAD + OCR */
 const fileInput   = document.getElementById('foto_plat');
 const platInput   = document.getElementById('nomor_polisi');
 const previewImg  = document.getElementById('previewImg');
@@ -237,7 +229,6 @@ fileInput.addEventListener('change', async function () {
     }
 });
 
-/* ================= VALIDASI MANUAL */
 document.getElementById('tiketForm').addEventListener('submit', e => {
     if (!fileInput.files.length && platInput.value.trim() === '') {
         e.preventDefault();
@@ -245,7 +236,6 @@ document.getElementById('tiketForm').addEventListener('submit', e => {
     }
 });
 
-/* Beta Fitur Deteksi jenis kendaraan berdasarkan no plat */
 function detectVehicleFromPlate(plate) {
     plate = plate.replace(/[^A-Z0-9]/gi, '').toUpperCase();
 
@@ -262,12 +252,9 @@ function detectVehicleFromPlate(plate) {
     return 'motor';
 }
 
-
-/* ================= AUTO DETECT DARI INPUT MANUAL */
 let manualDetected = false;
 
 platInput.addEventListener('blur', () => {
-    // kalau sudah ada OCR, jangan override
     if (fileInput.files.length) return;
 
     const plate = platInput.value.trim();
@@ -287,7 +274,6 @@ platInput.addEventListener('blur', () => {
     manualDetected = true;
 });
 
-// kalau user ganti manual → info otomatis disembunyikan
 jenisSelect.addEventListener('change', () => {
     if (manualDetected) {
         autoInfo.classList.add('hidden');
@@ -295,6 +281,5 @@ jenisSelect.addEventListener('change', () => {
     }
 });
 </script>
-
 </body>
 </html>

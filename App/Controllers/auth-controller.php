@@ -160,7 +160,7 @@ class AUTHController{
 
     public function StoreResetPassword(){
         $token = $_POST['token'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password = $_POST['password'];
 
         $user = $this->model->getByResetToken($token);
         if(!$user) die('Token invalid');
@@ -348,4 +348,3 @@ class AUTHController{
         exit;
     }
 }
-?>

@@ -11,7 +11,6 @@ class Database{
             $dsn = "mysql:host={$this->host};dbname={$this->db}";
             $this->pdo = new PDO($dsn,$this->user,$this->pass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            // echo "koneksi berhasil";
         }catch(PDOException $e){
             die("koneksi gagal :" . $e->getMessage());
         }
@@ -21,4 +20,3 @@ class Database{
         return $this->pdo;
     }
 }
-?>

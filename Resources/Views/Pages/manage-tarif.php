@@ -14,22 +14,18 @@
     <?php include __DIR__ . "/../components/header.php"?>
 
     <div class="max-w-6xl mx-auto space-y-4 mt-20">
-        <!-- Header -->
         <div class="mb-6">
             <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
                 Daftar <span class="text-neutral-400">Tarif Parkir</span>
             </h2>
         </div>
 
-        <!-- Card Grid (Desktop + Mobile) -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Add Tarif Card -->
             <a href="?action=tambah-tarif" class="flex flex-col justify-center items-center bg-slate-800 border border-cyan-600/40 rounded-xl p-6 shadow-md hover:bg-slate-700 transition text-cyan-400">
                 <i class="fas fa-plus text-2xl mb-2"></i>
                 <span class="font-medium text-sm">Tambah Tarif</span>
             </a>
 
-            <!-- Existing Tarif Cards -->
             <?php foreach($listTarif as $tarif): ?>
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-md flex flex-col justify-between">
                     <div class="space-y-2">

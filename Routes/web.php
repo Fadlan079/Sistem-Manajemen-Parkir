@@ -169,4 +169,3 @@ switch($action){
         include __DIR__ . "/../Resources/Views/errors/404.php";
         break;    
 }
-?>

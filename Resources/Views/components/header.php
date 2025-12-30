@@ -1,7 +1,6 @@
 <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900 shadow-lg border-b border-slate-700 transition-transform duration-300">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        <!-- Logo -->
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 flex justify-center items-center border-2 border-cyan-400 rounded-full">
                 <i class="fa fa-car text-neutral-400 text-lg"></i>
@@ -11,12 +10,10 @@
             </h1>
         </div>
 
-        <!-- Hamburger Button -->
         <button id="menuBtn" class="lg:hidden text-cyan-400 text-2xl">
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <!-- Menu Desktop -->
         <ul class="hidden lg:flex items-center gap-6 text-slate-300 font-medium">
             <?php if(isset($_SESSION['user'])): ?>
                 <?php if($_SESSION['user']['role'] === 'admin'): ?>
@@ -61,7 +58,6 @@
             <?php endif; ?>
         </ul>
 
-        <!-- User Info Desktop -->
         <div class="hidden lg:flex gap-6 items-center">
             <?php if(isset($_SESSION['user'])): ?>
                 <span class="text-slate-300">
@@ -83,11 +79,9 @@
     </div>
 </nav>
 
-<!-- ================= MOBILE MENU ================= -->
 <div id="mobileMenu"
      class="fixed inset-0 bg-slate-900/95 z-50 transform -translate-x-full transition-transform duration-300">
 
-    <!-- Header Mobile -->
     <div class="p-6 border-b border-slate-700 flex justify-between items-center">
         <?php if(isset($_SESSION['user'])): ?>
             <div>
@@ -108,7 +102,6 @@
         </button>
     </div>
 
-    <!-- Menu List -->
     <ul class="flex flex-col mt-8 gap-3 px-6 text-slate-200">
 
         <?php if(isset($_SESSION['user'])): ?>
@@ -178,7 +171,6 @@
 
             <?php endif; ?>
 
-            <!-- Logout -->
             <li class="mt-8 pt-4 border-t border-slate-700">
                 <a href="?action=logout"
                    class="flex items-center gap-3 px-4 py-3 rounded-lg
@@ -198,7 +190,6 @@
     </ul>
 </div>
 
-<!-- ================= SCRIPT ================= -->
 <script>
 let lastScroll = 0;
 const navbar = document.getElementById("navbar");
@@ -206,7 +197,6 @@ const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 const closeMenuBtn = document.getElementById("closeMenu");
 
-// Hide / show navbar on scroll
 window.addEventListener("scroll", () => {
     const current = window.scrollY;
     navbar.style.transform =
@@ -216,17 +206,14 @@ window.addEventListener("scroll", () => {
     lastScroll = current;
 });
 
-// Open mobile menu
 menuBtn.addEventListener("click", () => {
     mobileMenu.classList.remove("-translate-x-full");
 });
 
-// Close mobile menu
 closeMenuBtn.addEventListener("click", () => {
     mobileMenu.classList.add("-translate-x-full");
 });
 
-// Close when clicking outside
 mobileMenu.addEventListener("click", (e) => {
     if (e.target === mobileMenu) {
         mobileMenu.classList.add("-translate-x-full");

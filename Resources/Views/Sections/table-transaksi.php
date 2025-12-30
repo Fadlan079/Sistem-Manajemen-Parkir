@@ -1,36 +1,36 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+<?php if (!empty($listTransaksi)): ?>
+    <div id="chart-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Pendapatan Harian</h3>
-        <canvas id="chartPendapatan"></canvas>
-    </div>
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Pendapatan Harian</h3>
+            <canvas id="chartPendapatan"></canvas>
+        </div>
 
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Jumlah Transaksi Harian</h3>
-        <canvas id="chartTrxHarian"></canvas>
-    </div>
-    
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Status Transaksi</h3>
-        <canvas id="chartStatus"></canvas>
-    </div>
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Jumlah Transaksi Harian</h3>
+            <canvas id="chartTrxHarian"></canvas>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Status Transaksi</h3>
+            <canvas id="chartStatus"></canvas>
+        </div>
 
-    <div class="bg-slate-800 p-4 rounded-xl">
-        <h3 class="text-cyan-400 font-semibold mb-2">Distribusi Nominal</h3>
-        <canvas id="chartNominal"></canvas>
-    </div>
+        <div class="bg-slate-800 p-4 rounded-xl">
+            <h3 class="text-cyan-400 font-semibold mb-2">Distribusi Nominal</h3>
+            <canvas id="chartNominal"></canvas>
+        </div>
 
-</div>
+    </div>
+<?php endif; ?>
 
 <div class="mt-10">
-    <!-- Header & Tombol Import/Export -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">Transaksi</span>
         </h2>
 
         <div class="flex flex-wrap gap-2">
-            <!-- Import Excel -->
             <form action="?action=import-transaksi-excel" method="POST" enctype="multipart/form-data">
                 <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
                     <i class="fa-solid fa-file-import"></i> Import Excel
@@ -38,8 +38,7 @@
                 </label>
             </form>
 
-            <!-- Export Excel -->
-            <a href="?action=import-transaksi-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
+            <a href="?action=export-transaksi-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
         </div>
@@ -66,8 +65,7 @@
                             name="file_excel" 
                             accept=".xls,.xlsx" 
                             class="hidden" 
-                            onchange="this.form.submit()"
-                        >
+                            onchange="this.form.submit()">
                     </label>
                 </form>
 
@@ -78,7 +76,6 @@
 
     <?php else: ?>
 
-    <!-- Card Style Mobile -->
     <div class="space-y-4">
         <?php foreach($listTransaksi as $trx): ?>
             <?php
@@ -125,7 +122,6 @@
         <?php endforeach; ?>
     </div>
 
-    <!-- Desktop Table -->
     <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
         <table class="min-w-full divide-y divide-slate-700 text-sm">
             <thead class="bg-slate-900 text-slate-400">
@@ -172,37 +168,35 @@
         </table>
     </div>
 
-    <!-- Pagination Maks 5 tombol -->
-<div class="flex flex-wrap justify-center gap-2 mt-4">
-<?php
-$maxButtons = 5;
-$start = max(1, $pageTrx - intdiv($maxButtons, 2));
-$end = min($totalPagesTrx, $start + $maxButtons - 1);
-$start = max(1, $end - $maxButtons + 1);
-?>
+    <div class="flex flex-wrap justify-center gap-2 mt-4">
+        <?php
+        $maxButtons = 5;
+        $start = max(1, $pageTrx - intdiv($maxButtons, 2));
+        $end = min($totalPagesTrx, $start + $maxButtons - 1);
+        $start = max(1, $end - $maxButtons + 1);
+        ?>
 
-<?php if ($pageTrx > 1): ?>
-    <button onclick="loadTable('transaksi', null, <?= $pageTrx - 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Prev
-    </button>
-<?php endif; ?>
+        <?php if ($pageTrx > 1): ?>
+            <button onclick="loadTable('transaksi', null, <?= $pageTrx - 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Prev
+            </button>
+        <?php endif; ?>
 
-<?php for ($i = $start; $i <= $end; $i++): ?>
-    <button onclick="loadTable('transaksi', null, <?= $i ?>)"
-        class="px-3 py-1 rounded
-        <?= $i == $pageTrx ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
-        <?= $i ?>
-    </button>
-<?php endfor; ?>
+        <?php for ($i = $start; $i <= $end; $i++): ?>
+            <button onclick="loadTable('transaksi', null, <?= $i ?>)"
+                class="px-3 py-1 rounded
+                <?= $i == $pageTrx ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
+                <?= $i ?>
+            </button>
+        <?php endfor; ?>
 
-<?php if ($pageTrx < $totalPagesTrx): ?>
-    <button onclick="loadTable('transaksi', null, <?= $pageTrx + 1 ?>)"
-        class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
-        Next
-    </button>
-<?php endif; ?>
-</div>
-
-</div>
+        <?php if ($pageTrx < $totalPagesTrx): ?>
+            <button onclick="loadTable('transaksi', null, <?= $pageTrx + 1 ?>)"
+                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                Next
+            </button>
+        <?php endif; ?>
+        </div>
+    </div>
 <?php endif?>
