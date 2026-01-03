@@ -1,1 +1,109 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #f6f8fa;
+    --color-border: #d0d7de;
+    --color-text: #24292f;
+    --color-muted: #57606a;
+    --color-primary: #0969da;
+    --color-success: #1a7f37;
+    --color-danger: #cf222e;
+    --color-warning: #9a6700;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: #0d1117;
+      --color-surface: #161b22;
+      --color-border: #30363d;
+      --color-text: #c9d1d9;
+      --color-muted: #8b949e;
+      --color-primary: #58a6ff;
+      --color-success: #3fb950;
+      --color-danger: #f85149;
+      --color-warning: #d29922;
+    }
+  }
+
+  .theme-dark {
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-border: #30363d;
+    --color-text: #c9d1d9;
+    --color-muted: #8b949e;
+    --color-primary: #58a6ff;
+    --color-success: #3fb950;
+    --color-danger: #f85149;
+    --color-warning: #d29922;
+  }
+
+  .theme-default {
+    --color-bg: #0f172a;
+    --color-surface: #0f172a;
+    --color-border: #334155;
+    --color-text: #e5e7eb;
+    --color-muted: #94a3b8;
+    --color-primary: #22d3ee;
+    --color-success: #22c55e;
+    --color-danger: #ef4444;
+    --color-warning: #f59e0b;
+  }
+}
+
+@layer utilities {
+  .bg-bg {
+    background-color: var(--color-bg);
+  }
+
+  .bg-surface {
+    background-color: var(--color-surface);
+  }
+
+  .border-border {
+    border-color: var(--color-border);
+  }
+
+  .text-text {
+    color: var(--color-text);
+  }
+
+  .text-muted {
+    color: var(--color-muted);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+}
+
+@layer components {
+  .sidebar-link {
+    @apply
+      flex items-center gap-3
+      px-4 py-2.5
+      rounded-lg
+      text-sm font-medium
+      text-muted
+      transition;
+  }
+
+  .sidebar-link:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+  }
+
+  .sidebar-link.active {
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+    box-shadow: inset 3px 0 0 var(--color-primary);
+  }
+}
+
+.theme-btn {
+    @apply flex items-center gap-2 px-3 py-2
+           text-sm font-medium text-slate-400
+           rounded-lg transition
+           hover:bg-slate-800 hover:text-cyan-400;
+}
