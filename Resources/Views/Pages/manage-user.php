@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage User</title>
+    <script src="/sistem_parkir/Public/js/theme.js" defer></script> 
     <link rel="stylesheet" href="Css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
           integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
-<body class="bg-slate-900 min-h-screen p-6">
+<body class="bg-bg min-h-screen p-6">
     <?php include __DIR__ . "/../components/header.php"?>
 
             <div class="mb-4">

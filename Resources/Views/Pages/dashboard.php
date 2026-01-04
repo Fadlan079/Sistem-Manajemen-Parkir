@@ -82,7 +82,6 @@ $statCards[] = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Parkir Modern</title>
     <link rel="stylesheet" href="Css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -94,26 +93,38 @@ $statCards[] = [
 </head>
 <body class="bg-gray-900 text-white min-h-screen antialiased">
 
-<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-20 ">
-    <h2 class="col-span-2 sm:col-span-2 lg:col-span-4 text-3xl font-semibold text-cyan-400 mb-4">
-        Dashboard <span class="text-neutral-400">Control Panel</span>
-    </h2>
+<div class="lg:ml-30 px-6 pt-6">
 
-    <?php foreach ($statCards as $card): ?>
-        <?php
-            $icon  = $card['icon'];
-            $color = $card['color'];
-            $label = $card['label'];
-            $value = $card['value'];
+    <div class="flex items-center justify-between mb-8">
 
-            include __DIR__ . '/../components/stat-card.php';
-        ?>
-    <?php endforeach; ?>
+        <h2 class="text-3xl font-semibold text-cyan-400">
+            Dashboard <span class="text-neutral-400">Control Panel</span>
+        </h2>
+
+        <?php include __DIR__ . '/../components/date.php'; ?>
+
+    </div>
+
+    <!-- GRID WIDGET -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <?php foreach ($statCards as $card): ?>
+            <?php
+                $icon  = $card['icon'];
+                $color = $card['color'];
+                $label = $card['label'];
+                $value = $card['value'];
+
+                include __DIR__ . '/../components/stat-card.php';
+            ?>
+        <?php endforeach; ?>
+
+    </div>
+
 </div>
-
     <div class="grid 
         <?= $role === 'admin' ? 'grid-cols-3' : 'grid-cols-2' ?>
-        mt-8 overflow-hidden rounded-xl border border-gray-700">
+        mt-8 lg:ml-35 overflow-hidden rounded-xl border border-gray-700">
 
         <button id="tab-tiket"
             onclick="loadTable('tiket', this)" 
