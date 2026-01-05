@@ -1,15 +1,40 @@
-<div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6" id="chart-container">
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Status Tiket</h3>
+<div class="mt-10 lg:ml-35 grid grid-cols-1 md:grid-cols-2 gap-6" id="chart-container">
+
+    <!-- STATUS TIKET -->
+    <div class="
+        bg-surface border border-border
+        rounded-xl p-4
+        shadow-md
+    ">
+        <h3 class="
+            text-lg font-semibold
+            text-primary
+            mb-4
+        ">
+            Status Tiket
+        </h3>
         <canvas id="chartStatusTiket"></canvas>
     </div>
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Jenis Kendaraan</h3>
+
+    <!-- JENIS KENDARAAN -->
+    <div class="
+        bg-surface border border-border
+        rounded-xl p-4
+        shadow-md
+    ">
+        <h3 class="
+            text-lg font-semibold
+            text-primary
+            mb-4
+        ">
+            Jenis Kendaraan
+        </h3>
         <canvas id="chartJenisKendaraan"></canvas>
     </div>
+
 </div>
 
-<div class="mt-10">
+<div class="mt-10 lg:ml-35">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">Tiket</span>
@@ -31,19 +56,20 @@
 
     <?php if (empty($listTiket)): ?>
 
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+    <div class="bg-surface border border-border rounded-xl p-8 text-center mt-6 lg:ml-35">
         <div class="flex flex-col items-center gap-3">
-            <i class="fa-solid fa-qrcode text-4xl text-slate-500"></i>
+            <i class="fa-solid fa-qrcode text-4xl text-muted"></i>
 
-            <h3 class="text-lg font-semibold text-slate-300">
+            <h3 class="text-lg font-semibold text-text">
                 Data Tiket Kosong
             </h3>
-            <p class="text-sm text-slate-400 max-w-md">
+
+            <p class="text-sm text-muted max-w-md">
                 Belum ada data tiket parkir yang tersedia.  
                 Silakan lakukan 
 
                 <form action="?action=import-tiket-excel" method="POST" enctype="multipart/form-data" class="inline">
-                    <label class="text-emerald-400 font-medium cursor-pointer hover:underline">
+                    <label class="text-success font-medium cursor-pointer hover:underline">
                         import Excel
                         <input 
                             type="file" 

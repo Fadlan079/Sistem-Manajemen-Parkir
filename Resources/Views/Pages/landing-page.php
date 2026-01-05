@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMAKIR</title>
-    <script src="/sistem_parkir/Public/js/theme.js" defer></script> 
     <link rel="stylesheet" href="Css/output.css">
     <style>
         .nav-link {
@@ -50,15 +49,21 @@
             </div>
 
             <div class="hidden md:flex items-center gap-8 text-sm">
-            <a href="#home" class="nav-link">Home</a>
+            <a href="#home" class="nav-link">Beranda</a>
             <a href="#about" class="nav-link">Tentang</a>
             <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
-            <a href="#value" class="nav-link">Value</a>
+            <a href="#value" class="nav-link">Keunggulan</a>
             <a href="#fitur" class="nav-link">Fitur</a>
             <a href="?action=login"
                 class="px-4 py-2 bg-success text-bg rounded-lg font-semibold">
                 Login
             </a>
+            <button id="themeToggle"
+                class="w-10 h-10 rounded-lg border border-border
+                        bg-surface flex items-center justify-center
+                        hover:bg-bg transition">
+                <i id="themeIcon" class="fa-solid fa-moon"></i>
+            </button>
             </div>
 
             <button id="lpMenuBtn" class="md:hidden text-2xl">
@@ -71,7 +76,7 @@
         class="fixed inset-0 bg-black/40 z-200 opacity-0 pointer-events-none transition"></div>
     <div id="lpMobileMenu"
         class="fixed top-0 left-0 h-full w-72 bg-bg border-r border-border
-                z-210 -translate-x-full pointer-events-none
+                z-210 -translate-x-full pointer-events-none rounded-r-2xl
                 transition-transform duration-300">
 
 

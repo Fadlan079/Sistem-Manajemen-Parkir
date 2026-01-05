@@ -1,30 +1,68 @@
 <?php if (!empty($listTransaksi)): ?>
-    <div id="chart-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+<div id="chart-container"
+     class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 lg:ml-35">
 
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Pendapatan Harian</h3>
-            <canvas id="chartPendapatan"></canvas>
-        </div>
-
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Jumlah Transaksi Harian</h3>
-            <canvas id="chartTrxHarian"></canvas>
-        </div>
-        
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Status Transaksi</h3>
-            <canvas id="chartStatus"></canvas>
-        </div>
-
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Distribusi Nominal</h3>
-            <canvas id="chartNominal"></canvas>
-        </div>
-
+    <!-- Pendapatan Harian -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="
+            text-primary font-semibold mb-2
+        ">
+            Pendapatan Harian
+        </h3>
+        <canvas id="chartPendapatan"></canvas>
     </div>
+
+    <!-- Transaksi Harian -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="
+            text-primary font-semibold mb-2
+        ">
+            Jumlah Transaksi Harian
+        </h3>
+        <canvas id="chartTrxHarian"></canvas>
+    </div>
+
+    <!-- Status Transaksi -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="
+            text-primary font-semibold mb-2
+        ">
+            Status Transaksi
+        </h3>
+        <canvas id="chartStatus"></canvas>
+    </div>
+
+    <!-- Distribusi Nominal -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="
+            text-primary font-semibold mb-2
+        ">
+            Distribusi Nominal
+        </h3>
+        <canvas id="chartNominal"></canvas>
+    </div>
+
+</div>
+
 <?php endif; ?>
 
-<div class="mt-10">
+<div class="mt-10 lg:ml-35">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">Transaksi</span>
@@ -46,7 +84,7 @@
 
     <?php if (empty($listTransaksi)): ?>
 
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6 lg:ml-35">
         <div class="flex flex-col items-center gap-3">
             <i class="fa-solid fa-file-invoice-dollar text-4xl text-slate-500"></i>
 

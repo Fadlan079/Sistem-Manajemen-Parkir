@@ -1,30 +1,61 @@
 <?php if (!empty($listUser)): ?>
-    <div id="chart-user-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+<div id="chart-user-container"
+     class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 lg:ml-35">
 
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Role User</h3>
-            <canvas id="chartRole"></canvas>
-        </div>
-
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Gender User</h3>
-            <canvas id="chartGender"></canvas>
-        </div>
-
-        <div class="bg-slate-800 p-4 rounded-xl">
-            <h3 class="text-cyan-400 font-semibold mb-2">Verifikasi User</h3>
-            <canvas id="chartVerif"></canvas>
-        </div>
-
-        <div class="bg-slate-800 p-4 rounded-xl md:col-span-2">
-            <h3 class="text-cyan-400 font-semibold mb-2">Pertumbuhan User</h3>
-            <canvas id="chartUserHarian"></canvas>
-        </div>
-
+    <!-- Role User -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="text-primary font-semibold mb-2">
+            Role User
+        </h3>
+        <canvas id="chartRole"></canvas>
     </div>
+
+    <!-- Gender User -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="text-primary font-semibold mb-2">
+            Gender User
+        </h3>
+        <canvas id="chartGender"></canvas>
+    </div>
+
+    <!-- Verifikasi User -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+    ">
+        <h3 class="text-primary font-semibold mb-2">
+            Verifikasi User
+        </h3>
+        <canvas id="chartVerif"></canvas>
+    </div>
+
+    <!-- Pertumbuhan User -->
+    <div class="
+        bg-surface border border-border
+        p-4 rounded-xl
+        shadow-md
+        md:col-span-2
+    ">
+        <h3 class="text-primary font-semibold mb-2">
+            Pertumbuhan User
+        </h3>
+        <canvas id="chartUserHarian"></canvas>
+    </div>
+
+</div>
+    
 <?php endif; ?>
 
-<div class="mt-10">
+<div class="mt-10 lg:ml-35">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
         <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
             Daftar <span class="text-neutral-400">User</span>
@@ -46,7 +77,7 @@
 
     <?php if (empty($listUser)): ?>
 
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6">
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 text-center mt-6 lg:ml-35">
         <div class="flex flex-col items-center gap-3">
             <i class="fa-solid fa-users-slash text-4xl text-slate-500"></i>
 

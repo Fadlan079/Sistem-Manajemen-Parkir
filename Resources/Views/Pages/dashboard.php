@@ -10,7 +10,7 @@ if ($role === 'admin') {
         'icon' => 'fa-users',
         'color' => [
             'text'   => 'text-blue-400',
-            'muted'  => 'text-blue-400/10',
+            'muted'  => 'text-blue-400',
             'shadow' => 'hover:shadow-blue-500/20'
         ],
         'label' => 'Total User',
@@ -23,7 +23,7 @@ foreach ($totalbayar as $t) {
         'icon' => 'fa-money-bill-wave',
         'color' => [
             'text'   => 'text-green-400',
-            'muted'  => 'text-green-400/10',
+            'muted'  => 'text-green-400',
             'shadow' => 'hover:shadow-green-500/20'
         ],
         'label' => 'Total Transaksi Selesai',
@@ -36,7 +36,7 @@ $statCards[] = [
     'icon' => 'fa-receipt',
     'color' => [
         'text'   => 'text-purple-400',
-        'muted'  => 'text-purple-400/10',
+        'muted'  => 'text-purple-400',
         'shadow' => 'hover:shadow-purple-500/20'
     ],
     'label' => 'Jumlah Transaksi',
@@ -47,7 +47,7 @@ $statCards[] = [
     'icon' => 'fa-right-to-bracket',
     'color' => [
         'text'   => 'text-emerald-400',
-        'muted'  => 'text-emerald-400/10',
+        'muted'  => 'text-emerald-400',
         'shadow' => 'hover:shadow-emerald-500/20'
     ],
     'label' => 'Riwayat Kendaraan Masuk',
@@ -58,7 +58,7 @@ $statCards[] = [
     'icon' => 'fa-right-from-bracket',
     'color' => [
         'text'   => 'text-rose-400',
-        'muted'  => 'text-rose-400/10',
+        'muted'  => 'text-rose-400',
         'shadow' => 'hover:shadow-rose-500/20'
     ],
     'label' => 'Total Kendaraan Keluar',
@@ -69,7 +69,7 @@ $statCards[] = [
     'icon' => 'fa-square-parking',
     'color' => [
         'text'   => 'text-amber-400',
-        'muted'  => 'text-amber-400/10',
+        'muted'  => 'text-amber-400',
         'shadow' => 'hover:shadow-amber-500/20'
     ],
     'label' => 'Kendaraan Sedang Parkir',
