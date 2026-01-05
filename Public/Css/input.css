@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
+  :root{
+
+  }
+
+  .theme-light {
     --color-bg: #ffffff;
     --color-surface: #f6f8fa;
     --color-border: #d0d7de;
@@ -11,20 +15,6 @@
     --color-success: #1a7f37;
     --color-danger: #cf222e;
     --color-warning: #9a6700;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-bg: #0d1117;
-      --color-surface: #161b22;
-      --color-border: #30363d;
-      --color-text: #c9d1d9;
-      --color-muted: #8b949e;
-      --color-primary: #58a6ff;
-      --color-success: #3fb950;
-      --color-danger: #f85149;
-      --color-warning: #d29922;
-    }
   }
 
   .theme-dark {
@@ -40,12 +30,12 @@
   }
 
   .theme-default {
-    --color-bg: #0f172a;
-    --color-surface: #0f172a;
-    --color-border: #334155;
-    --color-text: #e5e7eb;
-    --color-muted: #94a3b8;
-    --color-primary: #22d3ee;
+    --color-bg: #0f172a;          /* slate-900 */
+    --color-surface: #083344;     /* cyan-950 */
+    --color-border: #155e75;      /* cyan-800 */
+    --color-text: #e5e7eb;        /* slate-200 */
+    --color-muted: #94a3b8;       /* slate-400 */
+    --color-primary: #58a6ff;     /* cyan-400 */
     --color-success: #22c55e;
     --color-danger: #ef4444;
     --color-warning: #f59e0b;
@@ -59,6 +49,10 @@
 
   .bg-surface {
     background-color: var(--color-surface);
+  }
+  
+  .bg-primary {
+    background-color: var(--color-primary);
   }
 
   .border-border {
@@ -76,18 +70,63 @@
   .text-primary {
     color: var(--color-primary);
   }
+
+  .text-bg {
+    color: var(--color-bg);
+  }
+
+  .text-danger {
+    color: var(--color-danger);
+  }
+
+  .text-success {
+    color: var(--color-success);
+  }
+
+  .text-warning {
+    color: var(--color-warning);
+  }
+
+  .bg-danger {
+    background-color: var(--color-danger);
+  }
+
+  .bg-success {
+    background-color: var(--color-success);
+  }
+
+  .bg-warning {
+    background-color: var(--color-warning);
+  }
+
+  .shadow-danger {
+    --shadow-color: var(--color-danger);
+  }
+
+  .shadow-success {
+    --shadow-color: var(--color-success);
+  }
+
+  .shadow-warning {
+    --shadow-color: var(--color-warning);
+  }
+
+  .shadow-danger,
+  .shadow-success,
+  .shadow-warning {
+    box-shadow: 0 8px 30px
+      color-mix(in srgb, var(--shadow-color) 35%, transparent);
+  }
+
 }
 
+
 @layer components {
-  .sidebar-link {
-    @apply
-      flex items-center gap-3
-      px-4 py-2.5
-      rounded-lg
-      text-sm font-medium
-      text-muted
-      transition;
-  }
+.sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition;
+    color: var(--color-muted);
+}
+
 
   .sidebar-link:hover {
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
@@ -102,8 +141,32 @@
 }
 
 .theme-btn {
-    @apply flex items-center gap-2 px-3 py-2
-           text-sm font-medium text-slate-400
-           rounded-lg transition
-           hover:bg-slate-800 hover:text-cyan-400;
+  @apply flex items-center gap-2 px-3 py-2
+         text-sm font-medium rounded-lg transition;
+  color: var(--color-muted);
+}
+
+.theme-btn:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+}
+
+.sidebar-pref {
+  @apply flex items-center gap-3
+         px-4 py-3 m-3
+         rounded-xl
+         text-sm font-semibold
+         transition-all;
+  
+  background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}
+
+.sidebar-pref:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.sidebar-pref.active {
+  background-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  box-shadow: inset 3px 0 0 var(--color-primary);
 }

@@ -1,42 +1,56 @@
 <?php include __DIR__ . '/../components/global-modal.php'?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem Parkir</title>
+    <title>Login - SIMAKIR</title>
+    <script src="/sistem_parkir/Public/js/theme.js" defer></script> 
     <link rel="stylesheet" href="Css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 
-<body class="bg-slate-900 font-sans text-white">
+<body class="bg-bg font-sans text-text">
 
-<div class="max-w-5xl mx-auto mt-16 bg-slate-800 shadow-xl rounded-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+<div class="max-w-5xl mx-auto lg:mt-16 bg-surface shadow-xl rounded-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
 
-    <div class="p-10 bg-slate-800 flex flex-col justify-center items-center text-center">
-        <i class="fa-solid fa-square-parking text-cyan-400 text-7xl mb-6"></i>
+    <div class="p-10 bg-surface flex flex-col justify-center items-center text-center">
+        <i class="fa-solid fa-square-parking text-primary text-7xl mb-6"></i>
 
-        <h2 class="text-2xl font-semibold text-cyan-300 mb-4">
+        <h2 class="text-2xl font-semibold text-primary mb-4">
             Selamat Datang Kembali
         </h2>
 
-        <p class="text-slate-300 leading-relaxed text-sm">
-            Masuk ke sistem parkir untuk mengelola data kendaraan,
-            transaksi, dan laporan secara mudah dan cepat.
+        <p class="text-muted leading-relaxed text-sm">
+            Masuk ke sistem manajemen parkir untuk mencatat kendaraan,
+            mengelola transaksi, dan melihat laporan operasional secara terpusat.
         </p>
 
-        <ul class="mt-6 space-y-2 text-slate-300 text-sm">
-            <li><i class="fa-solid fa-circle-check text-cyan-400 mr-2"></i> Akses dashboard lengkap</li>
-            <li><i class="fa-solid fa-circle-check text-cyan-400 mr-2"></i> Kelola kendaraan masuk/keluar</li>
-            <li><i class="fa-solid fa-circle-check text-cyan-400 mr-2"></i> Pantau transaksi parkir real-time</li>
+        <ul class="mt-6 space-y-2 text-muted text-sm text-left">
+            <li>
+                <i class="fa-solid fa-circle-check text-primary mr-2"></i>
+                Pencatatan kendaraan masuk dan keluar
+            </li>
+            <li>
+                <i class="fa-solid fa-circle-check text-primary mr-2"></i>
+                Pembuatan dan pencetakan tiket barcode
+            </li>
+            <li>
+                <i class="fa-solid fa-circle-check text-primary mr-2"></i>
+                Pengelolaan transaksi dan histori parkir
+            </li>
+            <li>
+                <i class="fa-solid fa-circle-check text-primary mr-2"></i>
+                Akses dashboard laporan parkir
+            </li>
         </ul>
     </div>
 
     <form action="?action=store-login" method="post" 
-          class="p-8 flex flex-col gap-4 bg-slate-700">
+          class="p-8 flex flex-col gap-4 bg-surface border border-border rounded-r-2xl">
 
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4 text-center">
+        <h1 class="text-3xl font-bold text-primary mb-4 text-center">
             Login Sistem Parkir
         </h1>
 
@@ -50,19 +64,19 @@
         </div>
 
         <div class="flex flex-col">
-            <label class="text-sm mb-1">Email</label>
+            <label class="text-sm mb-1 text-text">Email</label>
             <input type="text" name="email"
                 placeholder="Masukkan email"
-                class="bg-slate-100 text-slate-900 p-2 rounded-lg 
-                       focus:ring-2 focus:ring-cyan-500 outline-none">
+                class="bg-bg text-text p-2 rounded-lg border border-border
+                       focus:ring-2 focus:ring-primary outline-none">
         </div>
 
         <div class="flex flex-col">
-            <label class="text-sm mb-1">Password</label>
+            <label class="text-sm mb-1 text-text">Password</label>
             <input type="password" name="password"
                 placeholder="********"
-                class="bg-slate-100 text-slate-900 p-2 rounded-lg 
-                       focus:ring-2 focus:ring-cyan-500 outline-none">
+                class="bg-bg text-text p-2 rounded-lg border border-border
+                       focus:ring-2 focus:ring-primary outline-none">
         </div>
 
         <div class="flex justify-between mt-2 text-sm items-center">
@@ -71,34 +85,34 @@
                     <a id="resendBtn"
                        href="?action=resend-verification&email=<?= urlencode($_SESSION['unverified_email']) ?>"
                        onclick="handleResend(this)"
-                       class="text-cyan-400 hover:underline">
+                       class="text-primary hover:underline">
                         Kirim Ulang Email Verifikasi
                     </a>
-                    <span id="timer" class="text-xs text-slate-300"></span>
+                    <span id="timer" class="text-xs text-muted"></span>
                 </div>
             <?php endif; ?>
                         <a href="?action=forgot-password"
-               class="text-cyan-400 hover:underline">
+               class="text-primary hover:underline">
                Lupa password?
             </a>
         </div>
 
         <button type="submit"
-                class="mt-3 bg-cyan-500 hover:bg-cyan-600 text-white p-2 rounded-lg text-lg shadow-md transition">
+                class="mt-3 bg-primary hover:bg-primary/90 text-bg p-2 rounded-lg text-lg shadow-md transition">
             Login
         </button>
 
-        <p class="text-sm text-center mt-2">
+        <p class="text-sm text-center mt-2 text-text">
             Belum punya akun?
-            <a href="?action=register" class="text-cyan-400 hover:underline">Register</a>
+            <a href="?action=register" class="text-primary hover:underline">Register</a>
         </p>
 
         <a href="?action=index"
-           class="mt-2 w-full text-center border border-cyan-400 
-                  text-cyan-400 p-2 rounded-lg hover:bg-cyan-500 hover:text-slate-900 
+           class="mt-2 w-full text-center border border-primary 
+                  text-primary p-2 rounded-lg hover:bg-primary hover:text-bg 
                   flex items-center justify-center gap-2 transition">
             <i class="fa-solid fa-arrow-left"></i>
-            Kembali ke Dashboard
+            Kembali ke Halaman Utama
         </a>
     </form>
 

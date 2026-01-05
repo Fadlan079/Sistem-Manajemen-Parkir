@@ -6,7 +6,6 @@ let chartTrxHarian;
 let chartStatusTrx;
 let chartNominal;
 
-// ================== HELPER ==================
 function hasData(obj) {
     if (!obj) return false;
     return Object.values(obj).some(v => Number(v) > 0);
@@ -19,7 +18,6 @@ window.loadTable = function(type, el = null, page = 1) {
         activeTabType = type;
     }
 
-    // reset tab
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('tab-active');
     });
@@ -119,7 +117,6 @@ window.loadTable = function(type, el = null, page = 1) {
 
     }
 
-// load default tab
 document.addEventListener('DOMContentLoaded', () => {
     const defaultTab = document.getElementById('tab-tiket');
     loadTable('tiket', defaultTab);
@@ -130,11 +127,9 @@ function renderChartTiket(statusData, kendaraanData) {
     const kendaraanCanvas = document.getElementById('chartJenisKendaraan');
 
     if (!statusCanvas || !kendaraanCanvas) return;
-    // Hapus chart sebelumnya kalau ada
     if (window.chartStatus) window.chartStatus.destroy();
     if (window.chartKendaraan) window.chartKendaraan.destroy();
 
-    // Chart status tiket
     const ctxStatus = document.getElementById('chartStatusTiket').getContext('2d');
     window.chartStatus = new Chart(ctxStatus, {
         type: 'doughnut',
@@ -149,7 +144,6 @@ function renderChartTiket(statusData, kendaraanData) {
         },
     });
 
-    // Chart jenis kendaraan
     const ctxKendaraan = document.getElementById('chartJenisKendaraan').getContext('2d');
     window.chartKendaraan = new Chart(ctxKendaraan, {
         type: 'bar',
@@ -177,13 +171,11 @@ function renderChartTransaksi(res) {
         !document.getElementById('chartNominal')
     ) return;
 
-    // destroy chart lama
     chartPendapatan?.destroy();
     chartTrxHarian?.destroy();
     chartStatusTrx?.destroy();
     chartNominal?.destroy();
 
-    // ================= PENDAPATAN =================
 chartPendapatan = new Chart(
     document.getElementById('chartPendapatan'),
     {
@@ -193,7 +185,7 @@ chartPendapatan = new Chart(
             datasets: [{
                 label: 'Pendapatan (Rp)',
                 data: res.pendapatan.data,
-                borderColor: '#22c55e',           // green
+                borderColor: '#22c55e',          
                 backgroundColor: 'rgba(34,197,94,0.25)',
                 borderWidth: 2,
                 tension: 0.4,
@@ -205,8 +197,6 @@ chartPendapatan = new Chart(
     }
 );
 
-
-    // ================= TRANSAKSI HARIAN =================
 chartTrxHarian = new Chart(
     document.getElementById('chartTrxHarian'),
     {
@@ -216,15 +206,13 @@ chartTrxHarian = new Chart(
             datasets: [{
                 label: 'Jumlah Transaksi',
                 data: res.trxHarian.data,
-                backgroundColor: '#06b6d4', // cyan
+                backgroundColor: '#06b6d4', 
                 borderRadius: 8
             }]
         }
     }
 );
 
-
-    // ================= STATUS =================
 chartStatusTrx = new Chart(
     document.getElementById('chartStatus'),
     {
@@ -234,15 +222,14 @@ chartStatusTrx = new Chart(
             datasets: [{
                 data: Object.values(res.statusCount),
                 backgroundColor: [
-                    '#22c55e', // sukses
-                    '#facc15', // pending
+                    '#22c55e', 
+                    '#facc15', 
                 ],
                 borderWidth: 1
             }]
         }
     }
 );
-
 
 chartNominal = new Chart(
     document.getElementById('chartNominal'),
@@ -264,13 +251,11 @@ chartNominal = new Chart(
         }
     }
 );
-
 }
 
 function renderChartUser(data) {
         if (!data) return;
 
-    // ROLE
     const ctxRole = document.getElementById('chartRole');
     if (!ctxRole) return;
 
@@ -288,7 +273,6 @@ function renderChartUser(data) {
         }
     });
 
-    // GENDER
     const ctxGender = document.getElementById('chartGender');
     if (window.chartGender instanceof Chart) {
         window.chartGender.destroy();
@@ -304,7 +288,6 @@ function renderChartUser(data) {
         }
     });
 
-    // VERIFIKASI
     const ctxVerif = document.getElementById('chartVerif');
     if (window.chartVerif instanceof Chart) {
         window.chartVerif.destroy();
@@ -320,7 +303,6 @@ function renderChartUser(data) {
         }
     });
 
-    // USER HARIAN
     const ctxUserHarian = document.getElementById('chartUserHarian');
     if (window.chartUserHarian instanceof Chart) {
         window.chartUserHarian.destroy();

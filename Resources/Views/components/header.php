@@ -1,83 +1,128 @@
-<nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-slate-900 shadow-lg border-b border-slate-700 transition-transform duration-300">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<?php if(isset($_SESSION['user'])): ?>
+<aside class="
+    fixed left-0 top-0 h-screen w-55
+    bg-surface border-r border-border
+    flex-col
+    hidden md:flex
+    z-200 rounded-r-2xl shadow-lg
+">
 
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 flex justify-center items-center border-2 border-cyan-400 rounded-full">
-                <i class="fa fa-car text-neutral-400 text-lg"></i>
-            </div>
-            <h1 class="text-xl sm:text-2xl font-bold text-cyan-500">
-                Sistem <span class="text-neutral-400">Parkir</span>
-            </h1>
+    <!-- LOGO -->
+    <div class="
+        flex items-center gap-3
+        px-6 py-5
+        border-b border-border
+    ">
+        <div class="
+            w-10 h-10 flex items-center justify-center
+            rounded-xl
+            bg-primary/10
+            border border-primary
+        ">
+            <i class="fa fa-car text-primary"></i>
         </div>
 
-        <button id="menuBtn" class="lg:hidden text-cyan-400 text-2xl">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <ul class="hidden lg:flex items-center gap-6 text-slate-300 font-medium">
-            <?php if(isset($_SESSION['user'])): ?>
-                <?php if($_SESSION['user']['role'] === 'admin'): ?>
-                    <li>
-                        <a href="?action=index"
-                           class="hover:text-cyan-400 transition <?= $current=='index'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-house"></i> Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=manage-user"
-                           class="hover:text-cyan-400 transition <?= $current=='manage-user'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-users"></i> Manage User
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=manage-tarif"
-                           class="hover:text-cyan-400 transition <?= $current=='manage-tarif'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-tags"></i> Manage Tarif
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <a href="?action=index"
-                           class="hover:text-cyan-400 transition <?= $current=='index'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-house"></i> Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=tiket-masuk"
-                           class="hover:text-cyan-400 transition <?= $current=='tiket-masuk'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Tiket Masuk
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=tiket-keluar"
-                           class="hover:text-cyan-400 transition <?= $current=='tiket-keluar'?'border-b-2 border-cyan-400 text-cyan-400':'' ?>">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Tiket Keluar
-                        </a>
-                    </li>
-                <?php endif; ?>
-            <?php endif; ?>
-        </ul>
-
-        <div class="hidden lg:flex gap-6 items-center">
-            <?php if(isset($_SESSION['user'])): ?>
-                <span class="text-slate-300">
-                    <i class="fa-solid fa-user text-cyan-400"></i>
-                    <?= ucfirst($_SESSION['user']['nama_lengkap']); ?>
-                    <b class="text-cyan-400">(<?= ucfirst($_SESSION['user']['role']) ?>)</b>
-                </span>
-                <a href="?action=logout"
-                   class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white transition">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
-            <?php else: ?>
-                <a href="?action=login"
-                   class="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 rounded-lg text-slate-900 font-semibold transition">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
-                </a>
-            <?php endif; ?>
-        </div>
+        <span class="text-lg font-bold text-primary">
+            SIMA<span class="text-text/70">KIR</span>
+        </span>
     </div>
-</nav>
+
+    <!-- MENU -->
+    <nav class="flex-1 px-4 py-6 space-y-1 text-text">
+
+        <!-- DASHBOARD -->
+        <a href="?action=index"
+           class="sidebar-link <?= $current=='index'?'active':'' ?>">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <?php if($_SESSION['user']['role']==='admin'): ?>
+
+            <a href="?action=manage-user"
+               class="sidebar-link <?= $current=='manage-user'?'active':'' ?>">
+                <i class="fa-solid fa-users"></i>
+                <span>Manage User</span>
+            </a>
+
+            <a href="?action=manage-tarif"
+               class="sidebar-link <?= $current=='manage-tarif'?'active':'' ?>">
+                <i class="fa-solid fa-tags"></i>
+                <span>Manage Tarif</span>
+            </a>
+
+        <?php else: ?>
+
+            <a href="?action=tiket-masuk"
+               class="sidebar-link <?= $current=='tiket-masuk'?'active':'' ?>">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <span>Tiket Masuk</span>
+            </a>
+
+            <a href="?action=tiket-keluar"
+               class="sidebar-link <?= $current=='tiket-keluar'?'active':'' ?>">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Tiket Keluar</span>
+            </a>
+
+        <?php endif; ?>
+
+    </nav>
+    <a href="?action=manage-user"
+    class="
+        sidebar-pref
+        <?= $current=='manage-user' ? 'active' : '' ?>
+    ">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Preference</span>
+    </a>
+
+
+<div class="flex items-center gap-2 p-1 rounded-xl border border-border bg-surface">
+    <button onclick="setTheme('light')" class="theme-btn">
+        <i class="fa-solid fa-sun"></i>
+        <span class="hidden sm:inline">Light</span>
+    </button>
+
+    <button onclick="setTheme('dark')" class="theme-btn">
+        <i class="fa-solid fa-moon"></i>
+        <span class="hidden sm:inline">Dark</span>
+    </button>
+
+    <button onclick="setTheme('default')" class="theme-btn">
+        <i class="fa-solid fa-palette"></i>
+        <span class="hidden sm:inline">Default</span>
+    </button>
+</div>
+
+
+    <!-- USER INFO -->
+    <div class="
+        px-6 py-4
+        border-t border-border
+    ">
+        <div class="text-sm text-muted">
+            <?= ucfirst($_SESSION['user']['nama_lengkap']); ?>
+            <span class="text-primary">(<?= $_SESSION['user']['role'] ?>)</span>
+        </div>
+
+        <a href="?action=logout"
+           class="
+            mt-3 flex items-center gap-2
+            text-danger
+            hover:opacity-80
+            transition
+           ">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+    </div>
+
+</aside>
+<?php endif; ?>
+
+
+
 
 <div id="mobileMenu"
      class="fixed inset-0 bg-slate-900/95 z-50 transform -translate-x-full transition-transform duration-300">
