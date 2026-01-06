@@ -10,7 +10,7 @@ if ($role === 'admin') {
         'icon' => 'fa-users',
         'color' => [
             'text'   => 'text-blue-400',
-            'muted'  => 'text-blue-400',
+            'muted'  => 'text-blue-400/50',
             'shadow' => 'hover:shadow-blue-500/20'
         ],
         'label' => 'Total User',
@@ -23,7 +23,7 @@ foreach ($totalbayar as $t) {
         'icon' => 'fa-money-bill-wave',
         'color' => [
             'text'   => 'text-green-400',
-            'muted'  => 'text-green-400',
+            'muted'  => 'text-green-400/50',
             'shadow' => 'hover:shadow-green-500/20'
         ],
         'label' => 'Total Transaksi Selesai',
@@ -36,7 +36,7 @@ $statCards[] = [
     'icon' => 'fa-receipt',
     'color' => [
         'text'   => 'text-purple-400',
-        'muted'  => 'text-purple-400',
+        'muted'  => 'text-purple-400/50',
         'shadow' => 'hover:shadow-purple-500/20'
     ],
     'label' => 'Jumlah Transaksi',
@@ -47,7 +47,7 @@ $statCards[] = [
     'icon' => 'fa-right-to-bracket',
     'color' => [
         'text'   => 'text-emerald-400',
-        'muted'  => 'text-emerald-400',
+        'muted'  => 'text-emerald-400/50',
         'shadow' => 'hover:shadow-emerald-500/20'
     ],
     'label' => 'Riwayat Kendaraan Masuk',
@@ -58,7 +58,7 @@ $statCards[] = [
     'icon' => 'fa-right-from-bracket',
     'color' => [
         'text'   => 'text-rose-400',
-        'muted'  => 'text-rose-400',
+        'muted'  => 'text-rose-400/50',
         'shadow' => 'hover:shadow-rose-500/20'
     ],
     'label' => 'Total Kendaraan Keluar',
@@ -69,7 +69,7 @@ $statCards[] = [
     'icon' => 'fa-square-parking',
     'color' => [
         'text'   => 'text-amber-400',
-        'muted'  => 'text-amber-400',
+        'muted'  => 'text-amber-400/50',
         'shadow' => 'hover:shadow-amber-500/20'
     ],
     'label' => 'Kendaraan Sedang Parkir',
@@ -91,21 +91,20 @@ $statCards[] = [
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen antialiased">
+<body class="bg-bg text-text min-h-screen antialiased">
 
 <div class="lg:ml-30 px-6 pt-6">
 
-    <div class="flex items-center justify-between mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6 items-center text-center lg:text-justify mb-8">
 
-        <h2 class="text-3xl font-semibold text-cyan-400">
-            Dashboard <span class="text-neutral-400">Control Panel</span>
+        <h2 class="text-3xl font-semibold text-primary lg:col-span-2">
+            Dashboard <span class="text-muted"><?= ucfirst($role) ?></span>
         </h2>
 
         <?php include __DIR__ . '/../components/date.php'; ?>
 
     </div>
 
-    <!-- GRID WIDGET -->
     <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
 
         <?php foreach ($statCards as $card): ?>
@@ -124,13 +123,13 @@ $statCards[] = [
 </div>
     <div class="grid 
         <?= $role === 'admin' ? 'grid-cols-3' : 'grid-cols-2' ?>
-        mt-8 lg:ml-35 overflow-hidden rounded-xl border border-gray-700">
+        mt-8 lg:ml-35 overflow-hidden rounded-xl border border-border">
 
         <button id="tab-tiket"
             onclick="loadTable('tiket', this)" 
             class="tab-btn py-3 font-medium 
-            bg-cyan-500/10 text-cyan-400
-            hover:bg-cyan-500/20 transition">
+            bg-blue-500/10 text-primary
+            hover:bg-blue-500/20 transition">
             Tiket
         </button>
 
@@ -144,8 +143,8 @@ $statCards[] = [
         <?php if ($role === 'admin'): ?>
             <button onclick="loadTable('user', this)" 
                 class="tab-btn py-3 font-medium 
-                bg-blue-500/10 text-blue-400
-                hover:bg-blue-500/20 transition">
+                bg-purple-500/10 text-purple-400
+                hover:bg-purple-500/20 transition">
                 User
             </button>
         <?php endif; ?>

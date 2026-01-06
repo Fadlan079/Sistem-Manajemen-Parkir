@@ -1,6 +1,4 @@
 <div class="mt-10 lg:ml-35 grid grid-cols-1 md:grid-cols-2 gap-6" id="chart-container">
-
-    <!-- STATUS TIKET -->
     <div class="
         bg-surface border border-border
         rounded-xl p-4
@@ -16,7 +14,6 @@
         <canvas id="chartStatusTiket"></canvas>
     </div>
 
-    <!-- JENIS KENDARAAN -->
     <div class="
         bg-surface border border-border
         rounded-xl p-4
@@ -31,24 +28,23 @@
         </h3>
         <canvas id="chartJenisKendaraan"></canvas>
     </div>
-
 </div>
 
 <div class="mt-10 lg:ml-35">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
-        <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
-            Daftar <span class="text-neutral-400">Tiket</span>
+        <h2 class="text-xl sm:text-2xl font-semibold text-primary">
+            Daftar <span class="text-muted">Tiket</span>
         </h2>
 
         <div class="flex flex-wrap gap-2">
             <form action="?action=import-tiket-excel" method="POST" enctype="multipart/form-data">
-                <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
+                <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-soft-success border border-success rounded-lg hover-bg-success transition text-sm font-medium">
                     <i class="fa-solid fa-file-import"></i> Import Excel
                     <input type="file" name="file_excel" accept=".xls,.xlsx" class="hidden" onchange="this.form.submit()">
                 </label>
             </form>
 
-            <a href="?action=export-tiket-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
+            <a href="?action=export-tiket-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-soft-primary border border-primary rounded-lg hover-bg-primary transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
         </div>
@@ -88,77 +84,107 @@
 
     <?php else: ?>
      
-    <div class="space-y-4">
-        <?php foreach($listTiket as $tiket): ?>
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-sm sm:hidden">
-                <?php
-                $status = $tiket['status'] ?? '-';
-                $statusClass = match ($status) {
-                    'masuk' => 'bg-emerald-500/20 text-emerald-400',
-                    'keluar' => 'bg-red-500/20 text-red-400',
-                    default => 'bg-slate-500/20 text-slate-400',
-                };
-                $kendaraan = $tiket['jenis_kendaraan'] ?? '-';
-                $map = [
-                    'motor' => ['class' => 'bg-sky-500/20 text-sky-400', 'icon' => '<i class="fa-solid fa-motorcycle mr-1"></i>'],
-                    'mobil' => ['class' => 'bg-amber-500/20 text-amber-400', 'icon' => '<i class="fa-solid fa-car mr-1"></i>'],
-                ];
-                $colorClass = $map[$kendaraan]['class'] ?? 'bg-slate-500/20 text-slate-400';
-                $icon = $map[$kendaraan]['icon'] ?? '';
-                ?>
-                <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
-                    <div class="font-medium text-slate-400">ID Tiket:</div>
-                    <div class="text-right font-semibold text-white"><?= $tiket['id_tiket'] ?></div>
+<div class="space-y-4">
+    <?php foreach($listTiket as $tiket): ?>
+        <div class="bg-surface border border-border rounded-xl p-4 shadow-sm sm:hidden">
+            <?php
+            $status = $tiket['status'] ?? '-';
+            $statusClass = match ($status) {
+                'masuk'  => 'bg-soft-primary',
+                'keluar' => 'bg-soft-danger',
+                default  => 'bg-soft-muted',
+            };
 
-                    <div class="font-medium text-slate-400">No Polisi:</div>
-                    <div class="text-right"><?= $tiket['nomor_polisi'] ?></div>
+            $kendaraan = $tiket['jenis_kendaraan'] ?? '-';
+            $map = [
+                'motor' => [
+                    'class' => 'bg-soft-primary',
+                    'icon'  => '<i class="fa-solid fa-motorcycle mr-1"></i>'
+                ],
+                'mobil' => [
+                    'class' => 'bg-soft-warning',
+                    'icon'  => '<i class="fa-solid fa-car mr-1"></i>'
+                ],
+            ];
+            $colorClass = $map[$kendaraan]['class'] ?? 'bg-soft-muted';
+            $icon = $map[$kendaraan]['icon'] ?? '';
+            ?>
 
-                    <div class="font-medium text-slate-400">Jenis Kendaraan:</div>
-                    <div class="text-right"><span class="px-2 py-1 rounded-md text-sm font-medium <?= $colorClass ?>"><?= $icon . $kendaraan ?></span></div>
-
-                    <div class="font-medium text-slate-400">Tgl Masuk:</div>
-                    <div class="text-right"><?= $tiket['tgl_masuk'] ? (new DateTime($tiket['tgl_masuk']))->format('d M Y • H:i') : '-' ?></div>
-
-                    <div class="font-medium text-slate-400">Petugas Masuk:</div>
-                    <div class="text-right"><?= $tiket['petugas_masuk']?></div>
-
-                    <div class="font-medium text-slate-400">Tgl Keluar:</div>
-                    <div class="text-right">
-                        <?php if ($tiket['tgl_keluar']): ?>
-                            <?= (new DateTime($tiket['tgl_keluar']))->format('d M Y • H:i') ?>
-                        <?php else: ?>
-                            - Belum keluar
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="font-medium text-slate-400">Petugas Keluar:</div>
-                    <div class="text-right"><?= $tiket['petugas_keluar']?></div>
-
-                    <div class="font-medium text-slate-400">Total Harga:</div>
-                    <div class="text-right font-semibold">Rp <?= number_format($tiket['total_harga'] ?? 0, 0, ',', '.') ?></div>
-
-                    <div class="font-medium text-slate-400">Status:</div>
-                    <div class="text-right"><span class="px-2 py-1 rounded text-xs font-medium <?= $statusClass ?>"><?= $status ?></span></div>
+            <div class="grid grid-cols-2 gap-2 text-xs text-text">
+                <div class="font-medium text-muted">ID Tiket:</div>
+                <div class="text-right font-semibold">
+                    <?= $tiket['id_tiket'] ?>
                 </div>
 
-                <div class="flex justify-center mt-3">
-                    <?php
-                    $barcodeValue = $tiket['barcode'];
-                    $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-                    $barcodeImage = $generator->getBarcode($barcodeValue, $generator::TYPE_CODE_128);
-                    ?>
-                    <div class="flex flex-col items-center">
-                        <img src="data:image/png;base64,<?= base64_encode($barcodeImage) ?>" class="w-36 h-auto mb-1">
-                        <span class="tracking-[0.25em] text-slate-300 text-xs"><?= htmlspecialchars($barcodeValue) ?></span>
-                    </div>
+                <div class="font-medium text-muted">No Polisi:</div>
+                <div class="text-right">
+                    <?= $tiket['nomor_polisi'] ?>
+                </div>
+
+                <div class="font-medium text-muted">Jenis Kendaraan:</div>
+                <div class="text-right">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $colorClass ?>">
+                        <?= $icon . $kendaraan ?>
+                    </span>
+                </div>
+
+                <div class="font-medium text-muted">Tgl Masuk:</div>
+                <div class="text-right">
+                    <?= $tiket['tgl_masuk'] ? (new DateTime($tiket['tgl_masuk']))->format('d M Y • H:i') : '-' ?>
+                </div>
+
+                <div class="font-medium text-muted">Petugas Masuk:</div>
+                <div class="text-right">
+                    <?= $tiket['petugas_masuk'] ?>
+                </div>
+
+                <div class="font-medium text-muted">Tgl Keluar:</div>
+                <div class="text-right">
+                    <?php if ($tiket['tgl_keluar']): ?>
+                        <?= (new DateTime($tiket['tgl_keluar']))->format('d M Y • H:i') ?>
+                    <?php else: ?>
+                        <span class="text-muted italic">Belum keluar</span>
+                    <?php endif; ?>
+                </div>
+
+                <div class="font-medium text-muted">Petugas Keluar:</div>
+                <div class="text-right">
+                    <?= $tiket['petugas_keluar'] ?>
+                </div>
+
+                <div class="font-medium text-muted">Total Harga:</div>
+                <div class="text-right font-semibold">
+                    Rp <?= number_format($tiket['total_harga'] ?? 0, 0, ',', '.') ?>
+                </div>
+
+                <div class="font-medium text-muted">Status:</div>
+                <div class="text-right">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $statusClass ?>">
+                        <?= $status ?>
+                    </span>
                 </div>
             </div>
-        <?php endforeach; ?>
-    </div>
 
-    <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
-        <table class="min-w-full divide-y divide-slate-700 text-xs">
-            <thead class="bg-slate-900 text-slate-400">
+            <div class="flex justify-center mt-3">
+                <?php
+                $barcodeValue = $tiket['barcode'];
+                $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+                $barcodeImage = $generator->getBarcode($barcodeValue, $generator::TYPE_CODE_128);
+                ?>
+                <div class="flex flex-col items-center">
+                    <img src="data:image/png;base64,<?= base64_encode($barcodeImage) ?>" class="w-36 h-auto mb-1">
+                    <span class="tracking-[0.25em] text-text text-xs">
+                        <?= htmlspecialchars($barcodeValue) ?>
+                    </span>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+    <div class="overflow-x-auto bg-surface rounded-xl border border-border p-4 hidden sm:block">
+        <table class="min-w-full text-xs">
+            <thead class="bg-bg text-text">
                 <tr>
                     <th class="px-3 py-2 ">ID</th>
                     <th class="px-3 py-2  text-center">Barcode</th>
@@ -173,11 +199,11 @@
                 </tr>
             </thead>
 
-            <tbody class="divide-y divide-slate-700 text-slate-300">
+            <tbody class="divide-y divide-neutral-600 text-text">
                 <?php foreach($listTiket as $tiket): ?>
-                    <tr class="hover:bg-slate-700 transition">
-                        <td class="px-2 py-1 align-middle"><?= $tiket['id_tiket'] ?></td>
-                        <td class="px-2 py-1 align-middle">
+                    <tr class="hover-bg-primary transition">
+                        <td class="px-2 py-2 align-middle"><?= $tiket['id_tiket'] ?></td>
+                        <td class="px-2 py-2 align-middle">
                             <?php
                             $barcodeValue = $tiket['barcode'];
                             $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
@@ -192,16 +218,16 @@
                         <?php
                         $kendaraan = $tiket['jenis_kendaraan'] ?? '-';
                         $map = [
-                            'motor' => ['class' => 'bg-sky-500/20 text-sky-400', 'icon' => '<i class="fa-solid fa-motorcycle mr-1"></i>'],
-                            'mobil' => ['class' => 'bg-amber-500/20 text-amber-400', 'icon' => '<i class="fa-solid fa-car mr-1"></i>'],
+                            'motor' => ['class' => 'bg-soft-primary', 'icon' => '<i class="fa-solid fa-motorcycle mr-1"></i>'],
+                            'mobil' => ['class' => 'bg-soft-warning', 'icon' => '<i class="fa-solid fa-car mr-1"></i>'],
                         ];
-                        $colorClass = $map[$kendaraan]['class'] ?? 'bg-slate-500/20 text-slate-400';
+                        $colorClass = $map[$kendaraan]['class'] ?? 'bg-soft-muted';
                         $icon = $map[$kendaraan]['icon'] ?? '';
                         $status = $tiket['status'] ?? '-';
                         $statusClass = match ($status) {
-                            'masuk' => 'bg-emerald-500/20 text-emerald-400',
-                            'keluar' => 'bg-red-500/20 text-red-400',
-                            default => 'bg-slate-500/20 text-slate-400',
+                            'masuk' => 'bg-soft-success',
+                            'keluar' => 'bg-soft-danger',
+                            default => 'bg-soft-muted',
                         };
                         ?>
                         <td class="px-2 py-1 align-middle"><span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $colorClass ?>">
@@ -219,7 +245,7 @@
 
                                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1
                                             hidden group-hover:block
-                                            bg-slate-900 text-white text-[10px]
+                                            bg-bg text-text text-[10px]
                                             px-2 py-1 rounded shadow-lg whitespace-nowrap">
                                     <?= $dt->format('H:i') ?>
                                 </span>
@@ -230,7 +256,7 @@
                         </td>
 
                         <td class="px-2 py-1 align-middle">
-                            <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px]">
+                            <span class="px-2 py-0.5 rounded text-text text-[11px]">
                                 <?= $tiket['petugas_masuk'] ?? '-' ?>
                             </span>
                         </td>
@@ -244,17 +270,17 @@
                                 <?= $dt->format('d M Y') ?>
                                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1
                                             hidden group-hover:block
-                                            bg-slate-900 text-white text-[10px]
+                                            bg-bg text-text text-[10px]
                                             px-2 py-1 rounded shadow-lg">
                                     <?= $dt->format('H:i') ?>
                                 </span>
                             </span>
                             <?php else: ?>
-                                <span class="text-slate-400 italic">Belum keluar</span>
+                                <span class="text-muted italic">Belum keluar</span>
                             <?php endif; ?>
                         </td>
                         <td class="px-2 py-1 align-middle">
-                            <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px]">
+                            <span class="px-2 py-0.5 rounded text-text text-[11px]">
                                 <?= $tiket['petugas_keluar'] ?? '-' ?>
                             </span>
                         </td>
@@ -282,7 +308,10 @@
         <?php if ($pageTiket > 1): ?>
             <button
                 onclick="loadTable('tiket', null, <?= $pageTiket - 1 ?>)"
-                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                class="px-3 py-1 rounded
+                    bg-surface text-muted
+                    hover-bg-primary hover-text-primary
+                    transition">
                 Prev
             </button>
         <?php endif; ?>
@@ -290,10 +319,10 @@
         <?php for ($i = $start; $i <= $end; $i++): ?>
             <button
                 onclick="loadTable('tiket', null, <?= $i ?>)"
-                class="px-3 py-1 rounded
+                class="px-3 py-1 rounded transition
                 <?= $i == $pageTiket
-                    ? 'bg-cyan-500 text-white'
-                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
+                    ? 'bg-primary text-bg font-semibold'
+                    : 'bg-surface text-muted hover-bg-primary hover-text-primary' ?>">
                 <?= $i ?>
             </button>
         <?php endfor; ?>
@@ -301,7 +330,10 @@
         <?php if ($pageTiket < $totalPagesTiket): ?>
             <button
                 onclick="loadTable('tiket', null, <?= $pageTiket + 1 ?>)"
-                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                class="px-3 py-1 rounded
+                    bg-surface text-muted
+                    hover-bg-primary hover-text-primary
+                    transition">
                 Next
             </button>
         <?php endif; ?>

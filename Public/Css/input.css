@@ -7,7 +7,7 @@
 
   .theme-light {
     --color-bg: #ffffff;
-    --color-surface: #f6f8fa;
+    --color-surface: #f0f3f6; 
     --color-border: #d0d7de;
     --color-text: #24292f;
     --color-muted: #57606a;
@@ -95,6 +95,10 @@
     background-color: var(--color-success);
   }
 
+  .bg-muted {
+    background-color: var(--color-muted);
+  }
+
   .bg-warning {
     background-color: var(--color-warning);
   }
@@ -118,6 +122,72 @@
       color-mix(in srgb, var(--shadow-color) 35%, transparent);
   }
 
+    /* ===== TEXT HOVER ===== */
+  .hover-text-primary:hover {
+    color: var(--color-primary);
+  }
+
+  .hover-text-danger:hover {
+    color: var(--color-danger);
+  }
+
+  .hover-text-success:hover {
+    color: var(--color-success);
+  }
+
+  .hover-text-warning:hover {
+    color: var(--color-warning);
+  }
+
+  /* ===== BACKGROUND HOVER ===== */
+  .hover-bg-primary:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  .hover-bg-danger:hover {
+    background-color: color-mix(in srgb, var(--color-danger) 12%, transparent);
+  }
+
+  .hover-bg-success:hover {
+    background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
+  }
+
+  .hover-bg-warning:hover {
+    background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  }
+
+  /* ===== BORDER HOVER ===== */
+  .hover-border-primary:hover {
+    border-color: var(--color-primary);
+  }
+
+  .bg-soft-primary {
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+  }
+
+  .bg-soft-danger {
+    background-color: color-mix(in srgb, var(--color-danger) 15%, transparent);
+    color: var(--color-danger);
+  }
+
+  .bg-soft-warning {
+    background-color: color-mix(
+      in srgb,
+      var(--color-warning) 15%,
+      transparent
+    );
+    color: var(--color-warning);
+  }
+
+    .bg-soft-success {
+    background-color: color-mix(
+      in srgb,
+      var(--color-success) 15%,
+      transparent
+    );
+    color: var(--color-success);
+  }
 }
 
 

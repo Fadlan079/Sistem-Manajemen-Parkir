@@ -57,19 +57,19 @@
 
 <div class="mt-10 lg:ml-35">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
-        <h2 class="text-xl sm:text-2xl font-semibold text-cyan-400">
-            Daftar <span class="text-neutral-400">User</span>
+        <h2 class="text-xl sm:text-2xl font-semibold text-primary">
+            Daftar <span class="text-muted">User</span>
         </h2>
 
         <div class="flex flex-wrap gap-2">
             <form action="?action=import-user-excel" method="POST" enctype="multipart/form-data">
-                <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 rounded-lg hover:bg-emerald-600/30 transition text-sm font-medium">
+                <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-soft-success border border-success rounded-lg hover-bg-success transition text-sm font-medium">
                     <i class="fa-solid fa-file-import"></i> Import Excel
                     <input type="file" name="file_excel" accept=".xls,.xlsx" class="hidden" onchange="this.form.submit()">
                 </label>
             </form>
 
-            <a href="?action=export-user-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 border border-cyan-600/40 rounded-lg hover:bg-cyan-600/30 transition text-sm font-medium">
+            <a href="?action=export-user-excel" class="inline-flex items-center gap-2 px-4 py-2 bg-soft-primary border border-primary rounded-lg hover-bg-primary transition text-sm font-medium">
                 <i class="fa-solid fa-file-export"></i> Export Excel
             </a>
         </div>
@@ -107,150 +107,222 @@
     </div>
 
     <?php else:?>
-    <div class="space-y-4">
-        <?php foreach($listUser as $user): ?>
-            
-            <?php 
-            $verifiedAt = $user['email_verified_at'];
+<div class="space-y-4">
+    <?php foreach($listUser as $user): ?>
+        
+        <?php 
+        $verifiedAt = $user['email_verified_at'];
 
-            if (!empty($verifiedAt)) {
-                $verifStatusLabel = 'Terverifikasi';
-                $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
-                $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
-                $verifDate = date('d M Y H:i', strtotime($verifiedAt));
-            } else {
-                $verifStatusLabel = 'Belum';
-                $verifStatusClass = 'bg-rose-500/20 text-rose-400';
-                $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
-                $verifDate = '-';
-            }
-            ?>
-            <?php
-            $gender = $user['gender'] ?? '-';
-            if ($gender === 'L') { $genderClass = 'bg-blue-500/20 text-blue-400'; $genderIcon = '<i class="fa-solid fa-mars"></i>'; $genderLabel = 'Laki-laki'; }
-            elseif ($gender === 'P') { $genderClass = 'bg-pink-500/20 text-pink-400'; $genderIcon = '<i class="fa-solid fa-venus"></i>'; $genderLabel = 'Perempuan'; }
-            else { $genderClass = 'bg-slate-500/20 text-slate-400'; $genderIcon = '<i class="fa-solid fa-circle-question"></i>'; $genderLabel = '-'; }
+        if (!empty($verifiedAt)) {
+            $verifStatusLabel = 'Terverifikasi';
+            $verifStatusClass = 'bg-soft-success';
+            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+        } else {
+            $verifStatusLabel = 'Belum';
+            $verifStatusClass = 'bg-soft-danger';
+            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+            $verifDate = '-';
+        }
+        ?>
 
-            $role = $user['role'] ?? '-';
-            $roleMap = [
-                'admin' => ['class' => 'bg-purple-500/20 text-purple-400','icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'],
-                'petugas' => ['class' => 'bg-cyan-500/20 text-cyan-400','icon' => '<i class="fa-solid fa-id-badge mr-1"></i>']
-            ];
-            $roleClass = $roleMap[$role]['class'] ?? 'bg-slate-500/20 text-slate-400';
-            $roleIcon = $roleMap[$role]['icon'] ?? '';
-            $roleDisplay = ucfirst($role);
-            ?>
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-sm sm:hidden text-sm text-slate-300">
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="font-medium text-slate-400">ID User:</div>
-                    <div class="text-right font-semibold text-white"><?= $user['id_user'] ?></div>
+        <?php
+        $gender = $user['gender'] ?? '-';
+        if ($gender === 'L') {
+            $genderClass = 'bg-soft-primary';
+            $genderIcon = '<i class="fa-solid fa-mars"></i>';
+            $genderLabel = 'Laki-laki';
+        } elseif ($gender === 'P') {
+            $genderClass = 'bg-soft-warning';
+            $genderIcon = '<i class="fa-solid fa-venus"></i>';
+            $genderLabel = 'Perempuan';
+        } else {
+            $genderClass = 'bg-soft-muted';
+            $genderIcon = '<i class="fa-solid fa-circle-question"></i>';
+            $genderLabel = '-';
+        }
 
-                    <div class="font-medium text-slate-400">Nama:</div>
-                    <div class="text-right"><?= $user['nama_lengkap'] ?></div>
+        $role = $user['role'] ?? '-';
+        $roleMap = [
+            'admin' => [
+                'class' => 'bg-soft-primary',
+                'icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'
+            ],
+            'petugas' => [
+                'class' => 'bg-soft-warning',
+                'icon' => '<i class="fa-solid fa-id-badge mr-1"></i>'
+            ]
+        ];
+        $roleClass = $roleMap[$role]['class'] ?? 'bg-soft-muted';
+        $roleIcon = $roleMap[$role]['icon'] ?? '';
+        $roleDisplay = ucfirst($role);
+        ?>
 
-                    <div class="font-medium text-slate-400">Email:</div>
-                    <div class="text-right"><?= $user['email'] ?></div>
+        <div class="bg-surface border border-border rounded-xl p-4 shadow-sm sm:hidden text-xs text-text">
+            <div class="grid grid-cols-2 gap-2">
+                <div class="font-medium text-muted">ID User:</div>
+                <div class="text-right font-semibold">
+                    <?= $user['id_user'] ?>
+                </div>
 
-                    <div class="font-medium text-slate-400">Gender:</div>
-                    <div class="text-right"><span class="px-2 py-1 rounded-md text-sm font-medium flex items-center gap-1 <?= $genderClass ?>"><?= $genderIcon ?> <?= $genderLabel ?></span></div>
+                <div class="font-medium text-muted">Nama:</div>
+                <div class="text-right">
+                    <?= $user['nama_lengkap'] ?>
+                </div>
 
-                    <div class="font-medium text-slate-400">Role:</div>
-                    <div class="text-right"><span class="px-2 py-1 rounded-md text-sm font-medium <?= $roleClass ?>"><?= $roleIcon . $roleDisplay ?></span></div>
+                <div class="font-medium text-muted">Email:</div>
+                <div class="text-right truncate">
+                    <?= $user['email'] ?>
+                </div>
 
-                    <div class="font-medium text-slate-400">Dibuat Pada:</div>
-                    <div class="text-right"><?= $user['created_at'] ?></div>
-                    <div class="font-medium text-slate-400">Status Verifikasi:</div>
-                    <div class="text-right">
-                        <span class="px-2 py-1 rounded-md text-sm font-medium <?= $verifStatusClass ?>">
-                            <?= $verifIcon . $verifStatusLabel ?>
-                        </span>
-                    </div>
+                <div class="font-medium text-muted">Gender:</div>
+                <div class="text-right">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-medium inline-flex items-center gap-1 <?= $genderClass ?>">
+                        <?= $genderIcon ?> <?= $genderLabel ?>
+                    </span>
+                </div>
 
-                    <div class="font-medium text-slate-400">Tgl Verifikasi:</div>
-                    <div class="text-right"><?= $verifDate ?></div>
+                <div class="font-medium text-muted">Role:</div>
+                <div class="text-right">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $roleClass ?>">
+                        <?= $roleIcon . $roleDisplay ?>
+                    </span>
+                </div>
 
+                <div class="font-medium text-muted">Dibuat Pada:</div>
+                <div class="text-right">
+                    <?= $user['created_at'] ?>
+                </div>
+
+                <div class="font-medium text-muted">Status Verifikasi:</div>
+                <div class="text-right">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $verifStatusClass ?>">
+                        <?= $verifIcon . $verifStatusLabel ?>
+                    </span>
+                </div>
+
+                <div class="font-medium text-muted">Tgl Verifikasi:</div>
+                <div class="text-right">
+                    <?= $verifDate ?>
                 </div>
             </div>
-        <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endforeach; ?>
+</div>
 
-    <div class="overflow-x-auto bg-slate-800 rounded-xl border border-slate-700 p-4 hidden sm:block">
-        <table class="min-w-full divide-y divide-slate-700 text-sm">
-            <thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wide">
+    <div class="overflow-x-auto bg-surface rounded-xl border border-border p-4 hidden sm:block">
+    <table class="min-w-full text-xs">
+        <thead class="bg-bg text-text uppercase tracking-wide">
             <tr>
-                <th class="px-4 py-3">ID</th>
-                <th class="px-4 py-3">Nama</th>
-                <th class="px-4 py-3">Email</th>
-                <th class="px-4 py-3">Gender</th>
-                <th class="px-4 py-3">Role</th>
-                <th class="px-4 py-3">Dibuat</th>
-                <th class="px-4 py-3">Verif</th>
-                <th class="px-4 py-3">Tgl Verif</th>
+                <th class="px-3 py-2">ID</th>
+                <th class="px-3 py-2">Nama</th>
+                <th class="px-3 py-2">Email</th>
+                <th class="px-3 py-2">Gender</th>
+                <th class="px-3 py-2">Role</th>
+                <th class="px-3 py-2">Dibuat</th>
+                <th class="px-3 py-2">Verif</th>
+                <th class="px-3 py-2">Tgl Verif</th>
             </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-700 text-slate-300">
-                <?php foreach($listUser as $user): ?>
-                         <?php 
-                        $verifiedAt = $user['email_verified_at'];
+        </thead>
 
-                        if (!empty($verifiedAt)) {
-                            $verifStatusLabel = 'Terverifikasi';
-                            $verifStatusClass = 'bg-emerald-500/20 text-emerald-400';
-                            $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
-                            $verifDate = date('d M Y H:i', strtotime($verifiedAt));
-                        } else {
-                            $verifStatusLabel = 'Belum';
-                            $verifStatusClass = 'bg-rose-500/20 text-rose-400';
-                            $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
-                            $verifDate = '-';
-                        }
-                        ?>
-                    <?php
-                    $gender = $user['gender'] ?? '-';
-                    if ($gender === 'L') { $genderClass = 'bg-blue-500/20 text-blue-400'; $genderIcon = '<i class="fa-solid fa-mars"></i>'; $genderLabel = 'Laki-laki'; }
-                    elseif ($gender === 'P') { $genderClass = 'bg-pink-500/20 text-pink-400'; $genderIcon = '<i class="fa-solid fa-venus"></i>'; $genderLabel = 'Perempuan'; }
-                    else { $genderClass = 'bg-slate-500/20 text-slate-400'; $genderIcon = '<i class="fa-solid fa-circle-question"></i>'; $genderLabel = '-'; }
+        <tbody class="divide-y divide-neutral-600 text-text">
+            <?php foreach($listUser as $user): ?>
+                <?php 
+                $verifiedAt = $user['email_verified_at'];
 
-                    $role = $user['role'] ?? '-';
-                    $roleMap = [
-                        'admin' => ['class' => 'bg-purple-500/20 text-purple-400','icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'],
-                        'petugas' => ['class' => 'bg-cyan-500/20 text-cyan-400','icon' => '<i class="fa-solid fa-id-badge mr-1"></i>']
-                    ];
-                    $roleClass = $roleMap[$role]['class'] ?? 'bg-slate-500/20 text-slate-400';
-                    $roleIcon = $roleMap[$role]['icon'] ?? '';
-                    $roleDisplay = ucfirst($role);
-                    ?>
-                    <tr class="hover:bg-slate-700 transition">
-                        <td class="px-6 py-3"><?= $user['id_user'] ?></td>
-                        <td class="px-4 py-3">
-                            <div class="font-medium text-white leading-tight">
-                                <?= $user['nama_lengkap'] ?>
-                            </div>
-                        </td>
+                if (!empty($verifiedAt)) {
+                    $verifStatusLabel = 'Terverifikasi';
+                    $verifStatusClass = 'bg-soft-success';
+                    $verifIcon = '<i class="fa-solid fa-circle-check mr-1"></i>';
+                    $verifDate = date('d M Y H:i', strtotime($verifiedAt));
+                } else {
+                    $verifStatusLabel = 'Belum';
+                    $verifStatusClass = 'bg-soft-danger';
+                    $verifIcon = '<i class="fa-solid fa-circle-xmark mr-1"></i>';
+                    $verifDate = '-';
+                }
+                ?>
 
-                        <td class="px-4 py-3">
-                            <div class="text-[13px] text-slate-300 truncate max-w-[220px]" title="<?= $user['email'] ?>">
-                                <?= $user['email'] ?>
-                            </div>
-                        </td>
+                <?php
+                $gender = $user['gender'] ?? '-';
+                if ($gender === 'L') {
+                    $genderClass = 'bg-soft-primary';
+                    $genderIcon = '<i class="fa-solid fa-mars"></i>';
+                    $genderLabel = 'Laki-laki';
+                } elseif ($gender === 'P') {
+                    $genderClass = 'bg-soft-warning';
+                    $genderIcon = '<i class="fa-solid fa-venus"></i>';
+                    $genderLabel = 'Perempuan';
+                } else {
+                    $genderClass = 'bg-soft-muted';
+                    $genderIcon = '<i class="fa-solid fa-circle-question"></i>';
+                    $genderLabel = '-';
+                }
 
-                        <td class="px-6 py-3"><span class="px-2 py-1 rounded-md text-sm font-medium flex items-center gap-1 <?= $genderClass ?>"><?= $genderIcon ?> <?= $genderLabel ?></span></td>
-                        <td class="px-6 py-3"><span class="px-2 py-1 rounded-md text-sm font-medium <?= $roleClass ?>"><?= $roleIcon . $roleDisplay ?></span></td>
-                        <td class="px-6 py-3"><?= $user['created_at'] ?></td>
-                        <td class="px-6 py-3">
-                            <span class="px-2 py-1 rounded-md text-sm font-medium <?= $verifStatusClass ?>">
-                                <?= $verifIcon . $verifStatusLabel ?>
-                            </span>
-                        </td>
+                $role = $user['role'] ?? '-';
+                $roleMap = [
+                    'admin' => [
+                        'class' => 'bg-soft-primary',
+                        'icon' => '<i class="fa-solid fa-user-shield mr-1"></i>'
+                    ],
+                    'petugas' => [
+                        'class' => 'bg-soft-warning',
+                        'icon' => '<i class="fa-solid fa-id-badge mr-1"></i>'
+                    ]
+                ];
+                $roleClass = $roleMap[$role]['class'] ?? 'bg-soft-muted';
+                $roleIcon = $roleMap[$role]['icon'] ?? '';
+                $roleDisplay = ucfirst($role);
+                ?>
 
-                        <td class="px-6 py-3">
-                            <?= $verifDate ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                <tr class="hover-bg-primary transition">
+                    <td class="px-2 py-2 align-middle">
+                        <?= $user['id_user'] ?>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <div class="font-medium text-text leading-tight">
+                            <?= $user['nama_lengkap'] ?>
+                        </div>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <div class="text-[11px] truncate max-w-[220px]" title="<?= $user['email'] ?>">
+                            <?= $user['email'] ?>
+                        </div>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <span class="px-2 py-0.5 rounded text-[11px] font-medium inline-flex items-center gap-1 <?= $genderClass ?>">
+                            <?= $genderIcon ?> <?= $genderLabel ?>
+                        </span>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $roleClass ?>">
+                            <?= $roleIcon . $roleDisplay ?>
+                        </span>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <?= $user['created_at'] ?>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <span class="px-2 py-0.5 rounded text-[11px] font-medium <?= $verifStatusClass ?>">
+                            <?= $verifIcon . $verifStatusLabel ?>
+                        </span>
+                    </td>
+
+                    <td class="px-3 py-2 align-middle">
+                        <?= $verifDate ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 
     <div class="flex flex-wrap justify-center gap-2 mt-4">
         <?php
@@ -262,7 +334,10 @@
 
         <?php if ($pageUser > 1): ?>
             <button onclick="loadTable('user', null, <?= $pageUser - 1 ?>)"
-                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                class="px-3 py-1 rounded
+                    bg-surface text-muted
+                    hover-bg-primary hover-text-primary
+                    transition">
                 Prev
             </button>
         <?php endif; ?>
@@ -270,14 +345,19 @@
         <?php for ($i = $start; $i <= $end; $i++): ?>
             <button onclick="loadTable('user', null, <?= $i ?>)"
                 class="px-3 py-1 rounded
-                <?= $i == $pageUser ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600' ?>">
+                <?= $i == $pageUser 
+                    ? 'bg-primary text-bg font-semibold'
+                    : 'bg-surface text-muted hover-bg-primary hover-text-primary' ?>">
                 <?= $i ?>
             </button>
         <?php endfor; ?>
 
         <?php if ($pageUser < $totalPagesUser): ?>
             <button onclick="loadTable('user', null, <?= $pageUser + 1 ?>)"
-                class="px-3 py-1 bg-slate-700 text-slate-300 rounded hover:bg-slate-600">
+                class="px-3 py-1 rounded
+                    bg-surface text-muted
+                    hover-bg-primary hover-text-primary
+                    transition">
                 Next
             </button>
         <?php endif; ?>

@@ -16,24 +16,25 @@ $bulanIndo = [
 ];
 ?>  
 
-<div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-4 sm:px-5 py-2
+<div class="flex items-center gap-4 px-4 sm:px-5 py-3
             bg-surface border border-border
-            rounded-xl shadow-sm">
+            rounded-2xl shadow-sm">
 
-    <!-- Icon -->
-    <div class="w-9 h-9 flex items-center justify-center
-                rounded-lg bg-primary/10 shrink-0">
-        <i class="fa-solid fa-calendar-day text-primary text-sm sm:text-base"></i>
+    <div class="w-11 h-11 flex items-center justify-center
+                rounded-full bg-soft-primary shrink-0">
+        <span class="text-primary font-bold text-lg sm:text-xl">
+            <?= $tgl ?>
+        </span>
     </div>
 
-    <!-- Text -->
-    <div class="leading-tight text-center sm:text-left">
-        <p class="text-[10px] sm:text-xs text-muted">
+    <div class="leading-tight">
+        <p class="text-md sm:text-base font-semibold text-text">
             <?= $hariIndo[$hari]; ?>
         </p>
-        <p class="text-xs sm:text-sm font-semibold text-text">
-            <?= $tgl ?> <?= $bulanIndo[$bulan] ?> <?= $tahun ?>, 
-            <span id="jam"></span> <!-- jam akan diisi JS -->
+
+        <p class="text-xs sm:text-sm text-muted">
+            <?= $bulanIndo[$bulan] ?> <?= $tahun ?> • 
+            <span id="jam"></span>
         </p>
     </div>
 </div>
