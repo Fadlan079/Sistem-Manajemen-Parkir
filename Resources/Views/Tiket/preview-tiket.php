@@ -6,7 +6,7 @@ $jam     = date("H:i:s", strtotime($tiket['tgl_masuk']));
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Preview Tiket</title>
+    <title>Preview Tiket · SIMAKIR</title>
     <link rel="stylesheet" href="Css/output.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap" rel="stylesheet">
 

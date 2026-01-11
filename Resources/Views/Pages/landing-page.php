@@ -5,40 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMAKIR</title>
     <link rel="stylesheet" href="Css/output.css">
-    <style>
-        .nav-link {
-        position: relative;
-        color: var(--color-muted);
-        transition: color .3s;
-        }
-
-        .nav-link.active {
-        color: var(--color-primary);
-        }
-
-        .nav-link.active::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -6px;
-        width: 100%;
-        height: 2px;
-        background: var(--color-primary);
-        border-radius: 2px;
-        }
-
-        .mobile-link {
-        padding: 0.75rem;
-        border-radius: 0.75rem;
-        color: var(--color-muted);
-        transition: background .3s, color .3s;
-        }
-
-        .mobile-link.active {
-        background: var(--color-primary);
-        color: white;
-        }
-    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-bg text-text antialiased">

@@ -66,7 +66,7 @@ switch($action){
     case 'index':
         $dashboard->index();
         break;
-
+        
     // Tiket    
     case 'tiket-masuk':
         $tiket->ShowTiketMasuk();

@@ -12,9 +12,9 @@
     --color-text: #24292f;
     --color-muted: #57606a;
     --color-primary: #0969da;
-    --color-success: #1a7f37;
+    --color-success: #28A745;
     --color-danger: #cf222e;
-    --color-warning: #9a6700;
+    --color-warning: #FFB000;
   }
 
   .theme-dark {
@@ -30,16 +30,17 @@
   }
 
   .theme-default {
-    --color-bg: #0f172a;          /* slate-900 */
-    --color-surface: #083344;     /* cyan-950 */
-    --color-border: #155e75;      /* cyan-800 */
-    --color-text: #e5e7eb;        /* slate-200 */
-    --color-muted: #94a3b8;       /* slate-400 */
-    --color-primary: #58a6ff;     /* cyan-400 */
-    --color-success: #22c55e;
-    --color-danger: #ef4444;
-    --color-warning: #f59e0b;
+    --color-bg: #1c1c1e;
+    --color-surface: #262629;
+    --color-border: #3a3a3d;
+    --color-text: #f4f4f5;
+    --color-muted: #a1a1aa;
+    --color-primary: #b91c1c;   
+    --color-success: #6fbf8f;
+    --color-danger:  #ef4444; 
+    --color-warning: #eab308;  
   }
+
 }
 
 @layer utilities {
@@ -122,7 +123,6 @@
       color-mix(in srgb, var(--shadow-color) 35%, transparent);
   }
 
-    /* ===== TEXT HOVER ===== */
   .hover-text-primary:hover {
     color: var(--color-primary);
   }
@@ -139,7 +139,6 @@
     color: var(--color-warning);
   }
 
-  /* ===== BACKGROUND HOVER ===== */
   .hover-bg-primary:hover {
     background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
@@ -156,7 +155,6 @@
     background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
   }
 
-  /* ===== BORDER HOVER ===== */
   .hover-border-primary:hover {
     border-color: var(--color-primary);
   }
@@ -192,11 +190,21 @@
 
 
 @layer components {
-.sidebar-link {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition;
+  .sidebar-link {
+      @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition;
+      color: var(--color-muted);
+  }
+  .mobile-link {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
     color: var(--color-muted);
-}
+    transition: background .3s, color .3s;
+  }
 
+  .mobile-link.active {
+    background: var(--color-primary);
+    color: white;
+  }
 
   .sidebar-link:hover {
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
@@ -208,6 +216,32 @@
     color: var(--color-primary);
     box-shadow: inset 3px 0 0 var(--color-primary);
   }
+  
+  .nav-link {
+  position: relative;
+  color: var(--color-muted);
+  transition: color .3s;
+  }
+
+  .nav-link.active {
+  color: var(--color-primary);
+  }
+
+  .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  }
+
+          .tab-active {
+            box-shadow: inset 0 -3px 0 currentColor;
+            background-color: rgba(255,255,255,0.06);
+        }
 }
 
 .theme-btn {

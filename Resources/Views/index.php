@@ -15,23 +15,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         ::-webkit-scrollbar {
-            width: 5px;
-            transition: width 0.3s ease;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #0d1117;
+            background: var(--color-bg);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #58a6ff;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            background: var(--color-primary);
+            border-radius: 999px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
-            box-shadow: 0 0 0 2px #06b6d4;
+            background: color-mix(in srgb, var(--color-primary) 85%, white);
         }
   </style>
 </head>
@@ -53,10 +50,12 @@
         <?php if(!$sessionUser): ?>
             <?php include __DIR__ . "/../Views/Pages/landing-page.php"?>
         <?php else: ?>
-            <section class="mx-auto max-w-7xl px-6 py-10">
+            <section id="app" class="mx-auto max-w-7xl px-6 py-10">
                 <?php include __DIR__ . "/../Views/Pages/dashboard.php"?>
             </section>
         <?php endif ?>
     </main>
+
+    <script src="/sistem_parkir/Public/js/app.js" defer></script>
 </body>
 </html>

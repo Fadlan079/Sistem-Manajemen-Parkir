@@ -46,7 +46,7 @@
             const icons = {
                 light: 'fa-sun',
                 dark: 'fa-moon',
-                cyan: 'fa-droplet'
+                default: 'fa-circle'
             };
             themeIcon.className = 'fa-solid ' + (icons[theme] || 'fa-circle');
         }
