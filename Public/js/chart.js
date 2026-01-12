@@ -117,11 +117,6 @@ window.loadTable = function(type, el = null, page = 1) {
 
     }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const defaultTab = document.getElementById('tab-tiket');
-    loadTable('tiket', defaultTab);
-});
-
 function renderChartTiket(statusData, kendaraanData) { 
         const statusCanvas = document.getElementById('chartStatusTiket');
     const kendaraanCanvas = document.getElementById('chartJenisKendaraan');

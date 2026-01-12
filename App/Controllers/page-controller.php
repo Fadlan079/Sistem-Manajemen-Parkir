@@ -11,7 +11,7 @@ class PageController {
     public function dashboard() {
         $dashController = new DASHBOARDController();
         $ajaxdashController = new AjaxDashboardController();
-        $dashController->index();
+        $dashController->dashboard();
     }
 
     public function manageUser() {
@@ -24,4 +24,13 @@ class PageController {
         $tarifController->ManageTarif();
     }
 
+    public function tiketMasuk() {
+        $tiketController = new TIKETController();
+        $tiketController->ShowTiketMasuk();
+    }
+
+    public function tiketKeluar() {
+        $tiketController = new TIKETController();
+        $tiketController->ShowTiketKeluar();
+    }
 }

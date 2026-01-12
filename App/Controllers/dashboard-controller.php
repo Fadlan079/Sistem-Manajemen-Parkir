@@ -15,7 +15,11 @@ class DASHBOARDController {
     } 
 
     public function index() { 
-        $current = 'index'; 
+        include __DIR__ . "/../../Resources/Views/index.php"; 
+    } 
+
+    public function dashboard(){
+                $current = 'index'; 
         $totalbayar = $this->modelTransaksi->TotalBayar(); 
         $TotalUser = $this->modelUser->countuser(); 
         $Totalmasuk = $this->modelTiket->countTiketMasuk(); 
@@ -36,7 +40,6 @@ class DASHBOARDController {
         foreach ($kendaraanStat as $row) { 
             $kendaraanCount[$row['jenis_kendaraan']] = (int)$row['total']; 
         } 
-
-        include __DIR__ . "/../../Resources/Views/index.php"; 
-    } 
+        include __DIR__ . "/../../Resources/Views/Pages/dashboard.php";
+    }
 } 

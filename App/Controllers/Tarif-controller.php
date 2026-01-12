@@ -14,63 +14,91 @@ class TARIFController{
         include __DIR__ . "/../../Resources/Views/Pages/manage-tarif.php"; 
     } 
 
-    public function deleteTarif($id) { 
-        $this->modelTarif->DeleteTarif($id); 
-        header("Location:?action=manage-tarif"); 
-    } 
+    public function deleteTarif($id) {
+        header('Content-Type: application/json');
 
+        if (!$id) {
+            echo json_encode([
+                'status' => 'error',
+                'msg' => 'ID tarif tidak valid'
+            ]);
+            exit;
+        }
+
+        $delete = $this->modelTarif->DeleteTarif($id);
+
+        echo json_encode([
+            'status' => $delete ? 'success' : 'error',
+            'msg' => $delete
+                ? 'Tarif berhasil dihapus'
+                : 'Gagal menghapus tarif'
+        ]);
+        exit;
+    }
+    
     public function ShowInsertTarif() { 
         include __DIR__ . "/../../Resources/Views/components/Form/form-tambah-tarif.php"; 
     } 
 
-    public function storeInsertTarif() { 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            $jenis_kendaraan = $_POST['jenis_kendaraan'] ?? ''; 
-            $harga_flat = $_POST['harga_flat'] ?? 0; 
+    public function storeInsertTarif() {
+        header('Content-Type: application/json');
 
-            if (empty($jenis_kendaraan) || $harga_flat <= 0) { 
-                echo "<script>alert('Data tidak valid!'); window.history.back();</script>"; 
-                exit; 
-            } 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Invalid request'
+            ]);
+            exit;
+        }
 
-            $insert = $this->modelTarif->InsertTarif($jenis_kendaraan, $harga_flat); 
+        $jenis_kendaraan = $_POST['jenis_kendaraan'] ?? '';
+        $harga_flat = (int) ($_POST['harga_flat'] ?? 0);
 
-            if ($insert) { 
-                echo "<script>alert('Tarif berhasil disimpan!'); window.location='?action=manage-tarif';</script>"; 
-            } else { 
-                echo "<script>alert('Gagal menyimpan tarif!'); window.history.back();</script>"; 
-            } 
-        } 
-    } 
+        if ($jenis_kendaraan === '' || $harga_flat <= 0) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak valid'
+            ]);
+            exit;
+        }
+
+        $insert = $this->modelTarif->InsertTarif($jenis_kendaraan, $harga_flat);
+
+        echo json_encode([
+            'status' => $insert ? true : false,
+            'message' => $insert ? 'Tarif berhasil disimpan' : 'Gagal menyimpan tarif'
+        ]);
+    }
 
     public function editTarif($id_tarif) { 
         $tarif = $this->modelTarif->getById($id_tarif); 
         include __DIR__ . "/../../Resources/Views/components/Form/edit-tarif.php"; 
     } 
 
-    public function UpdateTarif() { 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            $id_tarif = $_POST['id_tarif']; 
-            $jenis_kendaraan = $_POST['jenis_kendaraan']; 
-            $harga_flat = $_POST['harga_flat']; 
+    public function UpdateTarif() {
+        header('Content-Type: application/json');
 
-            if (empty($jenis_kendaraan) || $harga_flat <= 0) { 
-                $_SESSION['error'] = "Data tidak valid!"; 
-                header("Location: ?action=edit-tarif&id=".$id_tarif); 
-                exit; 
-            } 
+        $id_tarif = $_POST['id_tarif'] ?? null;
+        $jenis_kendaraan = $_POST['jenis_kendaraan'] ?? '';
+        $harga_flat = (int) ($_POST['harga_flat'] ?? 0);
 
-            $update = $this->modelTarif->UpdateTarif($id_tarif, $jenis_kendaraan, $harga_flat); 
+        if (!$id_tarif || $jenis_kendaraan === '' || $harga_flat <= 0) {
+            echo json_encode([
+                'status' => false,
+                'message' => 'Data tidak valid'
+            ]);
+            exit;
+        }
 
-            if ($update) { 
-                $_SESSION['success'] = "Tarif berhasil diupdate!"; 
-                header("Location: ?action=manage-tarif"); 
-                exit; 
-            } else { 
-                $_SESSION['error'] = "Gagal mengupdate tarif!"; 
-                header("Location: ?action=edit-tarif&id=".$id_tarif); 
-                exit; 
-            } 
-        } 
-    } 
+        $update = $this->modelTarif->UpdateTarif(
+            $id_tarif,
+            $jenis_kendaraan,
+            $harga_flat
+        );
+
+        echo json_encode([
+            'status' => $update ? true : false,
+            'message' => $update ? 'Tarif berhasil diupdate' : 'Gagal update tarif'
+        ]);
+    }
 }

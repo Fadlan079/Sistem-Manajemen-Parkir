@@ -31,19 +31,19 @@ class TIKETController{
 
         if (empty($nomor_polisi)) { 
             $_SESSION['flash'] = [ 'type' => 'error', 'msg' => 'Nomor polisi wajib diisi' ]; 
-            header("Location: ?action=tiket-masuk"); 
-            exit; 
+            echo json_encode(['status' => 'error', 'msg' => 'Nomor polisi wajib diisi']); 
+            return; 
         } 
 
         $insert = $this->modelTiket->InsertTiketMasuk($nomor_polisi, $jenis_kendaraan, $id_tarif, $tgl_masuk, $id_petugas_masuk, $status); 
 
         if ($insert) { 
             $lastId = $this->modelTiket->lastInsertId(); 
-            header("Location: ?action=preview-tiket&id=$lastId"); 
+            echo json_encode(['status' => 'success', 'id' => $lastId]); 
             exit; 
         } else { 
             $_SESSION['flash'] = [ 'type' => 'error', 'msg' => 'Gagal Membuat Tiket' ]; 
-            header("Location: ?action=tiket-masuk"); 
+            echo json_encode(['status' => 'error', 'msg' => 'Gagal membuat tiket']); 
             exit; 
         } 
     } 

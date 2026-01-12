@@ -1,162 +1,102 @@
-<?php include __DIR__ . "/../components/global-modal.php"?>
+<div class="max-w-7xl lg:ml-30 mx-auto px-6 py-6 space-y-6 bg-gradient-to-br from-gray-900 to-gray-800 text-text">
 
-<div class="max-w-7xl mx-auto space-y-4 lg:ml-30 px-6 pt-6">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 flex-wrap">
-        <h2 class="text-xl sm:text-2xl font-semibold text-primary">
-            Daftar <span class="text-muted">User</span>
-        </h2>
+  <!-- Top Summary / KPI -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="p-4 bg-gray-900/50 rounded-2xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transition transform">
+      <div class="text-sm text-muted mb-1">Total Users</div>
+      <div class="text-2xl font-bold text-blue-400 glow"><?= $totalUsers ?? count($listUser) ?></div>
+    </div>
+    <div class="p-4 bg-gray-900/50 rounded-2xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transition transform">
+      <div class="text-sm text-muted mb-1">Admin</div>
+      <div class="text-2xl font-bold text-indigo-400 glow"><?= $totalAdmin ?? 0 ?></div>
+    </div>
+    <div class="p-4 bg-gray-900/50 rounded-2xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transition transform">
+      <div class="text-sm text-muted mb-1">Petugas</div>
+      <div class="text-2xl font-bold text-yellow-400 glow"><?= $totalPetugas ?? 0 ?></div>
+    </div>
+    <div class="p-4 bg-gray-900/50 rounded-2xl shadow-xl flex flex-col items-center justify-center hover:scale-105 transition transform">
+      <div class="text-sm text-muted mb-1">User Aktif</div>
+      <div class="text-2xl font-bold text-green-400 glow"><?= $activeUsers ?? 0 ?></div>
+    </div>
+  </div>
 
-        <div class="hidden sm:flex flex-wrap gap-2">
-            <a href="?action=tambah-user" 
-               class="inline-flex items-center gap-2 px-4 py-2 bg-surface text-primary border border-primary rounded-lg hover-bg-primary hover-text-bg transition text-sm font-medium">
-               <i class="fa-solid fa-user-plus"></i> Tambah User
-            </a>
+  <!-- Search + Filter -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <input type="text" placeholder="Cari user..." id="searchUser"
+           class="w-full sm:w-1/2 px-4 py-2 rounded-lg bg-gray-900/30 text-text border border-gray-700 placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+    
+    <select id="filterRole" class="px-4 py-2 rounded-lg bg-gray-900/30 text-text border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+      <option value="">Semua Role</option>
+      <option value="admin">Admin</option>
+      <option value="petugas">Petugas</option>
+    </select>
+
+    <a href="?action=tambah-user" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-bg rounded-lg shadow-lg flex items-center gap-2">
+      <i class="fa-solid fa-user-plus"></i> Tambah User
+    </a>
+  </div>
+
+  <!-- User Table / Card Grid -->
+  <div id="userContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+    <?php foreach($listUser as $user): ?>
+    <?php
+      $gender = $user['gender'] ?? '-';
+      $genderLabel = $gender==='L'?'Laki-laki':($gender==='P'?'Perempuan':'-');
+      $genderColor = $gender==='L'?'bg-blue-400/30 text-blue-300':($gender==='P'?'bg-pink-400/30 text-pink-300':'bg-gray-700 text-gray-400');
+
+      $role = $user['role'] ?? '-';
+      $roleMap = [
+          'admin'=>['class'=>'bg-indigo-500 text-bg','label'=>'Admin'],
+          'petugas'=>['class'=>'bg-yellow-500 text-bg','label'=>'Petugas']
+      ];
+      $roleColor = $roleMap[$role]['class'] ?? 'bg-gray-700 text-gray-400';
+      $roleLabel = $roleMap[$role]['label'] ?? '-';
+    ?>
+    <div class="bg-gray-900/40 p-5 rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1 relative">
+      <div class="absolute top-3 right-3 flex gap-1">
+        <span class="px-2 py-0.5 rounded text-xs font-semibold <?= $roleColor ?>"><?= $roleLabel ?></span>
+        <span class="px-2 py-0.5 rounded text-xs font-semibold <?= $genderColor ?>"><?= $genderLabel ?></span>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-lg font-bold text-text"><?= strtoupper($user['nama_lengkap'][0]) ?></div>
+        <div>
+          <h3 class="font-semibold text-lg"><?= htmlspecialchars($user['nama_lengkap']) ?></h3>
+          <p class="text-sm text-muted"><?= htmlspecialchars($user['email']) ?></p>
         </div>
-
-        <a href="?action=tambah-user" 
-           class="flex sm:hidden flex-col justify-center items-center bg-surface border border-primary rounded-xl p-6 shadow hover-bg-primary hover-text-bg transition text-primary">
-            <i class="fa-solid fa-user-plus text-2xl mb-2"></i>
-            <span class="font-medium text-sm">Tambah User</span>
-        </a>
+      </div>
+      <div class="flex justify-between mb-4 text-sm text-muted">
+        <div>Dibuat: <?= $user['created_at'] ? (new DateTime($user['created_at']))->format('d M Y') : '-' ?></div>
+      </div>
+      <div class="flex gap-2">
+        <a href="?action=edit-user&id=<?= $user['id_user'] ?>" class="flex-1 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg text-bg text-center transition">Edit</a>
+        <a href="?action=delete-user&id=<?= $user['id_user'] ?>" onclick="return confirm('Yakin hapus?')" class="flex-1 py-2 bg-red-500 hover:bg-red-600 rounded-lg text-bg text-center transition">Hapus</a>
+      </div>
     </div>
+    <?php endforeach; ?>
+  </div>
 
-    <div class="space-y-4 sm:hidden">
-        <?php foreach($listUser as $user): ?>
-            <div class="bg-surface border border-border rounded-xl p-4 shadow-sm">
-                <div class="grid grid-cols-2 gap-2 text-sm text-text">
-                    <div class="font-medium text-muted">ID User:</div>
-                    <div class="text-right font-semibold text-text"><?= $user['id_user'] ?></div>
-
-                    <div class="font-medium text-muted">Nama:</div>
-                    <div class="text-right"><?= htmlspecialchars($user['nama_lengkap']) ?></div>
-
-                    <div class="font-medium text-muted">Email:</div>
-                    <div class="text-right"><?= htmlspecialchars($user['email']) ?></div>
-
-                    <div class="font-medium text-muted">Gender:</div>
-                    <div class="text-right">
-                        <?php
-                        $gender = $user['gender'] ?? '-';
-                        if ($gender === 'L') { $label='Laki-laki'; $color='bg-soft-primary text-bg'; }
-                        elseif ($gender==='P'){ $label='Perempuan'; $color='bg-soft-warning text-bg'; }
-                        else{ $label='-'; $color='bg-soft-muted text-text'; }
-                        ?>
-                        <span class="px-2 py-1 rounded text-xs font-medium <?= $color ?>"><?= $label ?></span>
-                    </div>
-
-                    <div class="font-medium text-muted">Role:</div>
-                    <div class="text-right">
-                        <?php
-                        $role = $user['role'] ?? '-';
-                        $roleMap = [
-                            'admin'=>['class'=>'bg-soft-primary text-bg','label'=>'Admin'],
-                            'petugas'=>['class'=>'bg-soft-warning text-bg','label'=>'Petugas']
-                        ];
-                        $color = $roleMap[$role]['class'] ?? 'bg-soft-muted text-text';
-                        $label = $roleMap[$role]['label'] ?? '-';
-                        ?>
-                        <span class="px-2 py-1 rounded text-xs font-medium <?= $color ?>"><?= $label ?></span>
-                    </div>
-
-                    <div class="font-medium text-muted">Dibuat:</div>
-                    <div class="text-right"><?= $user['created_at'] ? (new DateTime($user['created_at']))->format('d M Y • H:i') : '-' ?></div>
-                </div>
-
-                <div class="mt-3 flex flex-col gap-2">
-                    <a href="?action=edit-user&id=<?= $user['id_user'] ?>"
-                       class="px-3 py-1 bg-warning hover-bg-warning/80 text-text rounded flex items-center gap-1 justify-center">
-                       <i class="fas fa-edit"></i> Edit
-                    </a>
-                    <a href="?action=delete-user&id=<?= $user['id_user'] ?>"
-                       onclick="return confirm('Yakin ingin menghapus user ini?');"
-                       class="px-3 py-1 bg-danger hover-bg-danger/80 text-text rounded flex items-center gap-1 justify-center">
-                       <i class="fas fa-trash"></i> Hapus
-                    </a>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="overflow-x-auto bg-surface rounded-xl border border-border p-4 hidden sm:block">
-        <table class="min-w-full text-sm">
-            <thead class="bg-bg text-text">
-                <tr>
-                    <th class="px-3 py-2 text-left">ID User</th>
-                    <th class="px-3 py-2 text-left">Nama</th>
-                    <th class="px-3 py-2 text-left">Email</th>
-                    <th class="px-3 py-2 text-left">Gender</th>
-                    <th class="px-3 py-2 text-left">Role</th>
-                    <th class="px-3 py-2 text-left">Dibuat Pada</th>
-                    <th class="px-3 py-2 text-left">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-border text-text">
-                <?php foreach($listUser as $user): ?>
-                    <tr class="hover-bg-primary transition">
-                        <td class="px-3 py-2"><?= $user['id_user'] ?></td>
-                        <td class="px-3 py-2"><?= htmlspecialchars($user['nama_lengkap']) ?></td>
-                        <td class="px-3 py-2"><?= htmlspecialchars($user['email']) ?></td>
-
-                        <?php
-                        $gender = $user['gender'] ?? '-';
-                        if ($gender === 'L') { $label='Laki-laki'; $color='bg-soft-primary text-bg'; }
-                        elseif ($gender==='P'){ $label='Perempuan'; $color='bg-soft-warning text-bg'; }
-                        else{ $label='-'; $color='bg-soft-muted text-text'; }
-                        ?>
-                        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs font-medium <?= $color ?>"><?= $label ?></span></td>
-
-                        <?php
-                        $role = $user['role'] ?? '-';
-                        $roleMap = [
-                            'admin'=>['class'=>'bg-soft-primary text-bg','label'=>'Admin'],
-                            'petugas'=>['class'=>'bg-soft-warning text-bg','label'=>'Petugas']
-                        ];
-                        $color = $roleMap[$role]['class'] ?? 'bg-soft-muted text-text';
-                        $label = $roleMap[$role]['label'] ?? '-';
-                        ?>
-                        <td class="px-3 py-2"><span class="px-2 py-0.5 rounded text-xs font-medium <?= $color ?>"><?= $label ?></span></td>
-
-                        <td class="px-3 py-2"><?= $user['created_at'] ? (new DateTime($user['created_at']))->format('d M Y • H:i') : '-' ?></td>
-
-                        <td class="px-3 py-2 flex gap-2">
-                            <a href="?action=edit-user&id=<?= $user['id_user'] ?>"
-                               class="px-2 py-1 bg-warning hover-bg-warning/80 text-text rounded flex items-center gap-1">
-                               <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="?action=delete-user&id=<?= $user['id_user'] ?>"
-                               onclick="return confirm('Yakin ingin menghapus user ini?');"
-                               class="px-2 py-1 bg-danger hover-bg-danger/80 text-text rounded flex items-center gap-1">
-                               <i class="fas fa-trash"></i> Hapus
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="flex flex-wrap justify-center gap-2 mt-4">
-        <?php
-        $maxButtons = 5;
-        $start = max(1, $page - intdiv($maxButtons, 2));
-        $end = min($totalPages, $start + $maxButtons - 1);
-        $start = max(1, $end - $maxButtons + 1);
-        ?>
-        <?php if ($page > 1): ?>
-            <button onclick="location.href='?action=manage-user&page=<?= $page - 1 ?>'"
-                    class="px-3 py-1 rounded bg-surface text-muted hover-bg-primary hover-text-bg transition">Prev</button>
-        <?php endif; ?>
-
-        <?php for ($i = $start; $i <= $end; $i++): ?>
-            <button onclick="location.href='?action=manage-user&page=<?= $i ?>'"
-                    class="px-3 py-1 rounded transition <?= ($i==$page)?'bg-primary text-bg font-semibold':'bg-surface text-muted hover-bg-primary hover-text-bg' ?>">
-                <?= $i ?>
-            </button>
-        <?php endfor; ?>
-
-        <?php if ($page < $totalPages): ?>
-            <button onclick="location.href='?action=manage-user&page=<?= $page + 1 ?>'"
-                    class="px-3 py-1 rounded bg-surface text-muted hover-bg-primary hover-text-bg transition">Next</button>
-        <?php endif; ?>
-    </div>
 </div>
+
+<script>
+  // Simple live search filter
+  const searchInput = document.getElementById('searchUser');
+  const roleFilter = document.getElementById('filterRole');
+  const userContainer = document.getElementById('userContainer');
+  const cards = Array.from(userContainer.children);
+
+  function filterUsers() {
+    const query = searchInput.value.toLowerCase();
+    const role = roleFilter.value;
+    cards.forEach(card => {
+      const name = card.querySelector('h3').innerText.toLowerCase();
+      const email = card.querySelector('p').innerText.toLowerCase();
+      const roleBadge = card.querySelector('span').innerText.toLowerCase();
+      const matchesSearch = name.includes(query) || email.includes(query);
+      const matchesRole = role === '' || roleBadge.includes(role);
+      card.style.display = (matchesSearch && matchesRole) ? 'block' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', filterUsers);
+  roleFilter.addEventListener('change', filterUsers);
+</script>

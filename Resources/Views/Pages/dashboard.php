@@ -79,7 +79,7 @@ $statCards[] = [
 
 <div class="lg:ml-30 px-6 pt-6">
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6 items-center text-center lg:text-justify mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-12 items-center text-center lg:text-justify mb-8">
 
         <h2 class="text-3xl font-semibold text-primary lg:col-span-2">
             Dashboard <span class="text-muted"><?= ucfirst($role) ?></span>
@@ -104,10 +104,9 @@ $statCards[] = [
 
     </div>
 
-</div>
     <div class="grid 
         <?= $role === 'admin' ? 'grid-cols-3' : 'grid-cols-2' ?>
-        mt-8 lg:ml-35 overflow-hidden rounded-xl border border-border">
+        mt-8  overflow-hidden rounded-xl border border-border">
 
         <button id="tab-tiket"
             onclick="loadTable('tiket', this)" 
@@ -134,14 +133,8 @@ $statCards[] = [
         <?php endif; ?>
     </div>
 
-    <div id="table-container" class="mt-4">
-
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="table-container" class="mt-4"></div>
 
     <script>
         window.USER_ROLE = "<?= $role ?>";
     </script>
-
-    <script src="/sistem_parkir/Public/js/chart.js" defer></script>

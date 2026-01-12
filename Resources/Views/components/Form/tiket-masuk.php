@@ -1,20 +1,4 @@
 <?php include __DIR__ . '/../../components/global-modal.php' ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Tiket Masuk</title>
-
-    <link rel="stylesheet" href="Css/output.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-          crossorigin="anonymous"/>
-</head>
-
-<body class="bg-slate-900 text-white">
-
 <div class="max-w-xl mx-auto mt-2 bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-lg">
 
     <h2 class="text-3xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
@@ -281,5 +265,3 @@ jenisSelect.addEventListener('change', () => {
     }
 });
 </script>
-</body>
-</html>

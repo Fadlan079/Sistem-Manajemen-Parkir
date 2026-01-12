@@ -24,7 +24,7 @@
     </div>
 
     <nav class="flex-1 px-4 py-6 space-y-1 text-text">
-        <a href="#" data-page="dashboard"
+        <a href="#" data-page="dashboard" onclick="loadPage(event,'dashboard')"
            class="sidebar-link <?= $current=='index'?'active':'' ?>">
             <i class="fa-solid fa-house"></i>
             <span>Dashboard</span>
@@ -32,13 +32,13 @@
 
         <?php if($_SESSION['user']['role']==='admin'): ?>
 
-            <a href="#" data-page="manage-user"
+            <a href="#" data-page="manage-user" onclick="loadPage(event,'manage-user')"
                class="sidebar-link <?= $current=='manage-user'?'active':'' ?>">
                 <i class="fa-solid fa-users"></i>
                 <span>Manage User</span>
             </a>
 
-            <a href="#" data-page="manage-tarif"
+            <a href="#" data-page="manage-tarif" onclick="loadPage(event,'manage-tarif')"
                class="sidebar-link <?= $current=='manage-tarif'?'active':'' ?>">
                 <i class="fa-solid fa-tags"></i>
                 <span>Manage Tarif</span>
@@ -46,13 +46,13 @@
 
         <?php else: ?>
 
-            <a href="#"
+            <a href="#" data-page="tiket-masuk" onclick="loadPage(event,'tiket-masuk')"
                class="sidebar-link <?= $current=='tiket-masuk'?'active':'' ?>">
                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                 <span>Tiket Masuk</span>
             </a>
 
-            <a href="#"
+            <a href="#" data-page="tiket-keluar" onclick="loadPage(event,'tiket-keluar')"
                class="sidebar-link <?= $current=='tiket-keluar'?'active':'' ?>">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 <span>Tiket Keluar</span>
@@ -126,26 +126,26 @@
     </div>
 
     <div class="p-6 flex flex-col gap-4 text-sm">
-        <a href="#" data-page="dashboard"
+        <a href="#" data-page="dashboard" onclick="loadPage(event,'dashboard')"
         class="mobile-link <?= $current=='index'?'active':'' ?>">
             Dashboard
         </a>
         <?php if($_SESSION['user']['role']==='admin'): ?>
-            <a href="#" data-page="manage-user"
+            <a href="#" data-page="manage-user" onclick="loadPage(event,'manage-user')"
             class="mobile-link <?= $current=='manage-user'?'active':'' ?>">
                 Manage User
             </a>
-            <a href="#" data-page="manage-tarif"
+            <a href="#" data-page="manage-tarif" onclick="loadPage(event,'manage-tarif')"
             class="mobile-link <?= $current=='manage-tarif'?'active':'' ?>">
                 Manage Tarif
             </a>
         <?php else: ?>
-            <a href="#"
+            <a href="#" data-page="tiket-masuk" onclick="loadPage(event,'tiket-masuk')"
             class="mobile-link <?= $current=='tiket-masuk'?'active':'' ?>">
                 Tiket Masuk
             </a>
 
-            <a href="#"
+            <a href="#" data-page="tiket-keluar" onclick="loadPage(event,'tiket-keluar')"
             class="mobile-link <?= $current=='tiket-keluar'?'active':'' ?>">
                 Tiket Keluar
             </a>

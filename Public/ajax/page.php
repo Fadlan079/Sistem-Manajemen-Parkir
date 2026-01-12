@@ -19,6 +19,15 @@ switch ($page) {
         $controller->manageTarif();
         break;
 
+    case 'tiket-masuk':
+        $controller->tiketMasuk();
+        break;
+
+    case 'tiket-keluar':
+        $controller->tiketKeluar();
+        break;
+
+
     default:
         echo "<div class='text-center text-gray-400'>Page tidak ditemukan</div>";
 }

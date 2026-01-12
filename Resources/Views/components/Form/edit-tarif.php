@@ -1,57 +1,62 @@
-<?php
-$success = $_SESSION['success'] ?? null;
-$error = $_SESSION['error'] ?? null;
-unset($_SESSION['success'], $_SESSION['error']);
-?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Tarif</title>
-    <link rel="stylesheet" href="Css/output.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-</head><body class="bg-slate-900 min-h-screen flex items-center justify-center p-6">
-    <div class="w-full max-w-md bg-slate-800 p-8 rounded-xl shadow-lg">
-        <h1 class="text-2xl font-bold text-cyan-400 mb-6 text-center">Edit Tarif Parkir</h1>
+<form id="formEditTarif"
+      method="post"
+      action="javascript:void(0)"
+      class="space-y-4">
 
-        <?php if($success): ?>
-            <div class="bg-green-700 text-green-100 p-2 rounded mb-4"><?= $success ?></div>
-        <?php endif; ?>
-        <?php if($error): ?>
-            <div class="bg-red-700 text-red-100 p-2 rounded mb-4"><?= $error ?></div>
-        <?php endif; ?>
+    <input type="hidden" name="id_tarif" value="<?= $tarif['id_tarif'] ?>">
 
-        <form action="?action=store-edit-tarif" method="POST" class="space-y-4">
-            <input type="hidden" name="id_tarif" value="<?= $tarif['id_tarif'] ?>">
+    <div class="space-y-1">
+        <label class="block text-sm font-medium text-text">
+            Jenis Kendaraan
+        </label>
 
-            <div>
-                <label class="block text-slate-300 mb-1" for="jenis_kendaraan">Jenis Kendaraan</label>
-                <input type="text" name="jenis_kendaraan" id="jenis_kendaraan" value="<?= htmlspecialchars($tarif['jenis_kendaraan']) ?>" required
-                       class="w-full bg-slate-700 text-slate-100 border border-slate-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-            </div>
+        <select
+            name="jenis_kendaraan"
+            required
+            class="w-full px-4 py-2 rounded-xl
+                   bg-bg border border-border
+                   text-text
+                   focus:outline-none focus:ring-2 focus:ring-primary/40">
 
-            <div>
-                <label class="block text-slate-300 mb-1" for="harga_flat">Harga Flat (Rp)</label>
-                <input type="number" name="harga_flat" id="harga_flat" value="<?= htmlspecialchars($tarif['harga_flat']) ?>" required min="0"
-                       class="w-full bg-slate-700 text-slate-100 border border-slate-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-            </div>
-
-            <div class="flex gap-4 justify-between mt-4">
-                <button type="submit"
-                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-4 py-2 rounded flex items-center justify-center gap-2">
-                    <i class="fas fa-edit"></i> Update Tarif
-                </button>
-
-                <a href="?action=manage-tarif"
-                   class="flex-1 flex items-center justify-center gap-2 border border-cyan-400 text-cyan-400
-                          hover:bg-cyan-500 hover:text-slate-900 rounded px-4 py-2 transition">
-                    <i class="fa-solid fa-arrow-left"></i> Kembali
-                </a>
-            </div>
-        </form>
+            <option value="motor" <?= $tarif['jenis_kendaraan'] === 'motor' ? 'selected' : '' ?>>
+                Motor
+            </option>
+            <option value="mobil" <?= $tarif['jenis_kendaraan'] === 'mobil' ? 'selected' : '' ?>>
+                Mobil
+            </option>
+        </select>
     </div>
-</body>
-</html>
+
+    <div class="space-y-1">
+        <label class="block text-sm font-medium text-text">
+            Harga Flat
+        </label>
+
+        <input
+            type="number"
+            name="harga_flat"
+            required
+            min="2000"
+            max="100000"
+            value="<?= $tarif['harga_flat'] ?>"
+            class="w-full px-4 py-2 rounded-xl
+                   bg-bg border border-border
+                   text-text
+                   focus:outline-none focus:ring-2 focus:ring-primary/40">
+
+        <p class="text-xs text-muted">
+            Minimal 2.000 · Maksimal 100.000
+        </p>
+    </div>
+
+    <div class="pt-2">
+        <button type="submit"
+                class="w-full py-2.5 rounded-xl
+                       bg-primary text-white font-medium
+                       hover:opacity-90 active:scale-[0.98]
+                       transition">
+            Update
+        </button>
+    </div>
+
+</form>

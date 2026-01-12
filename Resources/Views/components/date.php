@@ -16,49 +16,29 @@ $bulanIndo = [
 ];
 ?>  
 
-<div class="flex items-center gap-4 px-4 sm:px-5 py-3
+<div class="relative flex gap-4 items-center  px-5 py-4
             bg-surface border border-border
-            rounded-2xl shadow-sm">
+            rounded-2xl shadow-sm overflow-hidden">
 
-    <div class="w-11 h-11 flex items-center justify-center
-                rounded-full bg-soft-primary shrink-0">
-        <span class="text-primary font-bold text-lg sm:text-xl">
+    <div class="absolute left-0 top-0 h-full w-1.5 bg-primary opacity-80"></div>
+
+    <div class="flex flex-col items-center justify-center
+                w-11 h-11 rounded-xl
+                bg-soft-primary shrink-0">
+        <span class="text-xl font-bold leading-none">
             <?= $tgl ?>
+        </span>
+        <span class="text-[10px] uppercase tracking-wide">
+            <?= $bulanIndo[$bulan] ?>
         </span>
     </div>
 
     <div class="leading-tight">
-        <p class="text-md sm:text-base font-semibold text-text">
+        <p class="text-sm font-semibold text-text">
             <?= $hariIndo[$hari]; ?>
         </p>
-
-        <p class="text-xs sm:text-sm text-muted">
-            <?= $bulanIndo[$bulan] ?> <?= $tahun ?> • 
-            <span id="jam"></span>
+        <p class="text-xs text-muted">
+            <?= $tahun ?>
         </p>
     </div>
 </div>
-
-<script>
-function updateJam() {
-    const now = new Date();
-    let hours = now.getHours();
-    let menit = now.getMinutes().toString().padStart(2, '0');
-    let detik = now.getSeconds().toString().padStart(2, '0');
-    
-    // AM/PM
-    let ampm = hours >= 12 ? 'PM' : 'AM';
-    
-    // format 12 jam
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    hours = hours.toString().padStart(2, '0');
-    
-    document.getElementById('jam').textContent = `${hours}:${menit}:${detik} ${ampm}`;
-}
-
-// jalankan pertama kali
-updateJam();
-// update setiap detik
-setInterval(updateJam, 1000);
-</script>
