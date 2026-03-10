@@ -184,7 +184,7 @@ fileInput.addEventListener('change', async function () {
     formData.append('foto_plat', file);
 
     try {
-        const res = await fetch('/sistem_parkir/Public/ajax/ocr-plat.php', {
+        const res = await fetch('ajax/ocr-plat.php', {
             method: 'POST',
             body: formData
         });

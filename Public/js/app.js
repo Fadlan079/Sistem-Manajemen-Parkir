@@ -29,7 +29,7 @@ window.loadPage = function(pageOrEvent, pageMaybe, callback) {
     if (event) event.preventDefault();
 
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/sistem_parkir/Public/ajax/page.php?page=${page}`, true);
+    xhr.open("GET", `ajax/page.php?page=${page}`, true);
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
@@ -122,7 +122,7 @@ document.addEventListener('submit', function (e) {
     if (form.id === 'formTambahTarif') {
         e.preventDefault();
 
-        fetch('/sistem_parkir/Public/?action=store-tambah-tarif', {
+        fetch('?action=store-tambah-tarif', {
             method: 'POST',
             body: new FormData(form)
         })
@@ -136,7 +136,7 @@ document.addEventListener('submit', function (e) {
         })
         .catch(err => {
             console.error(err);
-            alert('AJAX error');
+            showAlert('error', 'Terjadi kesalahan saat memproses data');
         });
     }
 });
@@ -167,7 +167,7 @@ document.addEventListener('submit', function (e) {
 function deleteTarif(id) {
     if (!confirm('Yakin ingin menghapus tarif ini?')) return;
 
-    fetch(`/sistem_parkir/Public/?action=delete-tarif&id=${id}`, {
+    fetch(`?action=delete-tarif&id=${id}`, {
         method: 'GET'
     })
     .then(res => res.json())

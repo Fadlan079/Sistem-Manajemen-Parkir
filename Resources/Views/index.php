@@ -10,9 +10,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMAKIR</title>
-    <script src="/sistem_parkir/Public/js/theme.js" defer></script> 
+    <script src="js/theme.js" defer></script> 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/sistem_parkir/Public/js/chart.js" defer></script>
+    <script src="js/chart.js" defer></script>
     <link rel="stylesheet" href="Css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
@@ -57,7 +57,7 @@
         <?php endif ?>
     </main>
 
-<script src="/sistem_parkir/Public/js/app.js" defer></script>
+<script src="js/app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     // tunggu #app muncul

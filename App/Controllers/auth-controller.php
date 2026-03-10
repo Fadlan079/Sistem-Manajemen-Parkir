@@ -123,7 +123,9 @@ class AUTHController{
     private function sendResetPasswordEmail($email, $token){
         $mail = new PHPMailer(true);
 
-        $link = "http://localhost/sistem_parkir/Public/?action=reset-password&token=$token";
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        $baseUrl = $protocol . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        $link = $baseUrl . "/?action=reset-password&token=$token";
 
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
@@ -184,7 +186,9 @@ class AUTHController{
     private function sendVerificationEmail($email, $token){
         $mail = new PHPMailer(true);
 
-        $verifyLink = "http://localhost/sistem_parkir/Public/?action=verify-email&token=$token";
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        $baseUrl = $protocol . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        $verifyLink = $baseUrl . "/?action=verify-email&token=$token";
 
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
