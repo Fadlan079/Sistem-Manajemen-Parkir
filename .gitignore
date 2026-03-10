@@ -2,4 +2,3 @@ node_modules/
 vendor/
 .history/
 .env
-.env.*
